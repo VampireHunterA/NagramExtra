@@ -7,7 +7,7 @@ on:
         description: 'Changelog headline (EN, one line per feature; shown outside the quote)'
         required: true
       sticker_id:
-        description: 'Force update-popup sticker message-id in the metadata channel (empty = random duck)'
+        description: 'Force update-popup sticker message-id in the metadata channel (empty = random from own icon pool 97-107; 108 in halloween season 10.10-3.11; e.g. 97 = turbo main)'
         required: false
 
 permissions:
