@@ -1305,7 +1305,8 @@ public class MessageHelper extends BaseController {
             SendMessagesHelper.getInstance(currentAccount).sendSticker(messageObject.getDocument(), null, targetDialogId, null, null, replyTo, replyToTopMsg, null, quote, null, notify, scheduleDate, 0, false, null, sendMessageChatArguments, payStars, monoForumPeerId, suggestionParams);
             return true;
         }
-        if (CopyReferenceSender.canDispatchByReference(currentAccount, messageObject)) {
+        boolean isGifSentByReference = quote == null && messageObject.isGif() && CopyReferenceSender.canSendByReference(messageObject);
+        if (isGifSentByReference || CopyReferenceSender.canDispatchByReference(currentAccount, messageObject)) {
             ArrayList<MessageObject> single = new ArrayList<>();
             single.add(messageObject);
             if (CopyReferenceSender.sendByReference(currentAccount, single, targetDialogId, replyTo != null ? replyTo : replyToTopMsg, notify, scheduleDate, monoForumPeerId)) {

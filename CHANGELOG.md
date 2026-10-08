@@ -91,6 +91,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Builds for `arm64-v8a` (64-bit) and `armeabi-v7a` (32-bit); in-app update auto-picks the matching APK by device arch
 
 ## Fixes
+- Forward with edited text: GIFs arrive as animated GIFs instead of mp4 files — already-viewed (cached) GIFs now take the same server-reference send path as everything else
 - Media viewer: the description text under a photo/video follows the chat text size instead of staying small
 - Italian: fork menus and settings show translated text again instead of English (12.10 build pipeline regression)
 - Chinese input on ColorOS 17: the animated text effect no longer breaks character composition — devices detected as ColorOS now skip it (upstream Nagram fix)
