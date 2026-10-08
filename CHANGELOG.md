@@ -68,7 +68,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 
 ### Input field
 - iOS-style input bar (Turbo → Input Bar, off by default): attachment on the left, emoji inside-right, optional compact mode, glass capsule with round bubbles behind the buttons
-- Input bar text size (Turbo → Input Bar): a separate text size for the message input field, independent from the chat text size — turn "Same as chat" off and pick a size on the 12–30 slider; changes apply to the open chat instantly and the input bar preview above the setting shows the result live
+- Input bar text size (Turbo → Input Bar): a separate text size for the message input field, independent from the chat text size — turn "Same as chat" off and pick a size on the 12–30 slider; changes apply to the open chat instantly and the input bar preview above the setting shows the result live; the same size is used by every message-typing field outside the chat bar — the media send caption, the attach menu, gallery and file picker captions, the share sheet comment (including edit-forward-text) and the group-call chat
 - Action button style (Turbo → Input Bar): Accent / Neutral / White for the send, voice and apply buttons — applies everywhere the action button shows (input bar, share sheet, photo picker, attach menu, rich editor), in glass form when the iOS bar is on and as a solid circle otherwise; replaces the white-send toggle
 - Button outline (Turbo → Input Bar): a thin outline on the action buttons, colored exactly like the icon inside (theme palette), for the neutral and white styles in both themes and both bar looks — including the round iOS button bubbles; the row is hidden for the accent style, and the toggle removes the outlines everywhere
 - Recorded voice review: the delete button is a separate round glass button matching the bar; the timeline has balanced insets
@@ -91,6 +91,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Builds for `arm64-v8a` (64-bit) and `armeabi-v7a` (32-bit); in-app update auto-picks the matching APK by device arch
 
 ## Fixes
+- Media viewer: the description text under a photo/video follows the chat text size instead of staying small
 - Italian: fork menus and settings show translated text again instead of English (12.10 build pipeline regression)
 - Chinese input on ColorOS 17: the animated text effect no longer breaks character composition — devices detected as ColorOS now skip it (upstream Nagram fix)
 - App icon: switching applies instantly on tap (with an optional restart prompt), survives process death, and no longer silently reverts to the default

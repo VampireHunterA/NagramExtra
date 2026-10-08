@@ -79,6 +79,10 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         super(context, rootView, sizeNotifierFrameLayout, containerView, resourcesProvider, blurManager);
         this.applyCaption = applyCaption;
 
+        int captionTextSizeDp = ChatActivityEnterView.resolveInputBarTextSize();
+        editText.getEditText().setTextSize(android.util.TypedValue.COMPLEX_UNIT_DIP, captionTextSizeDp);
+        editText.getEditText().setCursorSize(dp(captionTextSizeDp + 2));
+
         moveButtonText.setTextSize(dp(14));
         moveButtonText.setOverrideFullWidth(AndroidUtilities.displaySize.x);
         moveButtonText.setTextColor(0xFFFFFFFF);

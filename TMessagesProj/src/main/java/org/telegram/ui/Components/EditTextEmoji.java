@@ -298,7 +298,9 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
             editText.setPadding(0, dp(11), 0, dp(12));
             addView(editText, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 14, 0, 48, 0));
         } else {
-            editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, SharedConfig.fontSize);
+            int dialogTextSizeDp = ChatActivityEnterView.resolveInputBarTextSize();
+            editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dialogTextSizeDp);
+            editText.setCursorSize(dp(dialogTextSizeDp + 2));
             editText.setMaxLines(4);
             editText.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
             editText.setHintTextColor(getThemedColor(Theme.key_dialogTextHint));

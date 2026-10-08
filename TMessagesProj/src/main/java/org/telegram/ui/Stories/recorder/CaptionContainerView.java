@@ -1398,7 +1398,7 @@ public class CaptionContainerView extends FrameLayout {
                 hintTextBitmap = null;
             }
             hintTextPaint.setColor(0xff000000);
-            hintTextPaint.setTextSize(dp(16));
+            hintTextPaint.setTextSize(editText.getEditText().getTextSize());
             final String text = LocaleController.getString(R.string.AddCaption);
             final int w = (int) Math.ceil(hintTextPaint.measureText(text));
             final int h = (int) Math.ceil(hintTextPaint.getFontMetrics().descent - hintTextPaint.getFontMetrics().ascent);
