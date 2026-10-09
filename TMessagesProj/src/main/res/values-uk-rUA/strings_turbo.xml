@@ -138,4 +138,6 @@
     <string name="FoldersSecretAll">Секретні чати не можна додати до папки.</string>
     <string name="FoldersSecretMixed">Секретні чати не можна додати до папки. Додаються лише звичайні.</string>
     <string name="DeletedMediaFileMissing">Медіафайл не знайдено</string>
+    <string name="HideAiButtonInInputField">Приховувати кнопку ШІ в полі введення</string>
+    <string name="HideAiButtonInInputFieldAbout">Кнопка ШІ з’являється над полем введення при довгому тексті.</string>
 </resources>

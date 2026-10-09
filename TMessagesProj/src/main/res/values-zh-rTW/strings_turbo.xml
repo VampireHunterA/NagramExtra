@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">私密對話無法加入資料夾。</string>
     <string name="FoldersSecretMixed">私密對話無法加入資料夾，僅新增一般對話。</string>
     <string name="DeletedMediaFileMissing">找不到媒體檔案</string>
+    <string name="HideAiButtonInInputField">隱藏輸入欄中的 AI 按鈕</string>
+    <string name="HideAiButtonInInputFieldAbout">文字較長時，AI 按鈕會出現在輸入欄上方。</string>
 </resources>

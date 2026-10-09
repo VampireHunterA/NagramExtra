@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Secret chats can\'t be added to a folder.</string>
     <string name="FoldersSecretMixed">Secret chats can\'t be added to a folder. Adding only regular chats.</string>
     <string name="DeletedMediaFileMissing">Media file not found</string>
+    <string name="HideAiButtonInInputField">Hide AI button in the input field</string>
+    <string name="HideAiButtonInInputFieldAbout">The AI button appears over the input field when the text is long.</string>
 </resources>

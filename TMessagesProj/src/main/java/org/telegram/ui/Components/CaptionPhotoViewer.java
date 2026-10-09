@@ -533,7 +533,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
 
     private boolean shownAiButton;
     private void showAiButton(boolean show_) {
-        final boolean show = show_;
+        final boolean show = show_ && !xyz.nextalone.nagram.NaConfig.INSTANCE.getHideAiButtonInInputField().Bool();
 
         if (shownAiButton == show) return;
         if (show) {

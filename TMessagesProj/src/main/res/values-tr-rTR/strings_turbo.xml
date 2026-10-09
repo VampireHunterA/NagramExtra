@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Gizli sohbetler bir klasöre eklenemez.</string>
     <string name="FoldersSecretMixed">Gizli sohbetler bir klasöre eklenemez. Yalnızca normal sohbetler ekleniyor.</string>
     <string name="DeletedMediaFileMissing">Medya dosyası bulunamadı</string>
+    <string name="HideAiButtonInInputField">Giriş alanındaki AI düğmesini gizle</string>
+    <string name="HideAiButtonInInputFieldAbout">AI düğmesi, metin uzunken giriş alanının üzerinde görünür.</string>
 </resources>

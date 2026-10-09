@@ -308,6 +308,12 @@ object NaConfig {
             ConfigItem.configTypeBool,
             false
         )
+    val hideAiButtonInInputField =
+        addConfig(
+            "HideAiButtonInInputField",
+            ConfigItem.configTypeBool,
+            false
+        )
     val chatDecoration =
         addConfig(
             "ChatDecoration",

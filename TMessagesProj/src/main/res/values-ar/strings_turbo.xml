@@ -140,4 +140,6 @@
     <string name="FoldersSecretAll">لا يمكن إضافة المحادثات السرية إلى مجلد.</string>
     <string name="FoldersSecretMixed">لا يمكن إضافة المحادثات السرية إلى مجلد. ستتم إضافة المحادثات العادية فقط.</string>
     <string name="DeletedMediaFileMissing">تعذر العثور على ملف الوسائط</string>
+    <string name="HideAiButtonInInputField">إخفاء زر الذكاء الاصطناعي في حقل الكتابة</string>
+    <string name="HideAiButtonInInputFieldAbout">يظهر زر الذكاء الاصطناعي فوق حقل الكتابة عندما يكون النص طويلاً.</string>
 </resources>

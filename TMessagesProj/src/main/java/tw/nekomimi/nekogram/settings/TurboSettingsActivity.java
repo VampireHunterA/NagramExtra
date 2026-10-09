@@ -149,6 +149,7 @@ public class TurboSettingsActivity extends BaseNekoXSettingsActivity implements 
             ActionButtonStyle.WHITE
     }, null));
     private final AbstractConfigCell buttonOutlineRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getButtonOutlineEnabled()));
+    private final AbstractConfigCell hideAiButtonRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getHideAiButtonInInputField(), getString(R.string.HideAiButtonInInputFieldAbout)));
     private final AbstractConfigCell dividerInputBar = cellGroup.appendCell(new ConfigCellDivider());
 
     private final AbstractConfigCell headerMedia = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.MediaSettings)));

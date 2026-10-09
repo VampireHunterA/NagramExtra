@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Không thể thêm trò chuyện bí mật vào thư mục.</string>
     <string name="FoldersSecretMixed">Không thể thêm trò chuyện bí mật vào thư mục. Chỉ thêm các trò chuyện thông thường.</string>
     <string name="DeletedMediaFileMissing">Không tìm thấy tệp phương tiện</string>
+    <string name="HideAiButtonInInputField">Ẩn nút AI trong ô nhập văn bản</string>
+    <string name="HideAiButtonInInputFieldAbout">Nút AI xuất hiện phía trên ô nhập văn bản khi văn bản dài.</string>
 </resources>

@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">گفتگوهای محرمانه را نمی‌توان به پوشه اضافه کرد.</string>
     <string name="FoldersSecretMixed">گفتگوهای محرمانه را نمی‌توان به پوشه اضافه کرد. فقط گفتگوهای عادی افزوده می‌شوند.</string>
     <string name="DeletedMediaFileMissing">فایل رسانه یافت نشد</string>
+    <string name="HideAiButtonInInputField">پنهان‌کردن دکمه هوش مصنوعی در فیلد نوشتن</string>
+    <string name="HideAiButtonInInputFieldAbout">دکمه هوش مصنوعی وقتی متن طولانی است بالای فیلد نوشتن ظاهر می‌شود.</string>
 </resources>

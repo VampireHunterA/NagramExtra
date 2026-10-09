@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">私密对话无法添加到分组。</string>
     <string name="FoldersSecretMixed">私密对话无法添加到分组，仅添加常规对话。</string>
     <string name="DeletedMediaFileMissing">未找到媒体文件</string>
+    <string name="HideAiButtonInInputField">隐藏输入栏中的 AI 按钮</string>
+    <string name="HideAiButtonInInputFieldAbout">文字较长时，AI 按钮会出现在输入栏上方。</string>
 </resources>

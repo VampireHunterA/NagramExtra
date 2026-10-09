@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Obrolan rahasia tidak dapat ditambahkan ke folder.</string>
     <string name="FoldersSecretMixed">Obrolan rahasia tidak dapat ditambahkan ke folder. Hanya menambahkan obrolan biasa.</string>
     <string name="DeletedMediaFileMissing">File media tidak ditemukan</string>
+    <string name="HideAiButtonInInputField">Sembunyikan tombol AI di kolom teks</string>
+    <string name="HideAiButtonInInputFieldAbout">Tombol AI muncul di atas kolom teks saat teksnya panjang.</string>
 </resources>

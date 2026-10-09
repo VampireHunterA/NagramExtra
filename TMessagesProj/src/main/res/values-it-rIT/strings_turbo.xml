@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Le chat segrete non possono essere aggiunte a una cartella.</string>
     <string name="FoldersSecretMixed">Le chat segrete non possono essere aggiunte a una cartella. Verranno aggiunte solo le chat normali.</string>
     <string name="DeletedMediaFileMissing">File multimediale non trovato</string>
+    <string name="HideAiButtonInInputField">Nascondi il pulsante IA nel campo di testo</string>
+    <string name="HideAiButtonInInputFieldAbout">Il pulsante IA appare sopra il campo di testo quando il testo è lungo.</string>
 </resources>

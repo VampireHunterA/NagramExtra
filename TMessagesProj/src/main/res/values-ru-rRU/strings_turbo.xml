@@ -138,4 +138,6 @@
     <string name="FoldersSecretAll">Секретные чаты нельзя добавить в папку.</string>
     <string name="FoldersSecretMixed">Секретные чаты нельзя добавить в папку. Добавляю только обычные.</string>
     <string name="DeletedMediaFileMissing">Файл медиа не найден</string>
+    <string name="HideAiButtonInInputField">Скрывать кнопку ИИ в поле ввода</string>
+    <string name="HideAiButtonInInputFieldAbout">Кнопка ИИ появляется над полем ввода при длинном тексте.</string>
 </resources>

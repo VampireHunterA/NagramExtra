@@ -136,4 +136,6 @@
     <string name="FoldersSecretAll">Chats secretos não podem ser adicionados a uma pasta.</string>
     <string name="FoldersSecretMixed">Chats secretos não podem ser adicionados a uma pasta. Adicionando apenas chats comuns.</string>
     <string name="DeletedMediaFileMissing">Arquivo de mídia não encontrado</string>
+    <string name="HideAiButtonInInputField">Ocultar o botão de IA no campo de texto</string>
+    <string name="HideAiButtonInInputFieldAbout">O botão de IA aparece sobre o campo de texto quando o texto é longo.</string>
 </resources>
