@@ -138,4 +138,5 @@
     <string name="DeletedMediaFileMissing">فایل رسانه یافت نشد</string>
     <string name="HideAiButtonInInputField">پنهان‌کردن دکمه هوش مصنوعی در فیلد نوشتن</string>
     <string name="HideAiButtonInInputFieldAbout">دکمه هوش مصنوعی وقتی متن طولانی است بالای فیلد نوشتن ظاهر می‌شود.</string>
+    <string name="TurboArchitecture">معماری</string>
 </resources>

@@ -71,6 +71,9 @@ if (turboBuildNumber) {
 // Turbo base build (disputable features stripped) — -PTURBO_BASE=1, env, or local.properties.
 def turboBaseProp = System.getenv('TURBO_BASE') ?: project.findProperty('TURBO_BASE') ?: properties?.getProperty('TURBO_BASE')
 def isTurboBase = turboBaseProp == '1'
+if (isTurboBase) {
+    verName = "${verName}_base"
+}
 
 def nativeTarget = System.getenv('NATIVE_TARGET') ?: ''
 

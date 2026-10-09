@@ -140,4 +140,5 @@
     <string name="DeletedMediaFileMissing">Файл медиа не найден</string>
     <string name="HideAiButtonInInputField">Скрывать кнопку ИИ в поле ввода</string>
     <string name="HideAiButtonInInputFieldAbout">Кнопка ИИ появляется над полем ввода при длинном тексте.</string>
+    <string name="TurboArchitecture">Архитектура</string>
 </resources>

@@ -142,4 +142,5 @@
     <string name="DeletedMediaFileMissing">تعذر العثور على ملف الوسائط</string>
     <string name="HideAiButtonInInputField">إخفاء زر الذكاء الاصطناعي في حقل الكتابة</string>
     <string name="HideAiButtonInInputFieldAbout">يظهر زر الذكاء الاصطناعي فوق حقل الكتابة عندما يكون النص طويلاً.</string>
+    <string name="TurboArchitecture">المعمارية</string>
 </resources>

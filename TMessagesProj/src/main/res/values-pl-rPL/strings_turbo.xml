@@ -140,4 +140,5 @@
     <string name="DeletedMediaFileMissing">Nie znaleziono pliku multimedialnego</string>
     <string name="HideAiButtonInInputField">Ukryj przycisk AI w polu wprowadzania</string>
     <string name="HideAiButtonInInputFieldAbout">Przycisk AI pojawia się nad polem wprowadzania przy długim tekście.</string>
+    <string name="TurboArchitecture">Architektura</string>
 </resources>

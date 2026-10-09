@@ -28,6 +28,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 
 ### Base build
 - ToS-friendly "base" APK variant: built and published alongside the regular one (download links side by side in the release post), without the disputable features — deleted/edited message saving, ghost mode, last seen history, regex filters, forward from protected chats, local premium. Base builds receive their own in-app updates.
+- Self-identifying base variant: the version number of base builds carries a "_base" suffix (e.g. "12.10.6-T71_base") in About and in settings; the version string in settings is now two lines with the architecture and build type on the second line.
 
 ### Share sheet / forwarding
 - Folder tabs for quick chat/folder selection

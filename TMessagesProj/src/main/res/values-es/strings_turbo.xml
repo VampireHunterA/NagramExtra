@@ -138,4 +138,5 @@
     <string name="DeletedMediaFileMissing">Archivo multimedia no encontrado</string>
     <string name="HideAiButtonInInputField">Ocultar el botón de IA en el campo de texto</string>
     <string name="HideAiButtonInInputFieldAbout">El botón de IA aparece sobre el campo de texto cuando el texto es largo.</string>
+    <string name="TurboArchitecture">Arquitectura</string>
 </resources>

@@ -140,4 +140,5 @@
     <string name="DeletedMediaFileMissing">Медіафайл не знайдено</string>
     <string name="HideAiButtonInInputField">Приховувати кнопку ШІ в полі введення</string>
     <string name="HideAiButtonInInputFieldAbout">Кнопка ШІ з’являється над полем введення при довгому тексті.</string>
+    <string name="TurboArchitecture">Архітектура</string>
 </resources>

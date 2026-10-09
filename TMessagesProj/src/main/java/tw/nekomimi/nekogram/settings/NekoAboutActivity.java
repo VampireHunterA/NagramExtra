@@ -36,6 +36,7 @@ public class NekoAboutActivity extends BaseNekoSettingsActivity {
     private int channelRow;
     private int sourceCodeRow;
     private int versionRow;
+    private int architectureRow;
     private int datacenterStatusRow;
 
     @Override
@@ -46,6 +47,7 @@ public class NekoAboutActivity extends BaseNekoSettingsActivity {
         channelRow = addRow();
         sourceCodeRow = addRow();
         versionRow = addRow();
+        architectureRow = addRow();
         datacenterStatusRow = addRow();
     }
 
@@ -113,7 +115,9 @@ public class NekoAboutActivity extends BaseNekoSettingsActivity {
                 } else if (position == sourceCodeRow) {
                     textCell.setTextAndValue(getString(R.string.SourceCode), "GitHub", true);
                 } else if (position == versionRow) {
-                    textCell.setTextAndValue(getString(R.string.TurboVersion), BuildVars.BUILD_VERSION_STRING, true);
+                    textCell.setTextAndValue(getString(R.string.TurboVersion), BuildVars.BUILD_VERSION_STRING, false);
+                } else if (position == architectureRow) {
+                    textCell.setTextAndValue(getString(R.string.TurboArchitecture), android.os.Build.SUPPORTED_ABIS[0].toLowerCase(java.util.Locale.ROOT), true);
                 } else if (position == datacenterStatusRow) {
                     textCell.setText(getString(R.string.DatacenterStatus), false);
                 }

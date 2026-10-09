@@ -138,4 +138,5 @@
     <string name="DeletedMediaFileMissing">Medya dosyası bulunamadı</string>
     <string name="HideAiButtonInInputField">Giriş alanındaki AI düğmesini gizle</string>
     <string name="HideAiButtonInInputFieldAbout">AI düğmesi, metin uzunken giriş alanının üzerinde görünür.</string>
+    <string name="TurboArchitecture">Mimari</string>
 </resources>
