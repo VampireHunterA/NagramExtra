@@ -37,7 +37,7 @@ import androidx.annotation.NonNull;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
@@ -51,7 +51,7 @@ import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 
 @SuppressLint("ViewConstructor")
-public class FragmentSearchField extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
+public class FragmentSearchField extends FrameLayout implements FactorAnimator.Target, Theme.Colorable, NotificationCenter.NotificationCenterDelegate {
     private static final int ANIMATOR_ID_CLOSE_BUTTON_VISIBLE = 0;
     private static final int ANIMATOR_ID_SEARCH_ICON_VISIBLE = 1;
     private static final int ANIMATOR_ID_SEARCH_FILTERS_WIDTH = 2;
@@ -59,6 +59,7 @@ public class FragmentSearchField extends FrameLayout implements FactorAnimator.T
     private final BoolAnimator animatorCloseIconVisible = new BoolAnimator(ANIMATOR_ID_CLOSE_BUTTON_VISIBLE, this, CubicBezierInterpolator.EASE_OUT_QUINT, 380, false);
     private final BoolAnimator animatorSearchIconVisible = new BoolAnimator(ANIMATOR_ID_SEARCH_ICON_VISIBLE, this, CubicBezierInterpolator.EASE_OUT_QUINT, 380, true);
     private final FactorAnimator animatorSearchFiltersWidth = new FactorAnimator(ANIMATOR_ID_SEARCH_FILTERS_WIDTH, this, AnimatorUtils.DECELERATE_INTERPOLATOR, 280);
+    private CharSequence searchFieldHintText;
 
     private final Theme.ResourcesProvider resourcesProvider;
 
@@ -96,12 +97,12 @@ public class FragmentSearchField extends FrameLayout implements FactorAnimator.T
                 return super.onKeyDown(keyCode, event);
             }
         };
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, Math.max(12, SharedConfig.fontSize - 2));
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, ChatActivityEnterView.resolveInputBarTextSize());
         Typeface customRegular = tw.nekomimi.nekogram.helpers.TypefaceHelper.getCustomFontForCategory(tw.nekomimi.nekogram.helpers.TypefaceHelper.FONT_CATEGORY_REGULAR);
         if (customRegular != null) {
             editText.setTypeface(customRegular);
         }
-        editText.setCursorSize(AndroidUtilities.dp(Math.max(12, SharedConfig.fontSize - 2) + 2));
+        editText.setCursorSize(AndroidUtilities.dp(ChatActivityEnterView.resolveInputBarTextSize() + 2));
         editText.setCursorWidth(1.5f);
         editText.setInputType(editText.getInputType() | InputType.TYPE_TEXT_VARIATION_FILTER);
         editText.setSingleLine(true);
@@ -181,7 +182,38 @@ public class FragmentSearchField extends FrameLayout implements FactorAnimator.T
         updateColors();
     }
 
+    private void applySearchTextSize() {
+        int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
+        editText.setCursorSize(AndroidUtilities.dp(searchFontSize + 2));
+        if (searchFieldHintText != null) {
+            editText.setHintText(null, false);
+            editText.setHintText(searchFieldHintText, false);
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.inputBarTextSizeChanged);
+        applySearchTextSize();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.inputBarTextSizeChanged);
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.inputBarTextSizeChanged) {
+            applySearchTextSize();
+        }
+    }
+
     public void setHintText(CharSequence text, boolean animated) {
+        searchFieldHintText = text;
         editText.setHintText(text, animated);
     }
 

@@ -66,8 +66,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.GradientProtectionDrawable;
@@ -75,6 +75,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Adapters.FiltersView;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.ChatActivityEnterView;
 import org.telegram.ui.Components.CloseProgressDrawable2;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -95,9 +96,10 @@ import java.util.HashMap;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 
-public class ActionBarMenuItem extends FrameLayout {
+public class ActionBarMenuItem extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private FrameLayout wrappedSearchFrameLayout;
+    private boolean isInputBarSizeObserverAdded;
 
     public static void addText(ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout, String text, Theme.ResourcesProvider resourcesProvider) {
         final TextView textView = new TextView(popupLayout.getContext());
@@ -1373,6 +1375,43 @@ public class ActionBarMenuItem extends FrameLayout {
         return this;
     }
 
+    private void applySearchTextSize() {
+        if (searchField == null) {
+            return;
+        }
+        int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
+        searchField.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
+        searchField.setCursorSize(AndroidUtilities.dp(searchFontSize + 2));
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (searchField != null) {
+            if (!isInputBarSizeObserverAdded) {
+                NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.inputBarTextSizeChanged);
+                isInputBarSizeObserverAdded = true;
+            }
+            applySearchTextSize();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (isInputBarSizeObserverAdded) {
+            NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.inputBarTextSizeChanged);
+            isInputBarSizeObserverAdded = false;
+        }
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.inputBarTextSizeChanged) {
+            applySearchTextSize();
+        }
+    }
+
     public ActionBarMenuItem setIsSearchField(boolean value) {
         return setIsSearchField(value, false);
     }
@@ -1586,7 +1625,7 @@ public class ActionBarMenuItem extends FrameLayout {
                 }
             };
             searchField.setScrollContainer(false);
-            int searchFontSize = Math.max(12, SharedConfig.fontSize - 2);
+            int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
             searchField.setCursorWidth(1.5f);
             searchField.setCursorSize(AndroidUtilities.dp(searchFontSize + 2));
             searchField.setCursorColor(getThemedColor(Theme.key_actionBarDefaultSearch));
@@ -1598,6 +1637,10 @@ public class ActionBarMenuItem extends FrameLayout {
             searchField.setPadding(0, 0, 0, 0);
             int inputType = searchField.getInputType() | EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
             searchField.setInputType(inputType);
+            if (isAttachedToWindow() && !isInputBarSizeObserverAdded) {
+                NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.inputBarTextSizeChanged);
+                isInputBarSizeObserverAdded = true;
+            }
             if (Build.VERSION.SDK_INT < 23) {
                 searchField.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
                     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {

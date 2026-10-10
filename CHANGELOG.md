@@ -18,6 +18,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 
 ### Settings
 - One place for all Turbo settings: a dedicated Turbo section in the Nagram X settings — app icon picker, input bar (iOS), action button style, media viewer, forwarding, deleted messages and fonts now live together
+- Search fields follow the input field text size setting — chats list, in-chat search, settings, shared media, emoji and stickers; changes apply live
 - Deleted messages settings redesign: chat-type categories (private chats, channels, groups) as a two-column Text/Media checkbox list right in the settings instead of hidden popups; all categories are on by default when the feature is first enabled
 - About screen with the project's own links: the Turbo channel, our GitHub repository, and the current build version; opens from the version menu too, with a logo header
 - Setting descriptions cleanup: removed subtitles that just repeated the setting name, and reworded two unclear ones (seamless video handoff, unlimited pinned chats)

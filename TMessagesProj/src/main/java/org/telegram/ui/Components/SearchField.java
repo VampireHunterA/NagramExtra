@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -24,7 +24,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import java.util.List;
 
 @SuppressWarnings("FieldCanBeLocal")
-public class SearchField extends FrameLayout {
+public class SearchField extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private View searchBackground;
     private ImageView searchIconImageView;
@@ -103,7 +103,7 @@ public class SearchField extends FrameLayout {
                 return super.onTouchEvent(event);
             }
         };
-        int searchFontSize = Math.max(12, SharedConfig.fontSize - 2);
+        int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
         Typeface customRegular = tw.nekomimi.nekogram.helpers.TypefaceHelper.getCustomFontForCategory(tw.nekomimi.nekogram.helpers.TypefaceHelper.FONT_CATEGORY_REGULAR);
         if (customRegular != null) {
@@ -160,6 +160,32 @@ public class SearchField extends FrameLayout {
             }
             return false;
         });
+    }
+
+    private void applySearchTextSize() {
+        int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
+        searchEditText.setCursorSize(AndroidUtilities.dp(searchFontSize + 2));
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.inputBarTextSizeChanged);
+        applySearchTextSize();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.inputBarTextSizeChanged);
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.inputBarTextSizeChanged) {
+            applySearchTextSize();
+        }
     }
 
     public void hideKeyboard() {
