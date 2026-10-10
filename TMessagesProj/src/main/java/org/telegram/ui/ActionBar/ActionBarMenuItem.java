@@ -1382,6 +1382,9 @@ public class ActionBarMenuItem extends FrameLayout implements NotificationCenter
         int searchFontSize = ChatActivityEnterView.resolveInputBarTextSize();
         searchField.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
         searchField.setCursorSize(AndroidUtilities.dp(searchFontSize + 2));
+        if (searchFieldCaption != null) {
+            searchFieldCaption.setTextSize(TypedValue.COMPLEX_UNIT_DIP, searchFontSize);
+        }
     }
 
     @Override
@@ -1574,7 +1577,7 @@ public class ActionBarMenuItem extends FrameLayout implements NotificationCenter
 
             searchFieldCaption = new TextView(getContext());
             AndroidUtilities.applyCustomRegularFont(searchFieldCaption);
-            searchFieldCaption.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+            searchFieldCaption.setTextSize(TypedValue.COMPLEX_UNIT_DIP, ChatActivityEnterView.resolveInputBarTextSize());
             searchFieldCaption.setTextColor(getThemedColor(Theme.key_actionBarDefaultSearch));
             searchFieldCaption.setSingleLine(true);
             searchFieldCaption.setEllipsize(TextUtils.TruncateAt.END);

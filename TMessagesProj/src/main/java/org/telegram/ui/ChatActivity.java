@@ -753,6 +753,8 @@ public class ChatActivity extends BaseFragment implements
     private boolean searchingForUser;
     private TLRPC.User searchingUserMessages;
     private TLRPC.Chat searchingChatMessages;
+    private boolean isSearchingByFromId;
+    private tw.nekomimi.nekogram.helpers.SearchFromIdHelper.Result pendingFromId;
     public static boolean scrolling;
     public ReactionsLayoutInBubble.VisibleReaction searchingReaction;
     public ReactionsLayoutInBubble.VisibleReaction getFilterTag() {
@@ -11466,6 +11468,7 @@ public class ChatActivity extends BaseFragment implements
                 searchingForUser = true;
                 searchingUserMessages = null;
                 searchingChatMessages = null;
+                clearFromIdSearchState();
                 searchItem.setSearchFieldHint(LocaleController.getString(R.string.SearchMembers));
                 searchItem.setSearchFieldCaption(LocaleController.getString(R.string.SearchFrom));
                 AndroidUtilities.showKeyboard(searchItem.getSearchField());
@@ -12179,6 +12182,7 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private void searchUserMessages(TLRPC.User user, TLRPC.Chat chat) {
+        clearFromIdSearchState();
         searchingUserMessages = user;
         searchingChatMessages = chat;
         if (searchItem == null || mentionContainer == null || searchingUserMessages == null && searchingChatMessages == null) {
@@ -12208,6 +12212,75 @@ public class ChatActivity extends BaseFragment implements
         searchItem.setSearchFieldHint(null);
         searchItem.clearSearchText();
         getMediaDataController().searchMessagesInChat(searchingQuery = "", dialog_id, mergeDialogId, classGuid, 0, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction, searchingType = null);
+    }
+
+    private boolean canSearchByFromId() {
+        return currentChat != null && (!ChatObject.isChannel(currentChat) || currentChat.megagroup) && !ChatObject.isMonoForum(currentChat);
+    }
+
+    private void applySearchFromId(long userId, String textQuery) {
+        if (searchItem == null || mentionContainer == null) {
+            return;
+        }
+        if (searchingHashtag != null) {
+            searchingHashtag = null;
+            if (hashtagSearchTabs != null) {
+                hashtagSearchTabs.show(false);
+                if (hashtagSearchTabs.tabs.getCurrentPosition() != defaultSearchPage) {
+                    hashtagSearchTabs.tabs.scrollToTab(defaultSearchPage, defaultSearchPage);
+                }
+                updateSearchListEmptyView();
+            }
+        }
+        isSearchingByFromId = true;
+        TLRPC.User user = getMessagesController().getUser(userId);
+        if (user != null) {
+            pendingFromId = null;
+            setSearchFromIdFilter(user, textQuery);
+            return;
+        }
+        if (pendingFromId != null && pendingFromId.userId == userId) {
+            pendingFromId = new tw.nekomimi.nekogram.helpers.SearchFromIdHelper.Result(userId, textQuery);
+            return;
+        }
+        pendingFromId = new tw.nekomimi.nekogram.helpers.SearchFromIdHelper.Result(userId, textQuery);
+        tw.nekomimi.nekogram.helpers.SearchFromIdHelper.resolveUserById(userId, currentAccount, resolvedUser -> {
+            if (!isSearchingByFromId || pendingFromId == null || pendingFromId.userId != userId || searchItem == null || mentionContainer == null) {
+                return;
+            }
+            String restText = pendingFromId.textQuery;
+            pendingFromId = null;
+            if (resolvedUser == null) {
+                resolvedUser = new TLRPC.TL_user();
+                resolvedUser.id = userId;
+                resolvedUser.first_name = String.valueOf(userId);
+            }
+            setSearchFromIdFilter(resolvedUser, restText);
+        });
+    }
+
+    private void clearFromIdSearchState() {
+        isSearchingByFromId = false;
+        pendingFromId = null;
+    }
+
+    private void setSearchFromIdFilter(TLRPC.User user, String textQuery) {
+        searchingUserMessages = user;
+        searchingChatMessages = null;
+        searchingForUser = false;
+        String from = LocaleController.getString(R.string.SearchFrom);
+        String name = UserObject.getUserName(user);
+        if (TextUtils.isEmpty(name)) {
+            name = String.valueOf(user.id);
+        }
+        Spannable spannable = new SpannableString(from + " " + name);
+        spannable.setSpan(new ForegroundColorSpan(getThemedColor(Theme.key_actionBarDefaultSubtitle)), from.length() + 1, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        searchItem.setSearchFieldCaption(spannable);
+        mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
+        searchItem.setSearchFieldHint(null);
+        searchItem.setSearchFieldText(textQuery, false);
+        getMediaDataController().searchMessagesInChat(searchingQuery = textQuery, dialog_id, mergeDialogId, classGuid, 0, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction, searchingType = null);
+        showMessagesSearchListView(true);
     }
 
     private void updateTranslateItemVisibility() {
@@ -40911,6 +40984,7 @@ public class ChatActivity extends BaseFragment implements
             searchingUserMessages = null;
             searchingChatMessages = null;
             searchingHashtag = null;
+            clearFromIdSearchState();
 			searchItem.setSearchFieldHint(isSupportedTags() ? LocaleController.getString(R.string.SavedTagSearchHint) : LocaleController.getString(R.string.Search));
             searchItem.setSearchFieldCaption(null);
             animatorSearchFieldVisibility.setValue(false, true);
@@ -41090,6 +41164,14 @@ public class ChatActivity extends BaseFragment implements
             boolean hashtags = false;
             boolean channelHashtags = false;
             searchingQuery = editText != null ? editText.getText().toString() : searchingQuery;
+            var searchFromId = tw.nekomimi.nekogram.helpers.SearchFromIdHelper.parseSearchFromId(searchingQuery, searchingForUser);
+            if (searchFromId != null && canSearchByFromId()) {
+                applySearchFromId(searchFromId.userId, searchFromId.textQuery);
+                return;
+            }
+            if (pendingFromId != null) {
+                clearFromIdSearchState();
+            }
             if (!TextUtils.isEmpty(searchingQuery) && (searchingQuery.startsWith("$") || searchingQuery.startsWith("#"))) {
                 hashtags = true;
                 createSearchHashtagViewsIfNeeded();
@@ -41181,11 +41263,12 @@ public class ChatActivity extends BaseFragment implements
         @Override
         public void onCaptionCleared() {
             createSearchContainer();
-            if (searchingUserMessages != null || searchingChatMessages != null) {
+            if ((searchingUserMessages != null || searchingChatMessages != null) && !isSearchingByFromId) {
                 if (searchUserButton != null) {
                     searchUserButton.callOnClick();
                 }
             } else {
+                clearFromIdSearchState();
                 if (searchingForUser) {
                     mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
                     searchingForUser = false;

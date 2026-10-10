@@ -68,6 +68,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 ### Chat
 - Message date in bubbles (Turbo → Media, off by default): the sending date next to the time in every message — no need to open the message details to see when it was sent; date format selector (9 patterns with a live preview in the settings)
 - Numeric-id profile links open any chat: tg://openmessage?user_id=, tg://user?id= and t.me/@id links (the ones our own profile sheet copies) now resolve unknown ids on the server and open the chat; failures show a clear message instead of a dead screen
+- In-chat search by numeric user id: from:<id> (or id:<id>) in the group search field lists all messages from that sender, even one who left the group; add words after the id to search inside their messages; unknown ids are resolved on the server
 
 ### Input field
 - iOS-style input bar (Turbo → Input Bar, off by default): attachment on the left, emoji inside-right, optional compact mode, glass capsule with round bubbles behind the buttons
