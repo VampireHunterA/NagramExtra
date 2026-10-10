@@ -142,4 +142,6 @@
     <string name="TurboArchitecture">Архітектура</string>
     <string name="TurboUpdateDownloadFailed">Не вдалося завантажити оновлення. Перевірте підключення та спробуйте ще раз.</string>
     <string name="TurboUpdateChannelBetaHint">У вас новіша бета — звичайні оновлення повернуться з наступним релізом.</string>
+    <string name="HideCallEncryptionEmoji">Приховувати емодзі шифрування у дзвінках</string>
+    <string name="HideCallEncryptionEmojiAbout">Рядок емодзі у дзвінках, що виглядає як індикатор шифрування.</string>
 </resources>

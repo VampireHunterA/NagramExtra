@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">معماری</string>
     <string name="TurboUpdateDownloadFailed">به‌روزرسانی دانلود نشد. اتصال خود را بررسی کنید و دوباره تلاش کنید.</string>
     <string name="TurboUpdateChannelBetaHint">نسخه بتای جدیدتری دارید — به‌روزرسانی‌های معمولی با انتشار بعدی برمی‌گردند.</string>
+    <string name="HideCallEncryptionEmoji">پنهان‌کردن ایموجی‌های رمزنگاری در تماس‌ها</string>
+    <string name="HideCallEncryptionEmojiAbout">ردیف ایموجی در تماس‌ها که شبیه نشانگر رمزنگاری است.</string>
 </resources>

@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">架構</string>
     <string name="TurboUpdateDownloadFailed">無法下載更新。請檢查網路連線後再試一次。</string>
     <string name="TurboUpdateChannelBetaHint">你安裝了較新的測試版——一般更新將隨下一個版本恢復。</string>
+    <string name="HideCallEncryptionEmoji">隱藏通話中的加密表情符號</string>
+    <string name="HideCallEncryptionEmojiAbout">通話中看起來像加密狀態指示的表情符號列。</string>
 </resources>

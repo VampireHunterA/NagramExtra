@@ -1065,6 +1065,9 @@ public class VoIPFragment implements
         frameLayout.addView(hideEmojiLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
         frameLayout.addView(emojiRationalLayout, LayoutHelper.createFrame(304, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 118, 0, 0));
         frameLayout.addView(emojiLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 0, 0, 0));
+        if (xyz.nextalone.nagram.NaConfig.INSTANCE.getHideCallEncryptionEmoji().Bool()) {
+            emojiLayout.setVisibility(View.GONE);
+        }
         frameLayout.addView(endCloseLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 52, Gravity.RIGHT, 0, 0, 0, 0));
         frameLayout.addView(rateCallLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT, 0, 380, 0, 0));
 
@@ -2460,7 +2463,7 @@ public class VoIPFragment implements
     }
 
     private void updateKeyView(boolean animated) {
-        if (emojiLoaded) {
+        if (emojiLoaded || xyz.nextalone.nagram.NaConfig.INSTANCE.getHideCallEncryptionEmoji().Bool()) {
             return;
         }
         VoIPService service = VoIPService.getSharedInstance();
@@ -2551,7 +2554,7 @@ public class VoIPFragment implements
                 }
             }
             encryptionTooltip.postDelayed(() -> {
-                if (SharedConfig.callEncryptionHintDisplayedCount < 2) {
+                if (SharedConfig.callEncryptionHintDisplayedCount < 2 && emojiLayout.getVisibility() == View.VISIBLE) {
                     SharedConfig.incrementCallEncryptionHintDisplayed(1);
                     encryptionTooltip.setTranslationY(emojiLayout.getY() + AndroidUtilities.dp(36));
                     encryptionTooltip.show();

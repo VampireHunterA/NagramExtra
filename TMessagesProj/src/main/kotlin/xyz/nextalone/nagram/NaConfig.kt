@@ -314,6 +314,12 @@ object NaConfig {
             ConfigItem.configTypeBool,
             false
         )
+    val hideCallEncryptionEmoji =
+        addConfig(
+            "HideCallEncryptionEmoji",
+            ConfigItem.configTypeBool,
+            false
+        )
     val chatDecoration =
         addConfig(
             "ChatDecoration",

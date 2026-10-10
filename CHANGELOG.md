@@ -70,6 +70,9 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Numeric-id profile links open any chat: tg://openmessage?user_id=, tg://user?id= and t.me/@id links (the ones our own profile sheet copies) now resolve unknown ids on the server and open the chat; failures show a clear message instead of a dead screen
 - In-chat search by numeric user id: from:<id> (or id:<id>) in the group search field lists all messages from that sender, even one who left the group; add words after the id to search inside their messages; unknown ids are resolved on the server
 
+### Calls
+- Hide encryption emoji (Turbo → Calls, off by default): removes the emoji row in one-on-one calls and the emoji inside the group-call "Encrypted" cell; the cell itself stays
+
 ### Input field
 - iOS-style input bar (Turbo → Input Bar, off by default): attachment on the left, emoji inside-right, optional compact mode, glass capsule with round bubbles behind the buttons
 - Input bar text size (Turbo → Input Bar): a separate text size for the message input field, independent from the chat text size — turn "Same as chat" off and pick a size on the 12–30 slider; changes apply to the open chat instantly and the input bar preview above the setting shows the result live; the same size is used by every message-typing field outside the chat bar — the media send caption, the attach menu, gallery and file picker captions, the share sheet comment (including edit-forward-text) and the group-call chat

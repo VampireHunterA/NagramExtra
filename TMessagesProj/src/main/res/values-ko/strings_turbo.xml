@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">아키텍처</string>
     <string name="TurboUpdateDownloadFailed">업데이트를 다운로드할 수 없습니다. 연결을 확인하고 다시 시도해 주세요.</string>
     <string name="TurboUpdateChannelBetaHint">더 최신 베타가 설치되어 있습니다. 일반 업데이트는 다음 릴리스부터 돌아옵니다.</string>
+    <string name="HideCallEncryptionEmoji">통화에서 암호화 이모지 숨기기</string>
+    <string name="HideCallEncryptionEmojiAbout">암호화 상태 표시처럼 보이는 통화 중 이모티콘 행.</string>
 </resources>

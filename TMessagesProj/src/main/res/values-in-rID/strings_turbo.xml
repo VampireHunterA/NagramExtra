@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">Arsitektur</string>
     <string name="TurboUpdateDownloadFailed">Pembaruan gagal diunduh. Periksa koneksi Anda dan coba lagi.</string>
     <string name="TurboUpdateChannelBetaHint">Anda punya beta yang lebih baru — pembaruan reguler akan kembali pada rilis berikutnya.</string>
+    <string name="HideCallEncryptionEmoji">Sembunyikan emoji enkripsi di panggilan</string>
+    <string name="HideCallEncryptionEmojiAbout">Baris emoji di panggilan yang terlihat seperti indikator enkripsi.</string>
 </resources>

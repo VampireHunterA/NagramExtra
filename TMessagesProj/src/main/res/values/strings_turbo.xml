@@ -137,6 +137,8 @@
     <string name="DeletedMediaFileMissing">Media file not found</string>
     <string name="HideAiButtonInInputField">Hide AI button in the input field</string>
     <string name="HideAiButtonInInputFieldAbout">The AI button appears over the input field when the text is long.</string>
+    <string name="HideCallEncryptionEmoji">Hide encryption emoji in calls</string>
+    <string name="HideCallEncryptionEmojiAbout">The emoji row in calls that looks like an encryption status.</string>
     <string name="TurboArchitecture">Architecture</string>
     <string name="TurboUpdateDownloadFailed">Couldn\'t download the update. Check your connection and try again.</string>
     <string name="TurboUpdateChannelBetaHint">You have a newer beta — regular updates will return with the next release.</string>

@@ -214,6 +214,9 @@ public class TurboSettingsActivity extends BaseNekoXSettingsActivity implements 
     private final AbstractConfigCell fontMonoRow = cellGroup.appendCell(new ConfigCellCustom("FontMono", ConfigCellCustom.CUSTOM_ITEM_FontMono, true));
     private final AbstractConfigCell fontResetRow = cellGroup.appendCell(new ConfigCellCustom("FontReset", ConfigCellCustom.CUSTOM_ITEM_FontReset, true));
     private final AbstractConfigCell dividerFonts = cellGroup.appendCell(new ConfigCellDivider());
+    private final AbstractConfigCell headerCalls = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.Calls)));
+    private final AbstractConfigCell hideCallEncryptionEmojiRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getHideCallEncryptionEmoji(), getString(R.string.HideCallEncryptionEmojiAbout)));
+    private final AbstractConfigCell dividerCalls = cellGroup.appendCell(new ConfigCellDivider());
 
     private final AbstractConfigCell headerSavedDeletedMessages = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellHeader(getString(R.string.DeletedMessages)));
     private final AbstractConfigCell enableSaveDeletedMessagesRow = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getEnableSaveDeletedMessages()));

@@ -1444,6 +1444,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         } else if (id == NotificationCenter.conferenceEmojiUpdated) {
             VoIPService voip = VoIPService.getSharedInstance();
             encryptionDrawable.setEmojis(voip != null && voip.conference != null ? voip.conference.getEmojis() : null);
+            encryptionDrawable.setEmojiHidden(xyz.nextalone.nagram.NaConfig.INSTANCE.getHideCallEncryptionEmoji().Bool());
         }
     }
 
@@ -4922,6 +4923,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             encryptionDrawable = new CallEncryptionCellDrawable(context);
             VoIPService voip = VoIPService.getSharedInstance();
             encryptionDrawable.setEmojis(voip != null && voip.conference != null ? voip.conference.getEmojis() : null);
+            encryptionDrawable.setEmojiHidden(xyz.nextalone.nagram.NaConfig.INSTANCE.getHideCallEncryptionEmoji().Bool());
         }
 
         updateTitle(false);
@@ -9746,6 +9748,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
 
         private final int offset;
 
+        private boolean hidden;
         private final long INTERVAL = 180;
         private final Drawable[] pool = new Drawable[6];
         private Drawable realThumb;
@@ -9848,7 +9851,14 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         }
 
         private final RectF rectF = new RectF();
+        public void setHidden(boolean hidden) {
+            this.hidden = hidden;
+        }
+
         public boolean draw(Canvas canvas, RectF bounds, float alertProgress) {
+            if (hidden) {
+                return false;
+            }
             boolean stopped = false;
             final float pad = dp(6);
             rectF.set(bounds);
@@ -9988,6 +9998,13 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             loading = emojis == null;
             for (int i = 0; i < 4; ++i) {
                 this.slots[i].set(emojis == null ? null : emojis[i]);
+            }
+            invalidate();
+        }
+
+        public void setEmojiHidden(boolean hidden) {
+            for (int i = 0; i < slots.length; ++i) {
+                slots[i].setHidden(hidden);
             }
             invalidate();
         }

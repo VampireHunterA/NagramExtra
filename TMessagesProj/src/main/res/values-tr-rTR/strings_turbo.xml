@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">Mimari</string>
     <string name="TurboUpdateDownloadFailed">Güncelleme indirilemedi. Bağlantınızı kontrol edip tekrar deneyin.</string>
     <string name="TurboUpdateChannelBetaHint">Daha yeni bir beta kullanıyorsunuz; normal güncellemeler bir sonraki sürümle geri dönecek.</string>
+    <string name="HideCallEncryptionEmoji">Aramalarda şifreleme emojilerini gizle</string>
+    <string name="HideCallEncryptionEmojiAbout">Aramalarda şifreleme durumu gibi görünen emoji sırası.</string>
 </resources>

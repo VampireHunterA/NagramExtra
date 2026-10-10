@@ -140,4 +140,6 @@
     <string name="TurboArchitecture">Arquitetura</string>
     <string name="TurboUpdateDownloadFailed">Não foi possível baixar a atualização. Verifique sua conexão e tente novamente.</string>
     <string name="TurboUpdateChannelBetaHint">Você tem uma beta mais recente — as atualizações normais voltam no próximo lançamento.</string>
+    <string name="HideCallEncryptionEmoji">Ocultar emojis de criptografia em chamadas</string>
+    <string name="HideCallEncryptionEmojiAbout">A fila de emojis nas chamadas que parece um indicador de criptografia.</string>
 </resources>
