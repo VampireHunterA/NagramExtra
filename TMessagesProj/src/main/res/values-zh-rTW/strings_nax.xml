@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">保留翻譯偏好</string>
     <string name="KeepTranslatorPreferencesNotice">變更應用程式語言時保留目前的翻譯器設定。</string>
     <string name="UsePersianCalendar">使用波斯日曆</string>
-    <string name="UsePersianCalendarInfo">用太陽回曆顯示日期</string>
     <string name="DisplayPersianCalendarByLatin">以拉丁字母顯示波斯日曆</string>
     <string name="TestBackendOn">此帳號將連線到測試後端。</string>
     <string name="TestBackendOff">此帳號將連線到正式後端。</string>

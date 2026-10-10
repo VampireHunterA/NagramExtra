@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Зберегти налаштування перекладача</string>
     <string name="KeepTranslatorPreferencesNotice">Зберегти поточні налаштування перекладача під час зміни мови програми.</string>
     <string name="UsePersianCalendar">Перський календар</string>
-    <string name="UsePersianCalendarInfo">Показувати дату у форматі Solar Hijri (перський календар)</string>
     <string name="DisplayPersianCalendarByLatin">Показувати перський календар латиницею</string>
     <string name="TestBackendOn">Цей обліковий запис буде під\'єднано до тестового сервера.</string>
     <string name="TestBackendOff">Цей обліковий запис буде підключений до тестового сервера.</string>

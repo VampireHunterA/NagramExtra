@@ -228,7 +228,6 @@
     <string name="KeepTranslatorPreferences">Çevirmen Tercihlerini Koru</string>
     <string name="KeepTranslatorPreferencesNotice">Uygulama dilini değiştirirken mevcut çevirmen ayarlarını korur.</string>
     <string name="UsePersianCalendar">Fars Takvimini Kullan</string>
-    <string name="UsePersianCalendarInfo">Tarihi Celali (Güneş Hicri) takvimi ile gösterir</string>
     <string name="DisplayPersianCalendarByLatin">Fars takvimini Latin harfleriyle göster</string>
     <string name="TestBackendOn">Bu hesap test sunucusuna bağlanacaktır.</string>
     <string name="TestBackendOff">Bu hesap üretim (production) sunucusuna bağlanacaktır.</string>

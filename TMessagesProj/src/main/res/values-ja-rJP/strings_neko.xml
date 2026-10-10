@@ -51,7 +51,7 @@
     <string name="UndoTranslate">翻訳を元に戻す</string>
     <string name="BotToken">トークン</string>
     <string name="UnlimitedPinnedDialogs">無制限のピン留め</string>
-    <string name="UnlimitedPinnedDialogsAbout">同期をオフにして無制限のチャットをピン留めします。</string>
+    <string name="UnlimitedPinnedDialogsAbout">端末間のピン留め同期を無効にして、ピン留めの上限を解除します。</string>
     <string name="OpenArchiveOnPull">プルダウンでアーカイブを開く</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロール時にキーボードを非表示</string>
     <string name="UserRestrictionsSendStickers2">ステッカーを送信</string>

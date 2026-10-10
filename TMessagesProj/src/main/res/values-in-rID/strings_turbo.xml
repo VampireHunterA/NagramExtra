@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">Komentar akan dikirim setelah pesan</string>
     <string name="ForwardCommentBefore">Komentar akan dikirim sebelum pesan</string>
     <string name="PhotoViewerHdr">Foto HDR</string>
-    <string name="PhotoViewerHdrAbout">Tampilkan foto HDR dengan kecerahan yang diperluas.</string>
     <string name="FontsSettings">Font</string>
     <string name="FontCategoryRegular">Reguler</string>
     <string name="FontCategoryBold">Tebal</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">Sesuaikan konten</string>
     <string name="MediaAutoRotateChanged">Putar otomatis: %1$s</string>
     <string name="SeamlessVideoHandoff">Peralihan Video Mulus</string>
-    <string name="SeamlessVideoHandoffAbout">Buka video di penampil pada posisi pratinjau obrolan, dan lanjutkan pratinjau obrolan dari posisi terakhir di penampil.</string>
+    <string name="SeamlessVideoHandoffAbout">Posisi video tetap tersinkron antara pratinjau di obrolan dan penampil.</string>
     <string name="EditFolders">Edit folder</string>
     <string name="FoldersReset">Atur ulang</string>
     <string name="FoldersSecretAll">Obrolan rahasia tidak dapat ditambahkan ke folder.</string>

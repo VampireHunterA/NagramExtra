@@ -51,7 +51,7 @@
     <string name="UndoTranslate">لغو ترجمه</string>
     <string name="BotToken">توکن ربات</string>
     <string name="UnlimitedPinnedDialogs">سنجاق کردن نامحدود گفتگوها</string>
-    <string name="UnlimitedPinnedDialogsAbout">با غیرفعال کردن همگام‌سازی، گفتگوها را به صورت نامحدود سنجاق کنید.</string>
+    <string name="UnlimitedPinnedDialogsAbout">محدودیت سنجاق‌کردن را با غیرفعال‌کردن همگام‌سازی سنجاق‌ها بین دستگاه‌ها برمی‌دارد.</string>
     <string name="OpenArchiveOnPull">باز کردن بایگانی با کشیدن صفحه به پایین</string>
     <string name="HideKeyboardOnChatScroll">پنهان کردن کیبورد هنگام پیمایش گفتگو</string>
     <string name="UserRestrictionsSendStickers2">ارسال استیکر</string>

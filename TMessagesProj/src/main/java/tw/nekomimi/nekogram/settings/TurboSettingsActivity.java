@@ -167,7 +167,7 @@ public class TurboSettingsActivity extends BaseNekoXSettingsActivity implements 
     private final AbstractConfigCell showMediaRotateButtonRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getShowMediaRotateButton()));
     private final AbstractConfigCell scrollToCurrentPhotoRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getScrollToCurrentPhoto(), getString(R.string.ScrollToCurrentPhotoAbout)));
     private final AbstractConfigCell dateFormatInBubbleRow = cellGroup.appendCell(new ConfigCellSelectBox("ShowDateInBubble", NaConfig.INSTANCE.getDateFormatInBubble(), buildDateFormatLabels(), new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8}, null));
-    private final AbstractConfigCell photoViewerHdrRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.photoViewerHdr, getString(R.string.PhotoViewerHdrAbout)));
+    private final AbstractConfigCell photoViewerHdrRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.photoViewerHdr));
     private final AbstractConfigCell dividerMedia = cellGroup.appendCell(new ConfigCellDivider());
 
     private final AbstractConfigCell headerForwarding = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellHeader(getString(R.string.ForwardingSettings)));

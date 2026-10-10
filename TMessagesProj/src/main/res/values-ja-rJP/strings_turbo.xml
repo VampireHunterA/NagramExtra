@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">コメントはメッセージの後に送信されます</string>
     <string name="ForwardCommentBefore">コメントはメッセージの前に送信されます</string>
     <string name="PhotoViewerHdr">HDR写真</string>
-    <string name="PhotoViewerHdrAbout">拡張された輝度でHDR写真を表示します。</string>
     <string name="FontsSettings">フォント</string>
     <string name="FontCategoryRegular">標準</string>
     <string name="FontCategoryBold">太字</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">コンテンツに合わせる</string>
     <string name="MediaAutoRotateChanged">自動回転: %1$s</string>
     <string name="SeamlessVideoHandoff">シームレスな動画再生</string>
-    <string name="SeamlessVideoHandoffAbout">チャットプレビューの再生位置からビューアで動画を開き、ビューアを閉じた位置からチャットプレビューを再開します。</string>
+    <string name="SeamlessVideoHandoffAbout">動画の再生位置は、チャット内のプレビューとビューアー間で同期されます。</string>
     <string name="EditFolders">フォルダの編集</string>
     <string name="FoldersReset">リセット</string>
     <string name="FoldersSecretAll">シークレットチャットはフォルダに追加できません。</string>

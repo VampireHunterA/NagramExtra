@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">翻訳設定を維持</string>
     <string name="KeepTranslatorPreferencesNotice">アプリの言語を変更する際、現在の翻訳設定を維持します。</string>
     <string name="UsePersianCalendar">イラン暦を使用</string>
-    <string name="UsePersianCalendarInfo">日付を表示</string>
     <string name="DisplayPersianCalendarByLatin">イラン暦をラテン語で表示</string>
     <string name="TestBackendOn">テストバックエンドに接続します。</string>
     <string name="TestBackendOff">本番バックエンドに接続します。</string>

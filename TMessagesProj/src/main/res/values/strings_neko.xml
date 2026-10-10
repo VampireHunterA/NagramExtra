@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Hide Translation</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Unlimited Pinned Dialogs</string>
-    <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Removes the pin limit by disabling pin sync across devices.</string>
     <string name="OpenArchiveOnPull">Open \"Archived Chats\" on Pull-Down</string>
     <string name="HideKeyboardOnChatScroll">Hide Keyboard on Scroll</string>
     <string name="UserRestrictionsSendStickers2">Send Stickers</string>

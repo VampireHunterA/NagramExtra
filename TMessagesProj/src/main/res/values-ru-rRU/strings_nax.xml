@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Сохранять настройки переводчика</string>
     <string name="KeepTranslatorPreferencesNotice">Сохранять текущие настройки переводчика при смене языка приложения.</string>
     <string name="UsePersianCalendar">Иранский календарь</string>
-    <string name="UsePersianCalendarInfo">Отображать даты по солнечному календарю Хиджры.</string>
     <string name="DisplayPersianCalendarByLatin">Иранский календарь латиницей</string>
     <string name="TestBackendOn">Этот аккаунт будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Этот аккаунт будет подключаться к основному серверу.</string>

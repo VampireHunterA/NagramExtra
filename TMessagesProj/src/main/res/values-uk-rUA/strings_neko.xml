@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Приховати переклад</string>
     <string name="BotToken">Токен</string>
     <string name="UnlimitedPinnedDialogs">Необмежені закріплені діалоги</string>
-    <string name="UnlimitedPinnedDialogsAbout">Закріплення необмеженої кількості діалогів відбудеться у разі відключення їхньої синхронізації.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Знімає ліміт закріплень, вимикаючи їхню синхронізацію між пристроями.</string>
     <string name="OpenArchiveOnPull">Відкривати \"Архівні чати\" при витягуванні вниз</string>
     <string name="HideKeyboardOnChatScroll">Ховати клавіатуру під час прокрутки</string>
     <string name="UserRestrictionsSendStickers2">Надсилання наліпок</string>

@@ -217,7 +217,6 @@
     <string name="KeepTranslatorPreferences">Giữ tùy chọn dịch thuật</string>
     <string name="KeepTranslatorPreferencesNotice">Giữ nguyên cài đặt dịch hiện tại khi thay đổi ngôn ngữ ứng dụng.</string>
     <string name="UsePersianCalendar">Sử dụng lịch Ba Tư</string>
-    <string name="UsePersianCalendarInfo">Hiển thị ngày tháng theo lịch Solar Hijri</string>
     <string name="DisplayPersianCalendarByLatin">Hiển thị lịch Ba Tư bằng chữ cái Latin</string>
     <string name="TestBackendOn">Tài khoản này sẽ kết nối tới máy chủ thử nghiệm.</string>
     <string name="TestBackendOff">Tài khoản này sẽ kết nối tới máy chủ chính thức.</string>

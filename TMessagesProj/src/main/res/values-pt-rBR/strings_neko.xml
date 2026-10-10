@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Ocultar tradução</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Diálogos fixados ilimitados</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fixe diálogos ilimitados ao desativar a sincronização deles.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Remove o limite de fixações ao desativar a sincronização das fixações entre dispositivos.</string>
     <string name="OpenArchiveOnPull">Abrir \"Chats Arquivados\" ao puxar para baixo</string>
     <string name="HideKeyboardOnChatScroll">Ocultar teclado ao rolar</string>
     <string name="UserRestrictionsSendStickers2">Enviar stickers</string>

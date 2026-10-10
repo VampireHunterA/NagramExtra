@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">O comentário será enviado após a mensagem</string>
     <string name="ForwardCommentBefore">O comentário será enviado antes da mensagem</string>
     <string name="PhotoViewerHdr">Fotos em HDR</string>
-    <string name="PhotoViewerHdrAbout">Exibir fotos em HDR com brilho estendido.</string>
     <string name="FontsSettings">Fontes</string>
     <string name="FontCategoryRegular">Regular</string>
     <string name="FontCategoryBold">Negrito</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">Ajustar ao conteúdo</string>
     <string name="MediaAutoRotateChanged">Rotação automática: %1$s</string>
     <string name="SeamlessVideoHandoff">Transição contínua de vídeo</string>
-    <string name="SeamlessVideoHandoffAbout">Abrir vídeos no visualizador a partir da posição da prévia no chat e retomar a prévia de onde você parou no visualizador.</string>
+    <string name="SeamlessVideoHandoffAbout">A posição do vídeo se mantém sincronizada entre a prévia no chat e o visualizador.</string>
     <string name="EditFolders">Editar pastas</string>
     <string name="FoldersReset">Redefinir</string>
     <string name="FoldersSecretAll">Chats secretos não podem ser adicionados a uma pasta.</string>

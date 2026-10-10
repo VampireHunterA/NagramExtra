@@ -51,7 +51,7 @@
     <string name="UndoTranslate">撤銷翻譯</string>
     <string name="BotToken">權杖</string>
     <string name="UnlimitedPinnedDialogs">無限置頂聊天</string>
-    <string name="UnlimitedPinnedDialogsAbout">關閉同步以無限置頂聊天。</string>
+    <string name="UnlimitedPinnedDialogsAbout">透過關閉跨裝置置頂同步來取消置頂數量上限。</string>
     <string name="OpenArchiveOnPull">下拉開啟「已封存的聊天」</string>
     <string name="HideKeyboardOnChatScroll">捲動瀏覽時隱藏鍵盤</string>
     <string name="UserRestrictionsSendStickers2">傳送貼圖</string>

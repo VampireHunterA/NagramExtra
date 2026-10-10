@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Ukryj tłumaczenie</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Nieograniczona liczba przypiętych czatów</string>
-    <string name="UnlimitedPinnedDialogsAbout">Przypinaj nieograniczoną liczbę czatów, wyłączając ich synchronizację.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Znosi limit przypięć, wyłączając synchronizację przypięć między urządzeniami.</string>
     <string name="OpenArchiveOnPull">Otwórz „Zarchiwizowane czaty” po przeciągnięciu w dół</string>
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania</string>
     <string name="UserRestrictionsSendStickers2">Naklejki</string>

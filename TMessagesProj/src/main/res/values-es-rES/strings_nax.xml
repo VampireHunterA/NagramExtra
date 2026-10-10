@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Mantener Preferencias del Traductor</string>
     <string name="KeepTranslatorPreferencesNotice">Conservar la configuración actual del traductor al cambiar el idioma de la aplicación.</string>
     <string name="UsePersianCalendar">Usar Calendario Persa</string>
-    <string name="UsePersianCalendarInfo">Mostrar fecha con el calendario Hégira Solar</string>
     <string name="DisplayPersianCalendarByLatin">Mostrar calendario persa en latín</string>
     <string name="TestBackendOn">Esta cuenta se conectará al backend de prueba.</string>
     <string name="TestBackendOff">Esta cuenta se conectará al backend de producción.</string>

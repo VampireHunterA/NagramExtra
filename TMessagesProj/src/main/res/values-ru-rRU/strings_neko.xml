@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Скрыть перевод</string>
     <string name="BotToken">Токен</string>
     <string name="UnlimitedPinnedDialogs">Неограниченные закреплённые диалоги</string>
-    <string name="UnlimitedPinnedDialogsAbout">Их синхронизация будет отключена.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Снимает лимит закреплений, отключая их синхронизацию между устройствами.</string>
     <string name="OpenArchiveOnPull">Открывать архив сразу</string>
     <string name="HideKeyboardOnChatScroll">Скрыть клавиатуру при прокрутке</string>
     <string name="UserRestrictionsSendStickers2">Отправка стикеров</string>

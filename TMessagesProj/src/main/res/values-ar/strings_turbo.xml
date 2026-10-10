@@ -104,7 +104,6 @@
     <string name="ForwardCommentAfter">سيتم إرسال التعليق بعد الرسالة</string>
     <string name="ForwardCommentBefore">سيتم إرسال التعليق قبل الرسالة</string>
     <string name="PhotoViewerHdr">صور HDR</string>
-    <string name="PhotoViewerHdrAbout">عرض صور HDR بسطوع ممتد.</string>
     <string name="FontsSettings">الخطوط</string>
     <string name="FontCategoryRegular">عادي</string>
     <string name="FontCategoryBold">عريض</string>
@@ -134,7 +133,7 @@
     <string name="MediaAutoRotateFill">حسب المحتوى</string>
     <string name="MediaAutoRotateChanged">التدوير التلقائي: %1$s</string>
     <string name="SeamlessVideoHandoff">انتقال سلس للفيديو</string>
-    <string name="SeamlessVideoHandoffAbout">فتح مقاطع الفيديو في العارض من موضع المعاينة في المحادثة، واستئناف المعاينة من حيث توقفت في العارض.</string>
+    <string name="SeamlessVideoHandoffAbout">يظل موضع الفيديو متزامنًا بين المعاينة في الدردشة والعارض.</string>
     <string name="EditFolders">تعديل المجلدات</string>
     <string name="FoldersReset">إعادة تعيين</string>
     <string name="FoldersSecretAll">لا يمكن إضافة المحادثات السرية إلى مجلد.</string>

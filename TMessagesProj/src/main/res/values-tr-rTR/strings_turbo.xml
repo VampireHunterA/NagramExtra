@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">Yorum mesajdan sonra gönderilecek</string>
     <string name="ForwardCommentBefore">Yorum mesajdan önce gönderilecek</string>
     <string name="PhotoViewerHdr">Fotoğraf HDR</string>
-    <string name="PhotoViewerHdrAbout">HDR fotoğrafları genişletilmiş parlaklıkta gösterin.</string>
     <string name="FontsSettings">Yazı Tipleri</string>
     <string name="FontCategoryRegular">Normal</string>
     <string name="FontCategoryBold">Kalın</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">İçeriğe göre</string>
     <string name="MediaAutoRotateChanged">Otomatik döndürme: %1$s</string>
     <string name="SeamlessVideoHandoff">Kesintisiz Video Geçişi</string>
-    <string name="SeamlessVideoHandoffAbout">Videoları görüntüleyicide sohbet önizleme konumundan açın ve önizlemeyi görüntüleyiciden çıktığınız yerden sürdürün.</string>
+    <string name="SeamlessVideoHandoffAbout">Video konumu, sohbetteki önizleme ile görüntüleyici arasında senkronize kalır.</string>
     <string name="EditFolders">Klasörleri düzenle</string>
     <string name="FoldersReset">Sıfırla</string>
     <string name="FoldersSecretAll">Gizli sohbetler bir klasöre eklenemez.</string>

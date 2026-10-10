@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Mantieni le preferenze del traduttore</string>
     <string name="KeepTranslatorPreferencesNotice">Mantieni le impostazioni correnti del traduttore quando cambi la lingua dell\'app.</string>
     <string name="UsePersianCalendar">Usa il calendario Persiano</string>
-    <string name="UsePersianCalendarInfo">Mostra data con il calendario Solare Hijri</string>
     <string name="DisplayPersianCalendarByLatin">Mostra il calendario Persiano (Latino)</string>
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
     <string name="TestBackendOff">Questo account si connetterà al server di prod.</string>

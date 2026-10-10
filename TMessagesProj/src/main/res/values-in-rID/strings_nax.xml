@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Simpan Preferensi Penerjemah</string>
     <string name="KeepTranslatorPreferencesNotice">Pertahankan pengaturan penerjemah saat ini saat mengubah bahasa Aplikasi.</string>
     <string name="UsePersianCalendar">Gunakan Kalender Persia</string>
-    <string name="UsePersianCalendarInfo">Tampilkan tanggal dengan kalender Hijriah Matahari</string>
     <string name="DisplayPersianCalendarByLatin">Tampilkan kalender Persia dalam huruf Latin</string>
     <string name="TestBackendOn">Akun ini akan terhubung ke backend pengujian.</string>
     <string name="TestBackendOff">Akun ini akan terhubung ke backend produksi.</string>

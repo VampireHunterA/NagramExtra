@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">留言將在訊息之後發送</string>
     <string name="ForwardCommentBefore">留言將在訊息之前發送</string>
     <string name="PhotoViewerHdr">相片 HDR</string>
-    <string name="PhotoViewerHdrAbout">以延伸亮度顯示 HDR 相片。</string>
     <string name="FontsSettings">字型</string>
     <string name="FontCategoryRegular">常規</string>
     <string name="FontCategoryBold">粗體</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">符合內容</string>
     <string name="MediaAutoRotateChanged">自動旋轉：%1$s</string>
     <string name="SeamlessVideoHandoff">影片無縫接續</string>
-    <string name="SeamlessVideoHandoffAbout">在檢視器中從對話預覽位置開啟影片，並在關閉檢視器後從離開的位置繼續預覽。</string>
+    <string name="SeamlessVideoHandoffAbout">影片播放位置在聊天中的預覽與檢視器之間保持同步。</string>
     <string name="EditFolders">編輯資料夾</string>
     <string name="FoldersReset">重設</string>
     <string name="FoldersSecretAll">私密對話無法加入資料夾。</string>

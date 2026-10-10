@@ -234,7 +234,7 @@
     <string name="UnlimitedFavoredStickers">Stickers favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Añade stickers ilimitados a favoritos. Es posible que los stickers no se sincronicen con otros dispositivos.</string>
     <string name="UnlimitedPinnedDialogs">Chats fijados ilimitados</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fija chats ilimitados desactivando su sincronización.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Elimina el límite de fijados al desactivar la sincronización de fijaciones entre dispositivos.</string>
     <string name="UnofficialApp">app no oficial</string>
     <string name="UpgradeGroup">Convertir a supergrupo</string>
     <string name="UseChatAttachEnterMenu">Usar menú de entrada</string>

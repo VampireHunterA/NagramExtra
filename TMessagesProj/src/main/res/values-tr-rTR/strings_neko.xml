@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Çeviriyi Gizle</string>
     <string name="BotToken">Jeton (Token)</string>
     <string name="UnlimitedPinnedDialogs">Sınırsız Sabitlenmiş Sohbet</string>
-    <string name="UnlimitedPinnedDialogsAbout">Senkronizasyonlarını kapatarak sınırsız sohbeti sabitleyin.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Cihazlar arası sabitleme eşitlemesini kapatarak sabitleme sınırını kaldırır.</string>
     <string name="OpenArchiveOnPull">Aşağı Çekildiğinde \"Arşivlenmiş Sohbetleri\" Aç</string>
     <string name="HideKeyboardOnChatScroll">Kaydırırken Klavyeyi Gizle</string>
     <string name="UserRestrictionsSendStickers2">Çıkartma Gönder</string>

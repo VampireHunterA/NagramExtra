@@ -102,7 +102,6 @@
     <string name="ForwardCommentAfter">Комментарий будет отправлен после сообщения</string>
     <string name="ForwardCommentBefore">Комментарий будет отправлен до сообщения</string>
     <string name="PhotoViewerHdr">Фото в HDR</string>
-    <string name="PhotoViewerHdrAbout">Показывать HDR-фото с расширенной яркостью.</string>
     <string name="FontsSettings">Шрифты</string>
     <string name="FontCategoryRegular">Обычный</string>
     <string name="FontCategoryBold">Жирный</string>
@@ -132,7 +131,7 @@
     <string name="MediaAutoRotateFill">По контенту</string>
     <string name="MediaAutoRotateChanged">Автоповорот: %1$s</string>
     <string name="SeamlessVideoHandoff">Бесшовное видео</string>
-    <string name="SeamlessVideoHandoffAbout">Открывать видео в просмотрщике с позиции превью в чате и возобновлять превью с позиции из просмотрщика.</string>
+    <string name="SeamlessVideoHandoffAbout">Позиция видео синхронизируется между превью в чате и просмотрщиком.</string>
     <string name="EditFolders">Изменить папки</string>
     <string name="FoldersReset">Сбросить</string>
     <string name="FoldersSecretAll">Секретные чаты нельзя добавить в папку.</string>

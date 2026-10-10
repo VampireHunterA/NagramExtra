@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">نظر پس از پیام ارسال خواهد شد</string>
     <string name="ForwardCommentBefore">نظر پیش از پیام ارسال خواهد شد</string>
     <string name="PhotoViewerHdr">عکس HDR</string>
-    <string name="PhotoViewerHdrAbout">نمایش عکس‌های HDR با روشنایی افزایش‌یافته.</string>
     <string name="FontsSettings">فونت‌ها</string>
     <string name="FontCategoryRegular">عادی</string>
     <string name="FontCategoryBold">ضخیم</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">متناسب با محتوا</string>
     <string name="MediaAutoRotateChanged">چرخش خودکار: %1$s</string>
     <string name="SeamlessVideoHandoff">انتقال یکپارچه ویدیو</string>
-    <string name="SeamlessVideoHandoffAbout">ویدیوها در نمایشگر از موقعیت پیش‌نمایش در گفتگو باز شوند و پیش‌نمایش گفتگو از جایی که نمایشگر را بستید ادامه یابد.</string>
+    <string name="SeamlessVideoHandoffAbout">موقعیت ویدیو بین پیش‌نمایش در گفتگو و نمایش‌دهنده همگام می‌ماند.</string>
     <string name="EditFolders">ویرایش پوشه‌ها</string>
     <string name="FoldersReset">بازنشانی</string>
     <string name="FoldersSecretAll">گفتگوهای محرمانه را نمی‌توان به پوشه اضافه کرد.</string>

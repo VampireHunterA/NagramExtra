@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Ocultar traducción</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chats anclados ilimitados</string>
-    <string name="UnlimitedPinnedDialogsAbout">Ancla chats de forma ilimitada, pero se desactiva su sincronización.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Elimina el límite de chats anclados desactivando la sincronización de los anclados entre dispositivos.</string>
     <string name="OpenArchiveOnPull">Abrir \"Chats Archivados\" en Pull-Abajo</string>
     <string name="HideKeyboardOnChatScroll">Ocultar teclado al desplazarse</string>
     <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>

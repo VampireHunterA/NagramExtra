@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Ẩn tính năng dịch</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Ghim vô hạn tin nhắn</string>
-    <string name="UnlimitedPinnedDialogsAbout">Tắt khả năng đồng bộ để ghim được vô hạn tin nhắn</string>
+    <string name="UnlimitedPinnedDialogsAbout">Bỏ giới hạn ghim bằng cách tắt đồng bộ hóa ghim giữa các thiết bị.</string>
     <string name="OpenArchiveOnPull">Kéo xuống để mở \"Tin nhắn được lưu trữ\"</string>
     <string name="HideKeyboardOnChatScroll">Ẩn bàn phím khi vuốt màn</string>
     <string name="UserRestrictionsSendStickers2">Gửi nhãn dán</string>

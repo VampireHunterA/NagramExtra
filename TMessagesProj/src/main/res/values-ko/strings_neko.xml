@@ -51,7 +51,7 @@
     <string name="UndoTranslate">번역 숨기기</string>
     <string name="BotToken">토큰</string>
     <string name="UnlimitedPinnedDialogs">고정 채팅 무제한</string>
-    <string name="UnlimitedPinnedDialogsAbout">동기화를 끄는 방식으로 채팅을 무제한 고정합니다.</string>
+    <string name="UnlimitedPinnedDialogsAbout">기기 간 고정 동기화를 비활성화하여 고정 개수 제한을 제거합니다.</string>
     <string name="OpenArchiveOnPull">아래로 당기면 \"보관된 채팅\" 열기</string>
     <string name="HideKeyboardOnChatScroll">스크롤할 때 키보드 숨기기</string>
     <string name="UserRestrictionsSendStickers2">스티커 보내기</string>

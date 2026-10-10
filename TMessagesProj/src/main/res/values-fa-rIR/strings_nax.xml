@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">حفظ تنظیمات مترجم</string>
     <string name="KeepTranslatorPreferencesNotice">حفظ تنظیمات فعلی مترجم هنگام تغییر زبان برنامه.</string>
     <string name="UsePersianCalendar">استفاده از تقویم هجری شمسی</string>
-    <string name="UsePersianCalendarInfo">نمایش تاریخ با تقویم هجری شمسی</string>
     <string name="DisplayPersianCalendarByLatin">نمایش تقویم فارسی با حروف لاتین</string>
     <string name="TestBackendOn">این حساب به بک‌اند آزمایشی متصل خواهد شد.</string>
     <string name="TestBackendOff">این حساب به بک‌اند اصلی متصل خواهد شد.</string>

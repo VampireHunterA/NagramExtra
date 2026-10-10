@@ -190,7 +190,7 @@
     <string name="UnlimitedFavoredStickers">ملصقات مفضلة غير محدودة</string>
     <string name="UnlimitedFavoredStickersAbout">إضافة ملصقات غير محدودة إلى المفضلة. قد لا تتم مزامنة الملصقات مع الأجهزة الأخرى.</string>
     <string name="UnlimitedPinnedDialogs">محادثات مثبتة غير محدودة</string>
-    <string name="UnlimitedPinnedDialogsAbout">تثبيت عدد غير محدود من المحادثات عن طريق إيقاف مزامنتها.</string>
+    <string name="UnlimitedPinnedDialogsAbout">يزيل حد التثبيت عن طريق إيقاف مزامنة التثبيتات بين الأجهزة.</string>
     <string name="UnofficialApp">تطبيق غير رسمي</string>
     <string name="UpdateEmojiSet">تحديث %s</string>
     <string name="UpgradeGroup">ترقية المجموعة</string>

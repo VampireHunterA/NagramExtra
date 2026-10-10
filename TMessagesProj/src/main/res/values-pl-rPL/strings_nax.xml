@@ -229,7 +229,6 @@
     <string name="KeepTranslatorPreferences">Zachowaj preferencje tłumacza</string>
     <string name="KeepTranslatorPreferencesNotice">Zachowaj bieżące ustawienia tłumacza podczas zmiany języka aplikacji.</string>
     <string name="UsePersianCalendar">Użyj kalendarza perskiego</string>
-    <string name="UsePersianCalendarInfo">Wyświetlanie daty za pomocą kalendarza słonecznego Hidżry</string>
     <string name="DisplayPersianCalendarByLatin">Wyświetl kalendarz perski według łaciny</string>
     <string name="TestBackendOn">To konto zostanie połączone z zapleczem testowym.</string>
     <string name="TestBackendOff">To konto będzie łączyć się z zapleczem produkcyjnym.</string>

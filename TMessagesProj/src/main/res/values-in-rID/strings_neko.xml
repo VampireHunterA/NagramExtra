@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Sembunyikan Terjemahan</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Dialog Tersemat Tak Terbatas</string>
-    <string name="UnlimitedPinnedDialogsAbout">Sematkan dialog tak terbatas dengan mematikan sinkronisasinya.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Menghapus batas sematan dengan menonaktifkan sinkronisasi sematan antar perangkat.</string>
     <string name="OpenArchiveOnPull">Buka \"Obrolan yang Diarsipkan\" pada Pull-Down</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan Keyboard saat Menggulir</string>
     <string name="UserRestrictionsSendStickers2">Kirim Stiker</string>

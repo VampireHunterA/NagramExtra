@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">메시지 뒤에 댓글이 전송됩니다</string>
     <string name="ForwardCommentBefore">메시지 앞에 댓글이 전송됩니다</string>
     <string name="PhotoViewerHdr">사진 HDR</string>
-    <string name="PhotoViewerHdrAbout">HDR 사진을 확장된 밝기로 표시합니다.</string>
     <string name="FontsSettings">글꼴</string>
     <string name="FontCategoryRegular">일반</string>
     <string name="FontCategoryBold">굵게</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">콘텐츠에 맞춤</string>
     <string name="MediaAutoRotateChanged">자동 회전: %1$s</string>
     <string name="SeamlessVideoHandoff">끊김 없는 동영상 이어보기</string>
-    <string name="SeamlessVideoHandoffAbout">대화방 미리보기 위치에서 뷰어로 동영상을 열고, 뷰어를 닫은 위치부터 대화방 미리보기를 이어 재생합니다.</string>
+    <string name="SeamlessVideoHandoffAbout">동영상 위치는 채팅 미리보기와 뷰어 간에 동기화됩니다.</string>
     <string name="EditFolders">폴더 편집</string>
     <string name="FoldersReset">초기화</string>
     <string name="FoldersSecretAll">비밀대화는 폴더에 추가할 수 없습니다.</string>

@@ -100,7 +100,6 @@
     <string name="ForwardCommentAfter">Bình luận sẽ được gửi sau tin nhắn</string>
     <string name="ForwardCommentBefore">Bình luận sẽ được gửi trước tin nhắn</string>
     <string name="PhotoViewerHdr">Ảnh HDR</string>
-    <string name="PhotoViewerHdrAbout">Hiển thị ảnh HDR với độ sáng mở rộng.</string>
     <string name="FontsSettings">Phông chữ</string>
     <string name="FontCategoryRegular">Thường</string>
     <string name="FontCategoryBold">Đậm</string>
@@ -130,7 +129,7 @@
     <string name="MediaAutoRotateFill">Khớp nội dung</string>
     <string name="MediaAutoRotateChanged">Tự động xoay: %1$s</string>
     <string name="SeamlessVideoHandoff">Chuyển tiếp video liền mạch</string>
-    <string name="SeamlessVideoHandoffAbout">Mở video trong trình xem tại vị trí xem trước của trò chuyện và tiếp tục xem trước tại vị trí bạn đã rời khỏi trình xem.</string>
+    <string name="SeamlessVideoHandoffAbout">Vị trí video được đồng bộ hóa giữa bản xem trước trong trò chuyện và trình xem.</string>
     <string name="EditFolders">Chỉnh sửa thư mục</string>
     <string name="FoldersReset">Đặt lại</string>
     <string name="FoldersSecretAll">Không thể thêm trò chuyện bí mật vào thư mục.</string>

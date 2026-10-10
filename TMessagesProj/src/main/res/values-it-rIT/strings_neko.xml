@@ -51,7 +51,7 @@
     <string name="UndoTranslate">Nascondi traduzione</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Finestre di dialogo appuntate illimitate</string>
-    <string name="UnlimitedPinnedDialogsAbout">Aggiungi dialoghi illimitati disattivando la loro sincronizzazione.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Rimuove il limite di chat appuntate disattivandone la sincronizzazione tra i dispositivi.</string>
     <string name="OpenArchiveOnPull">Apri \"Chat archiviate\" nel menu a tendina</string>
     <string name="HideKeyboardOnChatScroll">Nascondi tastiera durante lo scorrimento</string>
     <string name="UserRestrictionsSendStickers2">Invia stickers</string>
