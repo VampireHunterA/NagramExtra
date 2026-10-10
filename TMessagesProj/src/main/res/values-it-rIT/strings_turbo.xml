@@ -139,4 +139,5 @@
     <string name="HideAiButtonInInputField">Nascondi il pulsante IA nel campo di testo</string>
     <string name="HideAiButtonInInputFieldAbout">Il pulsante IA appare sopra il campo di testo quando il testo è lungo.</string>
     <string name="TurboArchitecture">Architettura</string>
+    <string name="TurboUpdateDownloadFailed">Impossibile scaricare l\'aggiornamento. Controlla la connessione e riprova.</string>
 </resources>

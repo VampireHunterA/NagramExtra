@@ -65,6 +65,9 @@ public class UpdateAppAlertDialog extends BottomSheet {
     private int[] location = new int[2];
 
     private boolean animationInProgress;
+    private boolean downloading;
+    private ApkDownloader.Handle downloadHandle;
+    private TextView errorTextView;
 
     public class BottomSheetCell extends FrameLayout {
 
@@ -304,23 +307,55 @@ public class UpdateAppAlertDialog extends BottomSheet {
         doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow), false);
         doneButton.background.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(appUpdate.url)) {
-                ApkDownloader.download(appUpdate.url, new ApkDownloader.Callback() {
+                if (downloading) {
+                    return;
+                }
+                downloading = true;
+                errorTextView.setVisibility(View.GONE);
+                doneButton.background.setEnabled(false);
+                doneButton.setText(LocaleController.formatString("AppUpdateDownloading", R.string.AppUpdateDownloading, 0), false);
+                downloadHandle = ApkDownloader.download(appUpdate.url, new ApkDownloader.Callback() {
+                    @Override
+                    public void onProgress(float progress) {
+                        doneButton.setText(LocaleController.formatString("AppUpdateDownloading", R.string.AppUpdateDownloading, (int) (progress * 100)), false);
+                    }
+
                     @Override
                     public void onSuccess(File file) {
+                        downloading = false;
                         ApplicationLoader.applicationLoaderInstance.openApkInstall(AndroidUtilities.findActivity(getContext()), file);
+                        dismiss();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        downloading = false;
+                        doneButton.background.setEnabled(true);
+                        doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow), false);
+                        errorTextView.setText(LocaleController.getString(R.string.TurboUpdateDownloadFailed));
+                        errorTextView.setVisibility(View.VISIBLE);
                     }
                 });
             } else if (appUpdate.document != null) {
                 FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", FileLoader.PRIORITY_NORMAL, 1);
+                dismiss();
             }
-            dismiss();
         });
         container.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.BOTTOM, 0, 0, 0, 50));
+
+        errorTextView = ApkDownloader.makeErrorText(context);
+        container.addView(errorTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.BOTTOM, 23, 0, 23, 140));
 
         BottomSheetCell scheduleButton = new BottomSheetCell(context, true);
         scheduleButton.setText(LocaleController.getString(R.string.AppUpdateRemindMeLater), false);
         scheduleButton.background.setOnClickListener(v -> dismiss());
         container.addView(scheduleButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.BOTTOM, 0, 0, 0, 0));
+
+        setOnDismissListener(() -> {
+            if (downloading && downloadHandle != null) {
+                downloadHandle.cancel();
+            }
+        });
     }
 
     private void runShadowAnimation(final int num, final boolean show) {

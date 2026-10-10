@@ -59,6 +59,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
     private String fileName;
     private int accountNum;
     private int pressCount;
+    private TextView errorTextView;
 
     public BlockingUpdateView(final Context context) {
         super(context);
@@ -143,26 +144,27 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         addView(acceptButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 46, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, 45));
         acceptButton.setOnClickListener(view1 -> {
             if (!TextUtils.isEmpty(appUpdate.url)) {
-                if (!ApplicationLoader.applicationLoaderInstance.openApkInstall(AndroidUtilities.findActivity(getContext()), ApkDownloader.getDestFile(appUpdate.url))) {
-                    ApkDownloader.download(appUpdate.url, new ApkDownloader.Callback() {
-                        @Override
-                        public void onProgress(float progress) {
-                            radialProgress.setProgress(progress, true);
-                        }
+                ApkDownloader.download(appUpdate.url, new ApkDownloader.Callback() {
+                    @Override
+                    public void onProgress(float progress) {
+                        radialProgress.setProgress(progress, true);
+                    }
 
-                        @Override
-                        public void onSuccess(File file) {
-                            showProgress(false);
-                            ApplicationLoader.applicationLoaderInstance.openApkInstall(AndroidUtilities.findActivity(getContext()), file);
-                        }
+                    @Override
+                    public void onSuccess(File file) {
+                        showProgress(false);
+                        ApplicationLoader.applicationLoaderInstance.openApkInstall(AndroidUtilities.findActivity(getContext()), file);
+                    }
 
-                        @Override
-                        public void onError(String message) {
-                            showProgress(false);
-                        }
-                    });
-                    showProgress(true);
-                }
+                    @Override
+                    public void onError(String message) {
+                        showProgress(false);
+                        errorTextView.setText(LocaleController.getString(R.string.TurboUpdateDownloadFailed));
+                        errorTextView.setVisibility(VISIBLE);
+                    }
+                });
+                errorTextView.setVisibility(GONE);
+                showProgress(true);
             } else if (appUpdate.document instanceof TLRPC.TL_document) {
                 if (!ApplicationLoader.applicationLoaderInstance.openApkInstall((Activity) getContext(), appUpdate.document)) {
                     FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", FileLoader.PRIORITY_HIGH, 1);
@@ -204,6 +206,9 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         radialProgress.setBackground(null, true, false);
         radialProgress.setProgressColor(0xffffffff);
         acceptButton.addView(radialProgressView, LayoutHelper.createFrame(36, 36, Gravity.CENTER));
+
+        errorTextView = ApkDownloader.makeErrorText(context);
+        addView(errorTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 27, 0, 27, 103));
     }
 
     @Override
@@ -296,6 +301,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         pressCount = 0;
         appUpdate = update;
         accountNum = account;
+        errorTextView.setVisibility(GONE);
         if (update.document instanceof TLRPC.TL_document) {
             fileName = FileLoader.getAttachFileName(update.document);
         }

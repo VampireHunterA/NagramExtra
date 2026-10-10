@@ -139,4 +139,5 @@
     <string name="HideAiButtonInInputField">Sembunyikan tombol AI di kolom teks</string>
     <string name="HideAiButtonInInputFieldAbout">Tombol AI muncul di atas kolom teks saat teksnya panjang.</string>
     <string name="TurboArchitecture">Arsitektur</string>
+    <string name="TurboUpdateDownloadFailed">Pembaruan gagal diunduh. Periksa koneksi Anda dan coba lagi.</string>
 </resources>

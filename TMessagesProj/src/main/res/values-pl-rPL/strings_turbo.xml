@@ -141,4 +141,5 @@
     <string name="HideAiButtonInInputField">Ukryj przycisk AI w polu wprowadzania</string>
     <string name="HideAiButtonInInputFieldAbout">Przycisk AI pojawia się nad polem wprowadzania przy długim tekście.</string>
     <string name="TurboArchitecture">Architektura</string>
+    <string name="TurboUpdateDownloadFailed">Nie udało się pobrać aktualizacji. Sprawdź połączenie i spróbuj ponownie.</string>
 </resources>

@@ -139,4 +139,5 @@
     <string name="HideAiButtonInInputField">입력창의 AI 버튼 숨기기</string>
     <string name="HideAiButtonInInputFieldAbout">텍스트가 길면 AI 버튼이 입력창 위에 나타납니다.</string>
     <string name="TurboArchitecture">아키텍처</string>
+    <string name="TurboUpdateDownloadFailed">업데이트를 다운로드할 수 없습니다. 연결을 확인하고 다시 시도해 주세요.</string>
 </resources>

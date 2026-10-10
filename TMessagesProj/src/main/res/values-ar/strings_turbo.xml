@@ -143,4 +143,5 @@
     <string name="HideAiButtonInInputField">إخفاء زر الذكاء الاصطناعي في حقل الكتابة</string>
     <string name="HideAiButtonInInputFieldAbout">يظهر زر الذكاء الاصطناعي فوق حقل الكتابة عندما يكون النص طويلاً.</string>
     <string name="TurboArchitecture">المعمارية</string>
+    <string name="TurboUpdateDownloadFailed">تعذر تنزيل التحديث. تحقق من اتصالك وحاول مجددًا.</string>
 </resources>
