@@ -27,7 +27,7 @@ Turbo updates on its own — in-app updates work independently of Nagram X.
 - **Media viewer**: swipe GIFs with photos and videos (toggle, off by default), instant swipe in large chats, optional scroll-to-seen-photo on close, seamless video handoff (opens at preview position, resumes on close/scroll-back; off by default), auto-rotate button (off / fit content / always), Photo HDR toggle (on by default), editor pencil auto-downloads missing media (progress dialog, asks for files over 100 MB) and is available for videos too.
 - **Deleted messages**: save with filtering by chat category.
 - **Base build**: a ToS-friendlier APK without the disputable features (deleted/edited saving, ghost mode, last seen history, regex filters, protected-forward, local premium), published side by side with the regular one, with its own in-app update channel. Base builds identify themselves with a "_base" suffix in the version number; the version string in settings is two lines (architecture and build type on the second line).
-- **App updates**: in-app check and download of new builds (manual + automatic, once a day).
+- **App updates**: in-app check and download of new builds (manual + automatic, once a day); beta channel — every staging build arrives as a regular in-app update, switchable right in the update screen.
 - **Bookmarks manager** in the chats menu (instead of a settings link).
 - **Folders**: edit folder membership from the chat list — add or remove chats to/from any folder in one go.
 - **Audio**: background music pauses or ducks when playing videos, voice messages, and round videos (resumes after).

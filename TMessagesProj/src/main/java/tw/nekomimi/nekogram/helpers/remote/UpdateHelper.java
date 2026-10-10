@@ -1,13 +1,19 @@
 package tw.nekomimi.nekogram.helpers.remote;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -20,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import kotlin.Unit;
+import tw.nekomimi.nekogram.ui.BottomBuilder;
 import xyz.nextalone.nagram.NaConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
@@ -27,10 +35,68 @@ public class UpdateHelper extends BaseRemoteHelper {
     public static final int UPDATE_OFF = 0;
     public static final int UPDATE_CHANNEL_RELEASE = 1;
     public static final int UPDATE_CHANNEL_BETA = 2;
+    private static final String UPDATE_IS_BETA_KEY = "updateIsBeta";
     private boolean updateAlways = false;
 
     public static UpdateHelper getInstance() {
         return InstanceHolder.instance;
+    }
+
+    public static boolean isCurrentUpdateBeta() {
+        return preferences.getBoolean(UPDATE_IS_BETA_KEY, false);
+    }
+
+    public static String getAutoUpdateChannelName() {
+        return getUpdateChannelName(NaConfig.INSTANCE.getAutoUpdateChannel().Int());
+    }
+
+    private static String getUpdateChannelName(int channel) {
+        int resId;
+        switch (channel) {
+            case UPDATE_OFF:
+                resId = R.string.AutoCheckUpdateOFF;
+                break;
+            case UPDATE_CHANNEL_BETA:
+                resId = R.string.AutoCheckUpdateBeta;
+                break;
+            default:
+                resId = R.string.AutoCheckUpdateRelease;
+                break;
+        }
+        return LocaleController.getString(resId);
+    }
+
+    public static void switchUpdateChannel(Context context, int channel) {
+        NaConfig.INSTANCE.getAutoUpdateChannel().setConfigInt(channel);
+        cleanAppUpdate();
+        if (channel != UPDATE_OFF) {
+            Browser.openUrl(context, "tg://update");
+        }
+    }
+
+    public static org.telegram.ui.ActionBar.BottomSheet buildUpdateChannelSwitcher(Activity activity) {
+        BottomBuilder switchBuilder = new BottomBuilder(activity);
+        int channel = NaConfig.INSTANCE.getAutoUpdateChannel().Int();
+        if (channel == UPDATE_CHANNEL_BETA) {
+            switchBuilder.addTitle(LocaleController.getString(R.string.AutoCheckUpdateSwitch), LocaleController.getString(R.string.TurboUpdateChannelBetaHint));
+        } else {
+            switchBuilder.addTitle(LocaleController.getString(R.string.AutoCheckUpdateSwitch));
+        }
+        appendChannelRadio(switchBuilder, activity, UPDATE_OFF);
+        appendChannelRadio(switchBuilder, activity, UPDATE_CHANNEL_RELEASE);
+        appendChannelRadio(switchBuilder, activity, UPDATE_CHANNEL_BETA);
+        return switchBuilder.create();
+    }
+
+    private static void appendChannelRadio(BottomBuilder switchBuilder, Activity activity, int channel) {
+        switchBuilder.addRadioItem(getUpdateChannelName(channel), NaConfig.INSTANCE.getAutoUpdateChannel().Int() == channel, null, radioButtonCell -> {
+            switchBuilder.doRadioCheck(radioButtonCell);
+            AndroidUtilities.runOnUIThread(() -> {
+                switchBuilder.dismiss();
+                switchUpdateChannel(activity, channel);
+            }, 500);
+            return Unit.INSTANCE;
+        });
     }
 
     public static void cleanAppUpdate() {
@@ -47,6 +113,7 @@ public class UpdateHelper extends BaseRemoteHelper {
         }
         SharedConfig.pendingAppUpdate = null;
         SharedConfig.saveConfig();
+        preferences.edit().putBoolean(UPDATE_IS_BETA_KEY, false).apply();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
     }
 
@@ -58,7 +125,7 @@ public class UpdateHelper extends BaseRemoteHelper {
     @Override
     protected String getTag() {
         if (BuildConfig.DEBUG) return "updateDebug";
-        return NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UPDATE_CHANNEL_RELEASE ? "updateRelease" : "updateBeta";
+        return NaConfig.INSTANCE.getAutoUpdateChannel().Int() == UPDATE_CHANNEL_BETA ? "updateBeta" : "updateRelease";
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -181,6 +248,7 @@ public class UpdateHelper extends BaseRemoteHelper {
                 }
             }
         }
+        preferences.edit().putBoolean(UPDATE_IS_BETA_KEY, "updateBeta".equals(getTag())).apply();
         delegate.onTLResponse(update, null);
     }
 

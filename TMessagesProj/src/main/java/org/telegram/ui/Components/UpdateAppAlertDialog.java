@@ -271,13 +271,31 @@ public class UpdateAppAlertDialog extends BottomSheet {
         messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         messageTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         messageTextView.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+        String betaSuffix = tw.nekomimi.nekogram.helpers.remote.UpdateHelper.isCurrentUpdateBeta() ? " · " + LocaleController.getString(R.string.AutoCheckUpdateBeta) : "";
         if (appUpdate.document != null) {
-            messageTextView.setText(LocaleController.formatString("AppUpdateVersionAndSize", R.string.AppUpdateVersionAndSize, appUpdate.version, AndroidUtilities.formatFileSize(appUpdate.document.size)));
+            messageTextView.setText(LocaleController.formatString("AppUpdateVersionAndSize", R.string.AppUpdateVersionAndSize, appUpdate.version + betaSuffix, AndroidUtilities.formatFileSize(appUpdate.document.size)));
         } else {
-            messageTextView.setText(appUpdate.version);
+            messageTextView.setText(appUpdate.version + betaSuffix);
         }
         messageTextView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
         linearLayout.addView(messageTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 23, 0, 23, 5));
+
+        TextView channelTextView = new TextView(getContext());
+        channelTextView.setTextColor(Theme.getColor(Theme.key_dialogTextLink));
+        channelTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        channelTextView.setGravity(Gravity.CENTER);
+        channelTextView.setPadding(AndroidUtilities.dp(23), AndroidUtilities.dp(6), AndroidUtilities.dp(23), 0);
+        channelTextView.setMinHeight(AndroidUtilities.dp(44));
+        channelTextView.setText(LocaleController.getString(R.string.AutoCheckUpdateSwitch) + " - " + tw.nekomimi.nekogram.helpers.remote.UpdateHelper.getAutoUpdateChannelName());
+        channelTextView.setOnClickListener(v -> {
+            android.app.Activity switcherActivity = AndroidUtilities.findActivity(getContext());
+            if (switcherActivity == null || switcherActivity.isFinishing()) {
+                return;
+            }
+            dismiss();
+            tw.nekomimi.nekogram.helpers.remote.UpdateHelper.buildUpdateChannelSwitcher(switcherActivity).show();
+        });
+        linearLayout.addView(channelTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 2, 0, 0));
 
         TextView changelogTextView = new TextViewEffects(getContext());
         changelogTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));

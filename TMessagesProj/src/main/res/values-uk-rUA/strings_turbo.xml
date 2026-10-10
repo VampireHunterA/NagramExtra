@@ -141,4 +141,5 @@
     <string name="HideAiButtonInInputFieldAbout">Кнопка ШІ з’являється над полем введення при довгому тексті.</string>
     <string name="TurboArchitecture">Архітектура</string>
     <string name="TurboUpdateDownloadFailed">Не вдалося завантажити оновлення. Перевірте підключення та спробуйте ще раз.</string>
+    <string name="TurboUpdateChannelBetaHint">У вас новіша бета — звичайні оновлення повернуться з наступним релізом.</string>
 </resources>

@@ -1719,8 +1719,8 @@ object NaConfig {
         if (translatorMode.Int() !in 0..2) {
             translatorMode.setConfigInt(0)
         }
-        // autoUpdateChannel: 0=OFF, 1=RELEASE, 2=BETA (removed); clamp legacy BETA → RELEASE
-        if (autoUpdateChannel.Int() !in 0..1) {
+        // autoUpdateChannel: 0=OFF, 1=RELEASE, 2=BETA; clamp invalid only
+        if (autoUpdateChannel.Int() !in 0..2) {
             autoUpdateChannel.setConfigInt(1)
         }
         if (!getPreferences().contains(idDcType.key) && !getPreferences().getBoolean(

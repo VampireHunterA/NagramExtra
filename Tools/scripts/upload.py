@@ -219,7 +219,7 @@ def build_manifest(sticker_id, changelog_id):
     return json.dumps(manifest, indent=4)
 
 
-def send_manifest(token, chat_id):
+def send_manifest(token, chat_id, manifest_tag="updateRelease"):
     if int(os.environ.get("VERSION_CODE") or 0) <= 0:
         raise RuntimeError("VERSION_CODE env must be a positive integer")
     forced_sticker = os.environ.get("STICKER_MESSAGE_ID")
@@ -231,7 +231,7 @@ def send_manifest(token, chat_id):
     changelog = send_message(token, chat_id, build_changelog_blockquote(4096 - 64))
     changelog_id = changelog["message_id"]
     manifest = build_manifest(sticker_id, changelog_id)
-    send_message(token, chat_id, "#updateRelease\n<pre>" + html.escape(manifest, quote=False) + "</pre>")
+    send_message(token, chat_id, "#" + manifest_tag + "\n<pre>" + html.escape(manifest, quote=False) + "</pre>")
 
 
 def send_to_channel(token, chat_id, test_version):
@@ -247,8 +247,11 @@ def main():
     chat_id = argv[2]
     mode = argv[3] if len(argv) > 3 else None
     metadata_chat_id = argv[4] if len(argv) > 4 else None
+    manifest_tag = "updateRelease"
+    if "--tag" in argv:
+        manifest_tag = argv[argv.index("--tag") + 1]
     if mode == "manifest":
-        send_manifest(token, chat_id)
+        send_manifest(token, chat_id, manifest_tag)
     else:
         send_to_channel(token, chat_id, mode == "test")
         if metadata_chat_id:

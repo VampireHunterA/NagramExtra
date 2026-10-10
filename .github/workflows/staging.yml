@@ -26,6 +26,7 @@ jobs:
     outputs:
       build_timestamp: ${{ steps.staging_build_step.outputs.build_timestamp }}
       version_name: ${{ steps.staging_build_step.outputs.version_name }}
+      version_code: ${{ steps.staging_build_step.outputs.version_code }}
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_HARDLINK: "true"
@@ -106,6 +107,7 @@ jobs:
           APK_FILE=$(find "$APK" -name '*arm64-v8a*.apk' ! -name '*_base*' | head -1)
           BADGING=$(${ANDROID_HOME}/build-tools/36.0.0/aapt2 dump badging "$APK_FILE")
           echo "version_name=$(echo "$BADGING" | sed -n "s/.*versionName='\([^']*\).*/\1/p" | head -1)" >> "$GITHUB_OUTPUT"
+          echo "version_code=$(echo "$BADGING" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p" | head -1)" >> "$GITHUB_OUTPUT"
           python3 - "$APK_FILE" <<'PY'
           import struct, sys, zipfile
           thresholds = {"en": 10000, "it": 2000, "it_it": 2000, "es": 2000, "es_es": 2000}
@@ -334,6 +336,20 @@ jobs:
           CHANGELOG_HEADLINE: ${{ github.event.inputs.headline }}
         run: |
           python Tools/scripts/upload.py ${{ secrets.HELPER_BOT_TOKEN }} ${{ secrets.HELPER_BOT_TARGET }} test
+      - name: Post beta update manifest
+        env:
+          CANARY: ${{ secrets.HELPER_BOT_CANARY_TARGET }}
+          BUILD_TIMESTAMP: ${{ needs.build.outputs.build_timestamp }}
+          VERSION_CODE: ${{ needs.build.outputs.version_code }}
+          VERSION_NAME: ${{ needs.build.outputs.version_name }}
+          RELEASE_URL: ${{ steps.release.outputs.url }}
+          RELEASE_URL_ARMEABI_V7A: ${{ steps.release.outputs.url_armv7 }}
+          RELEASE_URL_BASE: ${{ steps.release.outputs.url_base }}
+          RELEASE_URL_BASE_ARMEABI_V7A: ${{ steps.release.outputs.url_base_armv7 }}
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+          CHANGELOG_HEADLINE: ${{ github.event.inputs.headline }}
+        run: |
+          python Tools/scripts/upload.py ${{ secrets.HELPER_BOT_TOKEN }} "$CANARY" manifest --tag updateBeta
       - name: Bump build number
         env:
           GH_TOKEN: ${{ secrets.PAT_TOKEN }}

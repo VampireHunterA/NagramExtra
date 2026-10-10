@@ -139,4 +139,5 @@
     <string name="HideAiButtonInInputFieldAbout">The AI button appears over the input field when the text is long.</string>
     <string name="TurboArchitecture">Architecture</string>
     <string name="TurboUpdateDownloadFailed">Couldn\'t download the update. Check your connection and try again.</string>
+    <string name="TurboUpdateChannelBetaHint">You have a newer beta — regular updates will return with the next release.</string>
 </resources>

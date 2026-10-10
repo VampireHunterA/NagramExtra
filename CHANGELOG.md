@@ -78,6 +78,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 
 ### App updates
 - In-app check and download of new dev builds (manual button + automatic, once a day)
+- Beta update channel: pick "Beta" in the update channel switcher (settings version menu or right in the update screen) to get every staging build as an in-app update; the update screen shows the current channel and lets you switch it on the spot
 
 ### Folders
 - «Edit folders» in the multi-select chat list — add or remove chats from any folder; available from every tab, each folder marked all/partial/none of the selection
