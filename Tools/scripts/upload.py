@@ -120,7 +120,7 @@ def build_headline_block():
 def get_caption(test_version):
     commit_id, commit_url, _ = get_commit_info()
     version_name = os.environ.get("VERSION_NAME", "")
-    label = "Dev version." if test_version else "Release version."
+    label = "Beta version." if test_version else "Release version."
     if version_name:
         label += " v" + version_name
     caption = html.escape(label) + "\n\n"

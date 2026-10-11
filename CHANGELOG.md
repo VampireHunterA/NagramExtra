@@ -100,6 +100,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Builds for `arm64-v8a` (64-bit) and `armeabi-v7a` (32-bit); in-app update auto-picks the matching APK by device arch
 
 ## Fixes
+- Beta channel posts in Telegram now say "Beta version" instead of "Dev version" — one name for the same channel everywhere
 - Default Turbo icon: clean cloudless sky background — same blue gradient and light, no more puffy clouds
 - Launcher icons on every set (classic, modern, all 15 Turbo themes): the plane is optically centered again, and its wing and flame no longer clip at the edge on round launcher icon shapes
 - Jumping to a message that went missing from the local cache (e.g. from search) no longer lands on an empty spot — the message is refetched from the server automatically
