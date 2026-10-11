@@ -100,6 +100,7 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Builds for `arm64-v8a` (64-bit) and `armeabi-v7a` (32-bit); in-app update auto-picks the matching APK by device arch
 
 ## Fixes
+- Jumping to a message that went missing from the local cache (e.g. from search) no longer lands on an empty spot — the message is refetched from the server automatically
 - In-app update download no longer freezes at 100% when the connection drops: it resumes from where it stopped and retries automatically, and shows a clear error with a retry button if all attempts fail
 - Forward with edited text: GIFs arrive as animated GIFs instead of mp4 files — already-viewed (cached) GIFs now take the same server-reference send path as everything else
 - Media viewer: the description text under a photo/video follows the chat text size instead of staying small
