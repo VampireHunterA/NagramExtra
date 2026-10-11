@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # NagramXTurbo icon asset pipeline: sources/<theme>/ -> res/ layers
 # Per theme needs: foreground.png, background.jpg, monochrome.png, alpha_exact.png
+# After regenerating, run crop_notification_glyphs.py --apply: this emits
+# notification glyphs uncropped (fill 1.0) and the cropper brings them to 91%/83% (#140)
 import os, sys
 from PIL import Image, ImageDraw, ImageOps
 
@@ -40,8 +42,8 @@ def core_image(src, canvas=1024, fill=1.0, anchor=None, hshift=0, vshift=0):
     if core.width > limit or core.height > limit:
         side = max(core.size)
         core = core.resize((int(core.width*limit/side), int(core.height*limit/side)), Image.LANCZOS)
-    left = (canvas - core.width) // 2
-    top = (canvas - core.height) // 2
+    left = (canvas - core.width) // 2 + hshift
+    top = (canvas - core.height) // 2 + vshift
     if anchor == "top_right":
         zone = canvas * (1 - VISIBLE_ZONE_INSET * 2)
         left = int(canvas * VISIBLE_ZONE_INSET + zone - core.width) + hshift
@@ -89,7 +91,16 @@ def white_by_alpha(alpha_src):
     out.paste(white, (0,0), a)
     return out
 
-ADAPTIVE_SAFE_ZONE_FILL = 0.54
+# circle-mask safe: glyph bbox half-diagonal = fill*sqrt(2)/2 must stay under
+# the launcher-visible radius 0.667/2 (54% clipped wing/flame corners on round
+# launchers); VISIBLE_ZONE_INSET 0.17 below is the conservative rounding of 72/108
+ADAPTIVE_SAFE_ZONE_FILL = 0.45
+
+# one plane template across the family: every theme gets the same
+# optical nudge off the bbox-center — flame length varies per theme,
+# the plane stays on the same spot
+ADAPTIVE_OPTICAL_SHIFT_H = -6
+ADAPTIVE_OPTICAL_SHIFT_V = 5
 
 # launchers draw themed icons with their own stroke that fattens the silhouette,
 # so the monochrome core rides smaller to compensate
@@ -105,10 +116,12 @@ def build_theme(folder, slug):
     tdir = f"{HERE}/sources/{folder}"
     fg, bg, mono = load(tdir, slug)
     mount = MOUNT_OVERRIDES.get(slug, {})
-    emit(core_image(fg, fill=mount.get("fill", ADAPTIVE_SAFE_ZONE_FILL), anchor=mount.get("anchor"), hshift=mount.get("h", 0), vshift=mount.get("v", 0)), f"ic_{slug}_foreground")
+    h = mount.get("h", ADAPTIVE_OPTICAL_SHIFT_H)
+    v = mount.get("v", ADAPTIVE_OPTICAL_SHIFT_V)
+    emit(core_image(fg, fill=mount.get("fill", ADAPTIVE_SAFE_ZONE_FILL), anchor=mount.get("anchor"), hshift=h, vshift=v), f"ic_{slug}_foreground")
     emit(cover(bg, 1024).convert("RGBA"), f"ic_{slug}_background")
     mono_fill = mount.get("fill", ADAPTIVE_SAFE_ZONE_FILL) * MONO_FILL_RATIO
-    emit(core_image(white_by_alpha(mono), fill=mono_fill, anchor=mount.get("anchor"), hshift=mount.get("h", 0), vshift=mount.get("v", 0)), f"ic_{slug}_monochrome")
+    emit(core_image(white_by_alpha(mono), fill=mono_fill, anchor=mount.get("anchor"), hshift=h, vshift=v), f"ic_{slug}_monochrome")
     emit_notification(core_image(white_by_alpha(mono)), f"ic_notification_{slug}")
     sys.stdout.write(f"[{slug}] ok\n")
 
