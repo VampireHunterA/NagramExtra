@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">Você tem uma beta mais recente — as atualizações normais voltam no próximo lançamento.</string>
     <string name="HideCallEncryptionEmoji">Ocultar emojis de criptografia em chamadas</string>
     <string name="HideCallEncryptionEmojiAbout">A fila de emojis nas chamadas que parece um indicador de criptografia.</string>
+    <string name="AutoMuteOnJoin">Silenciar canais e grupos ao entrar</string>
 </resources>

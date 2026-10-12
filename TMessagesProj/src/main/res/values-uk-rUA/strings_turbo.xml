@@ -144,4 +144,5 @@
     <string name="TurboUpdateChannelBetaHint">У вас новіша бета — звичайні оновлення повернуться з наступним релізом.</string>
     <string name="HideCallEncryptionEmoji">Приховувати емодзі шифрування у дзвінках</string>
     <string name="HideCallEncryptionEmojiAbout">Рядок емодзі у дзвінках, що виглядає як індикатор шифрування.</string>
+    <string name="AutoMuteOnJoin">Вимикати звук у каналах і групах при приєднанні</string>
 </resources>

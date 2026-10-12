@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">Bạn đang có bản beta mới hơn — các bản cập nhật thường sẽ quay lại ở bản phát hành tiếp theo.</string>
     <string name="HideCallEncryptionEmoji">Ẩn emoji mã hóa trong cuộc gọi</string>
     <string name="HideCallEncryptionEmojiAbout">Hàng emoji trong cuộc gọi trông giống như chỉ báo mã hóa.</string>
+    <string name="AutoMuteOnJoin">Tắt tiếng kênh và nhóm khi tham gia</string>
 </resources>

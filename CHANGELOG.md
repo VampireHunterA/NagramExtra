@@ -70,6 +70,9 @@ Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
 - Numeric-id profile links open any chat: tg://openmessage?user_id=, tg://user?id= and t.me/@id links (the ones our own profile sheet copies) now resolve unknown ids on the server and open the chat; failures show a clear message instead of a dead screen
 - In-chat search by numeric user id: from:<id> (or id:<id>) in the group search field lists all messages from that sender, even one who left the group; add words after the id to search inside their messages; unknown ids are resolved on the server
 
+### Notifications
+- Auto-mute on join (Turbo → Notifications, off by default): channels and groups you join — by the Join button, from search or through an invite link — start muted, as if you muted them right after joining; unmuting stays one tap away
+
 ### Calls
 - Hide encryption emoji (Turbo → Calls, off by default): removes the emoji row in one-on-one calls and the emoji inside the group-call "Encrypted" cell; the cell itself stays
 

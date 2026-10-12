@@ -16117,6 +16117,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             if (isChannel && inputUser instanceof TLRPC.TL_inputUserSelf) {
                 getMessagesStorage().updateDialogsWithDeletedMessages(-chatId, chatId, new ArrayList<>(), null);
+                AndroidUtilities.runOnUIThread(() -> tw.nekomimi.nekogram.helpers.AutoMuteHelper.muteJoinedChat(currentAccount, chatId));
             }
             if (onFinishRunnable != null) {
                 AndroidUtilities.runOnUIThread(onFinishRunnable);

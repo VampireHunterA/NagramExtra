@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">你安裝了較新的測試版——一般更新將隨下一個版本恢復。</string>
     <string name="HideCallEncryptionEmoji">隱藏通話中的加密表情符號</string>
     <string name="HideCallEncryptionEmojiAbout">通話中看起來像加密狀態指示的表情符號列。</string>
+    <string name="AutoMuteOnJoin">加入頻道和群組時靜音</string>
 </resources>

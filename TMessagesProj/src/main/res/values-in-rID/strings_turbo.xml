@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">Anda punya beta yang lebih baru — pembaruan reguler akan kembali pada rilis berikutnya.</string>
     <string name="HideCallEncryptionEmoji">Sembunyikan emoji enkripsi di panggilan</string>
     <string name="HideCallEncryptionEmojiAbout">Baris emoji di panggilan yang terlihat seperti indikator enkripsi.</string>
+    <string name="AutoMuteOnJoin">Bisukan saluran dan grup saat bergabung</string>
 </resources>

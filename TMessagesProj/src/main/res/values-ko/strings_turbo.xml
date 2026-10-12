@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">더 최신 베타가 설치되어 있습니다. 일반 업데이트는 다음 릴리스부터 돌아옵니다.</string>
     <string name="HideCallEncryptionEmoji">통화에서 암호화 이모지 숨기기</string>
     <string name="HideCallEncryptionEmojiAbout">암호화 상태 표시처럼 보이는 통화 중 이모티콘 행.</string>
+    <string name="AutoMuteOnJoin">참가 시 채널 및 그룹 음소거</string>
 </resources>

@@ -144,4 +144,5 @@
     <string name="TurboUpdateChannelBetaHint">Masz nowszą wersję beta — zwykłe aktualizacje wrócą wraz z kolejnym wydaniem.</string>
     <string name="HideCallEncryptionEmoji">Ukrywaj emotikony szyfrowania w połączeniach</string>
     <string name="HideCallEncryptionEmojiAbout">Rząd emotikonów w połączeniach, który wygląda jak wskaźnik szyfrowania.</string>
+    <string name="AutoMuteOnJoin">Wyciszaj kanały i grupy po dołączeniu</string>
 </resources>

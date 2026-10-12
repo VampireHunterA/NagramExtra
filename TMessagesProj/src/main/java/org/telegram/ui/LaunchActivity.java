@@ -5250,6 +5250,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         chat.kicked = false;
                                         MessagesController.getInstance(intentAccount).putUsers(updates.users, false);
                                         MessagesController.getInstance(intentAccount).putChats(updates.chats, false);
+                                        tw.nekomimi.nekogram.helpers.AutoMuteHelper.muteJoinedChat(intentAccount, chat.id);
                                         Bundle args = new Bundle();
                                         args.putLong("chat_id", chat.id);
                                         if (mainFragmentsStack.isEmpty() || MessagesController.getInstance(intentAccount).checkCanOpenChat(args, mainFragmentsStack.get(mainFragmentsStack.size() - 1))) {

@@ -320,6 +320,12 @@ object NaConfig {
             ConfigItem.configTypeBool,
             false
         )
+    val autoMuteOnJoin =
+        addConfig(
+            "AutoMuteOnJoin",
+            ConfigItem.configTypeBool,
+            false
+        )
     val chatDecoration =
         addConfig(
             "ChatDecoration",

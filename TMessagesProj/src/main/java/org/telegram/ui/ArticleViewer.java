@@ -6153,6 +6153,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                     }
                 }
                 MessagesController.getInstance(currentAccount).processUpdates(updates, false);
+                AndroidUtilities.runOnUIThread(() -> tw.nekomimi.nekogram.helpers.AutoMuteHelper.muteJoinedChat(currentAccount, channel.id));
             } else if (response instanceof TLRPC.TL_chatInviteJoinResultWebView) {
                 TLRPC.TL_chatInviteJoinResultWebView resultWebView = (TLRPC.TL_chatInviteJoinResultWebView) response;
                 AndroidUtilities.runOnUIThread(() -> {

@@ -146,4 +146,5 @@
     <string name="TurboUpdateChannelBetaHint">لديك نسخة بيتا أحدث — ستعود التحديثات العادية مع الإصدار القادم.</string>
     <string name="HideCallEncryptionEmoji">إخفاء رموز التشفير في المكالمات</string>
     <string name="HideCallEncryptionEmojiAbout">صف الرموز التعبيرية في المكالمات الذي يبدو كمؤشر تشفير.</string>
+    <string name="AutoMuteOnJoin">كتم صوت القنوات والمجموعات عند الانضمام</string>
 </resources>

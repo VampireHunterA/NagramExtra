@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">より新しいベータ版がインストールされています。通常のアップデートは次のリリースで戻ります。</string>
     <string name="HideCallEncryptionEmoji">通話で暗号化の絵文字を非表示</string>
     <string name="HideCallEncryptionEmojiAbout">暗号化ステータスのように見える通話中の絵文字の列。</string>
+    <string name="AutoMuteOnJoin">参加時にチャンネルとグループをミュート</string>
 </resources>

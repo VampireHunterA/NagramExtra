@@ -247,6 +247,9 @@ public class JoinGroupAlert extends BottomSheet {
                         }
 
                         AndroidUtilities.runOnUIThread(() -> {
+                            if (updates != null && !updates.chats.isEmpty()) {
+                                tw.nekomimi.nekogram.helpers.AutoMuteHelper.muteJoinedChat(currentAccount, updates.chats.get(0).id);
+                            }
                             if (fragment == null || fragment.getParentActivity() == null) {
                                 return;
                             }
@@ -366,6 +369,7 @@ public class JoinGroupAlert extends BottomSheet {
                                 chat.kicked = false;
                                 MessagesController.getInstance(currentAccount).putUsers(updates.users, false);
                                 MessagesController.getInstance(currentAccount).putChats(updates.chats, false);
+                                tw.nekomimi.nekogram.helpers.AutoMuteHelper.muteJoinedChat(currentAccount, chat.id);
                                 openChat(chat.id, !ChatObject.isChannelAndNotMegaGroup(chat));
                             }
                         } else {

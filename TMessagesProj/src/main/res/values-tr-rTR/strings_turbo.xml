@@ -142,4 +142,5 @@
     <string name="TurboUpdateChannelBetaHint">Daha yeni bir beta kullanıyorsunuz; normal güncellemeler bir sonraki sürümle geri dönecek.</string>
     <string name="HideCallEncryptionEmoji">Aramalarda şifreleme emojilerini gizle</string>
     <string name="HideCallEncryptionEmojiAbout">Aramalarda şifreleme durumu gibi görünen emoji sırası.</string>
+    <string name="AutoMuteOnJoin">Katılırken kanalları ve grupları sessize al</string>
 </resources>
