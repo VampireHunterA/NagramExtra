@@ -4,15 +4,13 @@ Differences between Nagram X Turbo and [Nagram X](https://github.com/risin42/Nag
 
 ## Upstream
 
-Synced with Telegram 12.10.6. User-visible from upstream since 12.9.2:
-- Welcome Messages for groups: auto-greet new members, admin permissions, revert to original
-- WEB proxies: web-proxy transport in the proxy list (bypass blocking without MTProto)
-- Round video messages rework: new recorder, quality settings and playback improvements (12.10.4–12.10.6)
-- Refreshed built-in emoji pack and upstream fixes across 12.10.1–12.10.6 (camera, stories, media player, misc)
-- Link / copy-text / profile buttons in the rich editor for channel posts; table styling in articles
-- Gift messages: add a note to a gift, preview in chat, make the message public
-- "Joined via community" service messages
-- Nagram X's own last additions: Google Vertex LLM provider, font weight fallback option, video seek overlay hiding
+Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
+- Built-in TON Wallet: manage TON right in the app — wallet entry in settings and the chats menu, money transfers in chats
+- Calls: updated calling engine, with call audio routed to LE Audio headsets on Android 12+
+- Video: widescreen videos now fit the player correctly in landscape
+- Proxies: FakeTLS connection stability fix
+- Faster and more accurate code syntax highlighting in messages and articles
+- Misc upstream fixes across 13.0.0–13.0.2
 
 ## Features
 
