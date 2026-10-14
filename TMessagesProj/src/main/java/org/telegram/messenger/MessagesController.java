@@ -2214,7 +2214,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             continue;
                         }
                     }
-                    channelsPts.put(-d.id, d.pts);
+                    advanceChannelPtsFromDialog(-d.id, d.pts);
                 } else if (d.id < 0) {
                     TLRPC.Chat chat = chatsDict.get(-d.id);
                     if (chat != null && chat.migrated_to != null) {
@@ -12170,6 +12170,22 @@ public class MessagesController extends BaseController implements NotificationCe
         return null;
     }
 
+    private void advanceChannelPtsFromDialog(long channelId, int pts) {
+        if (pts == 0) {
+            return;
+        }
+        if (gettingDifferenceChannels.get(channelId, false)) {
+            return;
+        }
+        int known = channelsPts.get(channelId);
+        if (known != 0 && pts > known) {
+            getChannelDifference(channelId);
+        } else if (known == 0) {
+            channelsPts.put(channelId, pts);
+            getMessagesStorage().saveChannelPts(channelId, pts);
+        }
+    }
+
     private boolean shouldRefillMissingAnchorMessage(boolean isCache, int mode, long threadMessageId, long mergeDialogId, int loadType, int maxId, ArrayList<TLRPC.Message> messages, long dialogId) {
         if (!isCache || !isJumpToMessageWindowLoad(mode, threadMessageId, mergeDialogId, loadType, maxId)) {
             return false;
@@ -13258,7 +13274,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (chat != null && chat.left) {
                         continue;
                     }
-                    channelsPts.put(-d.id, d.pts);
+                    advanceChannelPtsFromDialog(-d.id, d.pts);
                 } else if (DialogObject.isChatDialog(d.id)) {
                     TLRPC.Chat chat = chatsDict.get(-d.id);
                     if (chat != null && chat.migrated_to != null) {
@@ -13809,7 +13825,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             continue;
                         }
                     }
-                    channelsPts.put(-d.id, d.pts);
+                    advanceChannelPtsFromDialog(-d.id, d.pts);
                 } else if (DialogObject.isChatDialog(d.id)) {
                     TLRPC.Chat chat = chatsDict.get(-d.id);
                     if (chat != null && (chat.migrated_to != null || ChatObject.isNotInChat(chat))) {
@@ -17119,6 +17135,12 @@ public class MessagesController extends BaseController implements NotificationCe
                         } else if (res instanceof TLRPC.TL_updates_channelDifferenceTooLong) {
                             long dialogId = -channelId;
 
+                            if (res.dialog != null && res.dialog.pts != 0) {
+                                res.pts = res.dialog.pts;
+                            } else if (res.pts == 0) {
+                                int storedPts = getMessagesStorage().getChannelPtsSync(channelId);
+                                res.pts = storedPts != 0 ? storedPts : channelsPts.get(channelId);
+                            }
                             Integer inboxValue = dialogs_read_inbox_max.get(dialogId);
                             if (inboxValue == null) {
                                 inboxValue = getMessagesStorage().getDialogReadMax(false, dialogId);
