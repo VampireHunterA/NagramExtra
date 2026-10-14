@@ -9,3 +9,4 @@
 -checkdiscard class com.radolyn.ayugram.proprietary.**
 -checkdiscard class xyz.nextalone.nagram.helper.ProtectedForward
 -checkdiscard class xyz.nextalone.nagram.helper.LocalPremiumStatusHelper**
+-checkdiscard class xyz.nextalone.nagram.helper.IosSlowModeDial

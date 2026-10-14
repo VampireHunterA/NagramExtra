@@ -555,6 +555,12 @@ public class ChatActivityEnterView extends FrameLayout implements
         private final Paint gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private final Drawable closeDrawable;
         private boolean isPremiumMode = false;
+        private int leftSeconds;
+        private int periodSeconds;
+        private int dialBackgroundColor;
+        private int dialIconColor;
+        private CharSequence dialText;
+        private long leftSecondChangedAtMs;
 
         public SlowModeBtn(@NonNull Context context) {
             super(context);
@@ -599,12 +605,35 @@ public class ChatActivityEnterView extends FrameLayout implements
             invalidate();
         }
 
+        private boolean shouldDrawIosDial() {
+            return NaConfig.INSTANCE.getIosInputAppearance().Bool();
+        }
+
+        public void setSlowModeTimes(int leftSeconds, int periodSeconds, int dialBackgroundColor, int dialIconColor, CharSequence timeText) {
+            if (leftSeconds != this.leftSeconds) {
+                leftSecondChangedAtMs = SystemClock.elapsedRealtime();
+            }
+            this.leftSeconds = leftSeconds;
+            this.periodSeconds = periodSeconds;
+            this.dialBackgroundColor = dialBackgroundColor;
+            this.dialIconColor = dialIconColor;
+            dialText = timeText;
+            textView.setVisibility(!BuildVars.TURBO_BASE && shouldDrawIosDial() ? GONE : VISIBLE);
+            setContentDescription(timeText);
+            invalidate();
+        }
+
         public CharSequence getText() {
             return textView.getText();
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
+            if (!BuildVars.TURBO_BASE && shouldDrawIosDial()) {
+                float secondFraction = Math.max(0f, Math.min(1f, (SystemClock.elapsedRealtime() - leftSecondChangedAtMs) / 1000f));
+                xyz.nextalone.nagram.helper.IosSlowModeDial.INSTANCE.draw(canvas, getMeasuredWidth(), getMeasuredHeight(), leftSeconds, secondFraction, periodSeconds, dialText, dialIconColor, dialBackgroundColor);
+                return;
+            }
             if (isPremiumMode) {
                 canvas.save();
                 int heightRect = dp(26);
@@ -7405,6 +7434,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         }
         if (slowModeTimer != 0 && currentTime > 0) {
             slowModeButton.setText(AndroidUtilities.formatDurationNoHours(Math.max(1, currentTime), false));
+            slowModeButton.setSlowModeTimes(currentTime, info != null ? info.slowmode_seconds : 0, ActionButtonStyle.resolveBackgroundColor(resourcesProvider), ActionButtonStyle.resolveIconColor(resourcesProvider), slowModeButton.getText());
             if (delegate != null) {
                 delegate.onUpdateSlowModeButton(slowModeButton, false, slowModeButton.getText());
             }
