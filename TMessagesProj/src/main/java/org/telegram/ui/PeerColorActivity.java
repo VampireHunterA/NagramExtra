@@ -775,12 +775,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
             buttonLocked = new SpannableStringBuilder(buttonLock).append(" ").append(buttonUnlocked);
             buttonCollectible = getString(R.string.UserColorApplyCollectible);
 
-            button = new ButtonWithCounterView(getContext(), getResourceProvider());
-            button.setRound();
-            button.text.setHacks(true, true, true);
-            button.setText(isChannel ? buttonUnlocked : (!getUserConfig().isPremiumOrLocal() ? buttonLocked : (selectedEmojiCollectible != null ? buttonCollectible : buttonUnlocked)), false);
-            button.setOnClickListener(v -> buttonClick());
-            buttonContainer.addView(button, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.FILL, 14, 14.66f, 14, 14));
             updateButton(false);
 
             DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
@@ -1279,8 +1273,6 @@ public class PeerColorActivity extends BaseFragment implements NotificationCente
                     buttonState.subText = null;
                 }
             } else {
-                button.setText(!getUserConfig().isPremiumOrLocal() && !isChannel ? buttonLocked : (selectedEmojiCollectible != null ? buttonCollectible : buttonUnlocked), animated);
-                button.setSubText(null, animated);
                 buttonState.text = !getUserConfig().isPremium() && !isChannel ? buttonLocked : (selectedEmojiCollectible != null ? buttonCollectible : buttonUnlocked);
                 buttonState.subText = null;
             }

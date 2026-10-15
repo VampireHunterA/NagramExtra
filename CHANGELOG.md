@@ -110,6 +110,7 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - Forward with edited text: GIFs arrive as animated GIFs instead of mp4 files — already-viewed (cached) GIFs now take the same server-reference send path as everything else
 - Media viewer: the description text under a photo/video follows the chat text size instead of staying small
 - Italian: fork menus and settings show translated text again instead of English (12.10 build pipeline regression)
+- Profile colors: the "Change profile color" screen opens again instead of crashing (12.10.3 rebase regression)
 - Chinese input on ColorOS 17: the animated text effect no longer breaks character composition — devices detected as ColorOS now skip it (upstream Nagram fix)
 - App icon: switching applies instantly on tap (with an optional restart prompt), survives process death, and no longer silently reverts to the default
 - Notification mark in follow mode matches the icon's visual style: classic icons now show the plain Telegram plane instead of the turbo flame
