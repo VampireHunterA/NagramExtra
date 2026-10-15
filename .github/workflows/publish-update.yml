@@ -93,7 +93,7 @@ jobs:
           export LOCAL_PROPERTIES="${{ secrets.LOCAL_PROPERTIES }}"
           export BUILD_TIMESTAMP=$(date +%s)
           echo "build_timestamp=$BUILD_TIMESTAMP" >> "$GITHUB_OUTPUT"
-          ./gradlew TMessagesProj:assembleStaging
+          ./gradlew TMessagesProj:assembleRelease
 
           APK=$(find TMessagesProj/build/outputs/apk -name '*arm64-v8a*.apk' ! -name '*_base*' | head -1)
           APK_DIR=$(dirname "$APK")
@@ -112,7 +112,7 @@ jobs:
           BUILD_TIMESTAMP: ${{ steps.build_step.outputs.build_timestamp }}
         run: |
           export LOCAL_PROPERTIES="${{ secrets.LOCAL_PROPERTIES }}"
-          ./gradlew TMessagesProj:assembleStaging -PTURBO_BASE=1
+          ./gradlew TMessagesProj:assembleRelease -PTURBO_BASE=1
       - uses: actions/upload-artifact@v4
         with:
           name: PublishUpdateBase
