@@ -9,6 +9,9 @@ on:
       upload:
         description: 'Skip Upload: Set to "y" to skip uploading the build.'
         required: false
+      sticker_id:
+        description: 'Force update-popup sticker message-id in the metadata channel (empty = random from own icon pool 97-107; 108 in halloween season 10.10-3.11; e.g. 97 = turbo main)'
+        required: false
 
 permissions:
   contents: write
@@ -334,6 +337,7 @@ jobs:
           VERSION_NAME: ${{ needs.build.outputs.version_name }}
           CHANGELOG: ${{ steps.changelog.outputs.changelog }}
           CHANGELOG_HEADLINE: ${{ github.event.inputs.headline }}
+          STICKER_MESSAGE_ID: ${{ github.event.inputs.sticker_id }}
         run: |
           python Tools/scripts/upload.py ${{ secrets.HELPER_BOT_TOKEN }} ${{ secrets.HELPER_BOT_TARGET }} test
       - name: Post beta update manifest
