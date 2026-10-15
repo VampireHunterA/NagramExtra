@@ -17,14 +17,19 @@
   (R8 `-checkdiscard`); тронул аю-зону → BASE-сборка обязательна.
 
 **Инлайн-патчи Neko/nax в upstream-файлах** (главные конфликт-магниты):
-- voip custom-audio-bitrate: `org_telegram_messenger_voip_Instance.cpp`,
-  `GroupInstanceCustomImpl.{cpp,h}`, `webrtc_voice_engine.cc` (field_trials min/max)
+- voip custom-audio-bitrate (13.0.2: **поглощено upstream'ом**): JNI-хук
+  `makeGroupNativeInstance(..., jshort customBitrate)` в `org_telegram_messenger_
+  voip_Instance.cpp` (наш, жив) → штатный `descriptor.outgoingAudioBitrateKbit` →
+  субм `jni/tgcalls` (ccbb57965, GroupInstanceCustomImpl/ReferenceImpl opus-битрейты).
+  Наш static-хак (voice_engine-мост + field_trials) снят в мердже 13.0.2.
+- tgcalls с 13.0.2 — **субмодуль** `jni/tgcalls` (vendored-дерево jni/voip/tgcalls
+  upstream удалил, 267 файлов); наш webrtc-дерево jni/voip/webrtc — жив (предкурсор).
 - `DatacenterActivity`: ping.neko + dcId → ProxySettings.builder
 - `ChatActivityEnterView`: `pendingCameraFront` + `setVideoRecordingCameraFront`
   (nax Ask-режим) + настройка `cameraInVideoMessages` (Фронт/Тыл/Спрашивать,
   NekoChatSettings) — терминальное звено `InstantCameraViewBase.setUseFrontCamera`
   (восстановлено в 12.10.6: Base default + обе реализации + `setInitialFacing`
-  по cameraMode в InstantCameraView2, 351dd20294)
+  по cameraMode в InstantCameraView2, 351dd20294; пережило 13.0.2 без конфликтов)
 - `Emoji.java`: Neko-ветка useSystemEmoji + EmojiHelper-шрифт
 - `VideoPlayer`: `getPlayerExtensionRendererMode()` (NaConfig)
 - `ApplicationLoader`: TFoss Local Push Service
@@ -32,6 +37,11 @@
 - `ConnectionsManager.{java,cpp}`: неко-imports, DnsFactory/ProxyUtil-хуки
 - `StoriesController`: NaConfig disableStories-гейты
 - CAEV/ChatActivity: observers-хвосты Ayu, allow-list анимаций
+- CodeHighlighting (13.0.2): класс upstream'а переехал `org.telegram.messenger` →
+  `org.telegram.utils.code.highlight`; наш neko-слой (MessageDetailsActivity,
+  NekoMessageCell, EntitiesHelper) импортирует новый путь.
+- ChatActivity OPTION_-пространство: наши 110–117/150–152; upstream 13.x добавил
+  `OPTION_SEND_MONEY` — сдвинут на 118 (правило: их смещаем, наши не трогаем).
 
 ## Слой B — наши Turbo-фичи
 
