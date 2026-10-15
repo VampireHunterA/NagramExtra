@@ -605,10 +605,6 @@ public class ChatActivityEnterView extends FrameLayout implements
             invalidate();
         }
 
-        private boolean shouldDrawIosDial() {
-            return NaConfig.INSTANCE.getIosInputAppearance().Bool();
-        }
-
         public void setSlowModeTimes(int leftSeconds, int periodSeconds, int dialBackgroundColor, int dialIconColor, CharSequence timeText) {
             if (leftSeconds != this.leftSeconds) {
                 leftSecondChangedAtMs = SystemClock.elapsedRealtime();
@@ -618,7 +614,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             this.dialBackgroundColor = dialBackgroundColor;
             this.dialIconColor = dialIconColor;
             dialText = timeText;
-            textView.setVisibility(!BuildVars.TURBO_BASE && shouldDrawIosDial() ? GONE : VISIBLE);
+            textView.setVisibility(!BuildVars.TURBO_BASE ? GONE : VISIBLE);
             setContentDescription(timeText);
             invalidate();
         }
@@ -629,9 +625,9 @@ public class ChatActivityEnterView extends FrameLayout implements
 
         @Override
         protected void onDraw(Canvas canvas) {
-            if (!BuildVars.TURBO_BASE && shouldDrawIosDial()) {
+            if (!BuildVars.TURBO_BASE) {
                 float secondFraction = Math.max(0f, Math.min(1f, (SystemClock.elapsedRealtime() - leftSecondChangedAtMs) / 1000f));
-                xyz.nextalone.nagram.helper.IosSlowModeDial.INSTANCE.draw(canvas, getMeasuredWidth(), getMeasuredHeight(), leftSeconds, secondFraction, periodSeconds, dialText, dialIconColor, dialBackgroundColor);
+                xyz.nextalone.nagram.helper.IosSlowModeDial.INSTANCE.draw(canvas, getMeasuredWidth(), getMeasuredHeight(), leftSeconds, secondFraction, periodSeconds, NaConfig.INSTANCE.getIosInputAppearance().Bool(), dialText, dialIconColor, dialBackgroundColor);
                 return;
             }
             if (isPremiumMode) {

@@ -12,6 +12,8 @@ object IosSlowModeDial {
 
     private const val TICK_COUNT = 60
     private const val MAJOR_TICK_STEP = 5
+    private const val COMPACT_DIAL_SIZE_DP = 38f
+    private const val COMPACT_DIAL_MARGIN_DP = 3f
     private const val RING_WIDTH_DP = 0.5f
     private const val RING_GAP_DP = 1f
     private const val TICK_OFFSET_DP = 1f
@@ -21,6 +23,8 @@ object IosSlowModeDial {
     private const val MINOR_TICK_WIDTH_DP = 0.75f
     private const val TEXT_SIZE_DP = 12.5f
     private const val TEXT_SIZE_LONG_DP = 10f
+    private const val COMPACT_TEXT_SIZE_DP = 11f
+    private const val COMPACT_TEXT_SIZE_LONG_DP = 9.5f
 
     private val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -37,6 +41,8 @@ object IosSlowModeDial {
 
     private var cachedText: CharSequence? = null
     private var cachedIsLongText = false
+    private var cachedIsFullSize = true
+    private var cachedDensity = 0f
     private var cachedTextWidth = 0f
     private var cachedTextCenterOffset = 0f
 
@@ -55,14 +61,16 @@ object IosSlowModeDial {
         leftSeconds: Int,
         secondFraction: Float,
         periodSeconds: Int,
+        isFullSize: Boolean,
         timeText: CharSequence?,
         iconColor: Int,
         dialBackgroundColor: Int,
     ) {
         val text = timeText ?: return
-        val radius = slotHeight / 2f
-        val cx = slotWidth - radius
-        val cy = slotHeight / 2f
+        val radius = (if (isFullSize) slotHeight else AndroidUtilities.dp(COMPACT_DIAL_SIZE_DP).toFloat()) / 2f
+        val margin = if (isFullSize) 0 else AndroidUtilities.dp(COMPACT_DIAL_MARGIN_DP)
+        val cx = slotWidth - margin - radius
+        val cy = slotHeight - margin - radius
 
         backgroundPaint.color = dialBackgroundColor
         canvas.drawCircle(cx, cy, radius, backgroundPaint)
@@ -104,10 +112,18 @@ object IosSlowModeDial {
         }
 
         val isLongText = text.length >= 5
-        if (text != cachedText || isLongText != cachedIsLongText) {
+        if (text != cachedText || isLongText != cachedIsLongText || isFullSize != cachedIsFullSize || AndroidUtilities.density != cachedDensity) {
             cachedText = text
             cachedIsLongText = isLongText
-            textPaint.textSize = AndroidUtilities.dp(if (isLongText) TEXT_SIZE_LONG_DP else TEXT_SIZE_DP).toFloat()
+            cachedIsFullSize = isFullSize
+            cachedDensity = AndroidUtilities.density
+            val textSizeDp = when {
+                isFullSize && isLongText -> TEXT_SIZE_LONG_DP
+                isFullSize -> TEXT_SIZE_DP
+                isLongText -> COMPACT_TEXT_SIZE_LONG_DP
+                else -> COMPACT_TEXT_SIZE_DP
+            }
+            textPaint.textSize = AndroidUtilities.dp(textSizeDp).toFloat()
             cachedTextWidth = textPaint.measureText(text.toString())
             cachedTextCenterOffset = (textPaint.descent() + textPaint.ascent()) / 2f
         }
