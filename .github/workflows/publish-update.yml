@@ -9,6 +9,9 @@ on:
       sticker_id:
         description: 'Force update-popup sticker message-id in the metadata channel (empty = random from own icon pool 97-107; 108 in halloween season 10.10-3.11; e.g. 97 = turbo main)'
         required: false
+      since_sha:
+        description: 'Changelog base override: git sha the commit list starts from (use when the previous release was deleted and this one must carry its changelog; empty = since last successful publish run)'
+        required: false
 
 permissions:
   contents: write
@@ -135,6 +138,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGELOG_HEADLINE: ${{ github.event.inputs.headline }}
+          SINCE_SHA_INPUT: ${{ github.event.inputs.since_sha }}
         run: |
           set -e
           if ! command -v jq >/dev/null 2>&1; then
@@ -143,10 +147,14 @@ jobs:
           fi
           REPO="${{ github.repository }}"
           HEAD_SHA="${{ github.sha }}"
-          LAST_SHA=$(curl -s -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$REPO/actions/workflows/publish-update.yml/runs?per_page=10" \
-            | jq -r '[.workflow_runs[] | select(.conclusion == "success")][0].head_sha // empty')
+          if [ -n "$SINCE_SHA_INPUT" ] && echo "$SINCE_SHA_INPUT" | grep -qE '^[0-9a-f]{7,40}$'; then
+            LAST_SHA="$SINCE_SHA_INPUT"
+          else
+            LAST_SHA=$(curl -s -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
+              "https://api.github.com/repos/$REPO/actions/workflows/publish-update.yml/runs?per_page=10" \
+              | jq -r '[.workflow_runs[] | select(.conclusion == "success")][0].head_sha // empty')
+          fi
           COMMIT_TEXT=""
           if [ -n "$LAST_SHA" ]; then
             COMMIT_TEXT=$(curl -s -H "Accept: application/vnd.github+json" \
