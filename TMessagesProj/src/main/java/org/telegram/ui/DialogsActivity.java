@@ -2311,7 +2311,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                         args.putBoolean("onlySelect", onlySelect);
                                         DialogsActivity dialogsActivity = new DialogsActivity(args);
                                         dialogsActivity.setDelegate(delegate);
-                                        presentFragment(dialogsActivity, onlySelect);
+                                        presentFragment(dialogsActivity);
                                     }, 200);
                                 }
                             }
@@ -2879,12 +2879,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
 
     private NotificationCenter.ObserversGroup observersGroup;
+    private NotificationCenter.NotificationCenterDelegate selectAllObserver;
 
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        Utilities.globalQueue.postRunnable(() -> getMessagesController().getBlockedPeers(false));
+        getMessagesController().getBlockedPeers(false);
 
         if (arguments != null) {
             onlySelect = arguments.getBoolean("onlySelect", false);
@@ -3165,6 +3166,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (observersGroup != null) {
             observersGroup.removeAllObservers();
             observersGroup = null;
+        }
+        if (selectAllObserver != null) {
+            NotificationCenter.getInstance(currentAccount).removeObserver(selectAllObserver, NotificationCenter.dialogsNeedReload);
+            selectAllObserver = null;
         }
 
         if (commentView != null) {
@@ -4141,12 +4146,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (getMessagesController().isDialogsEndReached(folderId)) {
                         selectAllAction.run();
                     } else {
-                        NotificationCenter.getInstance(currentAccount).addObserver(new NotificationCenter.NotificationCenterDelegate() {
+                        if (selectAllObserver != null) {
+                            NotificationCenter.getInstance(currentAccount).removeObserver(selectAllObserver, NotificationCenter.dialogsNeedReload);
+                        }
+                        NotificationCenter.getInstance(currentAccount).addObserver(selectAllObserver = new NotificationCenter.NotificationCenterDelegate() {
                             @Override
                             public void didReceivedNotification(int id, int account, Object... args) {
                                 if (id == NotificationCenter.dialogsNeedReload) {
                                     AndroidUtilities.runOnUIThread(() -> {
                                         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
+                                        if (selectAllObserver == this) {
+                                            selectAllObserver = null;
+                                        }
+                                        if (fragmentView == null || actionBar == null || !actionBar.isActionModeShowed(null)) {
+                                            return;
+                                        }
                                         selectAllAction.run();
                                     });
                                 }
@@ -8110,7 +8124,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (onlySelect) {
                         dialogsActivity.setDelegate(delegate);
                     }
-                    presentFragment(dialogsActivity, onlySelect);
+                    presentFragment(dialogsActivity);
                     return;
                 }
                 dialogId = dialog.id;
@@ -9238,6 +9252,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private void hideActionMode(boolean animateCheck) {
         actionBar.hideActionMode();
+        if (selectAllObserver != null) {
+            NotificationCenter.getInstance(currentAccount).removeObserver(selectAllObserver, NotificationCenter.dialogsNeedReload);
+            selectAllObserver = null;
+        }
         selectedDialogs.clear();
         if (backDrawable != null) {
             backDrawable.setRotation(0, true);
