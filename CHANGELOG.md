@@ -142,3 +142,4 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - View-deleted: photos can be saved to the gallery again — a photo now downloads properly, and if the full size is unavailable the best available one is saved (down to the preview) instead of an error
 - Uploading videos and GIFs on mobile data no longer hangs forever when the connection silently drops: a frozen upload restarts itself, and after a few failed tries shows an error you can retry
 - Cancelling a video or GIF that is still converting or uploading no longer marks the message with a red error
+- Saving several deleted media to the gallery in a row no longer slows down with each item: when servers ask the app to slow down, a save now waits for its current download to finish instead of starting extra ones

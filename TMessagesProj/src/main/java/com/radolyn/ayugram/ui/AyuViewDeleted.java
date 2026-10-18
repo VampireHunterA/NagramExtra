@@ -126,6 +126,8 @@ public class AyuViewDeleted extends NekoDelegateFragment {
     private final WindowInsetsStateHolder windowInsetsStateHolder = new WindowInsetsStateHolder(this::checkInsets);
     private static final long PHOTO_SIZE_LOAD_TIMEOUT_MS = 25_000L;
     private static final long PHOTO_SAVE_TOTAL_TIMEOUT_MS = 90_000L;
+    private static final long PHOTO_SAVE_CANDIDATE_BACKOFF_MS = 15_000L;
+    private static final long PHOTO_SAVE_HARD_TIMEOUT_MS = 600_000L;
     private static final int STRIPPED_PHOTO_JPEG_QUALITY = 95;
     private final SparseArray<DeletedPhotoSave> activePhotoSaves = new SparseArray<>();
 
@@ -619,6 +621,7 @@ public class AyuViewDeleted extends NekoDelegateFragment {
         NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.voiceTranscriptionUpdate);
         NotificationCenter.getInstance(getCurrentAccount()).addObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(getCurrentAccount()).addObserver(this, NotificationCenter.fileLoadFailed);
+        NotificationCenter.getInstance(getCurrentAccount()).addObserver(this, NotificationCenter.fileLoadProgressChanged);
 
         return true;
     }
@@ -633,6 +636,7 @@ public class AyuViewDeleted extends NekoDelegateFragment {
         NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.voiceTranscriptionUpdate);
         NotificationCenter.getInstance(getCurrentAccount()).removeObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(getCurrentAccount()).removeObserver(this, NotificationCenter.fileLoadFailed);
+        NotificationCenter.getInstance(getCurrentAccount()).removeObserver(this, NotificationCenter.fileLoadProgressChanged);
         if (scrimPopupWindow != null) {
             scrimPopupWindow.dismiss();
             scrimPopupWindow = null;
@@ -711,6 +715,8 @@ public class AyuViewDeleted extends NekoDelegateFragment {
             handleVoiceTranscriptionUpdate(args);
         } else if (id == NotificationCenter.fileLoaded || id == NotificationCenter.fileLoadFailed) {
             handlePhotoSaveFileNotification(id, args);
+        } else if (id == NotificationCenter.fileLoadProgressChanged) {
+            handlePhotoSaveProgressChanged(args);
         }
     }
 
@@ -718,22 +724,25 @@ public class AyuViewDeleted extends NekoDelegateFragment {
         final MessageObject message;
         final TLRPC.Photo photo;
         final ArrayList<TLRPC.PhotoSize> candidates;
-        final long deadlineMillis;
+        final long hardDeadlineMillis;
         final int notificationId;
         final Runnable sizeTimeoutRunnable;
         int candidateIndex;
+        long lastProgressAt;
+        long sizeTimerArmedAt;
         TLRPC.PhotoSize activeSize;
         String activeFileName;
         boolean cancelled;
         boolean finished;
 
-        DeletedPhotoSave(MessageObject messageObject, TLRPC.Photo photoObject, ArrayList<TLRPC.PhotoSize> sizes, long deadline, int notifId) {
+        DeletedPhotoSave(MessageObject messageObject, TLRPC.Photo photoObject, ArrayList<TLRPC.PhotoSize> sizes, long hardDeadline, int notifId) {
             message = messageObject;
             photo = photoObject;
             candidates = sizes;
-            deadlineMillis = deadline;
+            hardDeadlineMillis = hardDeadline;
             notificationId = notifId;
-            sizeTimeoutRunnable = () -> advanceDeletedPhotoSave(this);
+            lastProgressAt = System.currentTimeMillis();
+            sizeTimeoutRunnable = () -> handlePhotoSizeStall(this);
         }
     }
 
@@ -759,7 +768,7 @@ public class AyuViewDeleted extends NekoDelegateFragment {
         TLRPC.Photo photo = msg.getPhoto();
         ArrayList<TLRPC.PhotoSize> candidates = collectDownloadablePhotoSizes(photo);
         int notificationId = tw.nekomimi.nekogram.SaveToDownloadReceiver.createNotificationId();
-        DeletedPhotoSave save = new DeletedPhotoSave(msg, photo, candidates, System.currentTimeMillis() + PHOTO_SAVE_TOTAL_TIMEOUT_MS, notificationId);
+        DeletedPhotoSave save = new DeletedPhotoSave(msg, photo, candidates, System.currentTimeMillis() + PHOTO_SAVE_HARD_TIMEOUT_MS, notificationId);
         activePhotoSaves.put(msg.getId(), save);
         if (getParentActivity() != null) {
             tw.nekomimi.nekogram.SaveToDownloadReceiver.showNotification(getParentActivity(), notificationId, 1, () -> cancelDeletedPhotoSave(save));
@@ -768,6 +777,10 @@ public class AyuViewDeleted extends NekoDelegateFragment {
     }
 
     private void advanceDeletedPhotoSave(DeletedPhotoSave save) {
+        advanceDeletedPhotoSave(save, false);
+    }
+
+    private void advanceDeletedPhotoSave(DeletedPhotoSave save, boolean afterStall) {
         AndroidUtilities.cancelRunOnUIThread(save.sizeTimeoutRunnable);
         if (save.cancelled || save.finished) {
             return;
@@ -777,14 +790,15 @@ public class AyuViewDeleted extends NekoDelegateFragment {
             save.activeSize = null;
             save.activeFileName = null;
         }
-        if (System.currentTimeMillis() >= save.deadlineMillis || save.candidateIndex >= save.candidates.size()) {
+        long now = System.currentTimeMillis();
+        if (now >= save.hardDeadlineMillis || now - save.lastProgressAt >= PHOTO_SAVE_TOTAL_TIMEOUT_MS || save.candidateIndex >= save.candidates.size()) {
             saveStrippedPhotoFallback(save);
             return;
         }
         TLRPC.PhotoSize size = save.candidates.get(save.candidateIndex++);
         String fileName = FileLoader.getAttachFileName(size);
         if (TextUtils.isEmpty(fileName)) {
-            advanceDeletedPhotoSave(save);
+            advanceDeletedPhotoSave(save, afterStall);
             return;
         }
         File cached = FileLoader.getInstance(getCurrentAccount()).getPathToAttach(size, "jpg", false, true);
@@ -794,8 +808,44 @@ public class AyuViewDeleted extends NekoDelegateFragment {
         }
         save.activeSize = size;
         save.activeFileName = fileName;
-        AndroidUtilities.runOnUIThread(save.sizeTimeoutRunnable, PHOTO_SIZE_LOAD_TIMEOUT_MS);
-        FileLoader.getInstance(getCurrentAccount()).loadFile(ImageLocation.getForPhoto(size, save.photo), save.message, "jpg", FileLoader.PRIORITY_HIGH, save.message.shouldEncryptPhotoOrVideo() ? 2 : 0);
+        beginDeletedPhotoSizeLoad(save, afterStall ? PHOTO_SAVE_CANDIDATE_BACKOFF_MS : 0L);
+    }
+
+    private void beginDeletedPhotoSizeLoad(DeletedPhotoSave save, long delayMillis) {
+        AndroidUtilities.runOnUIThread(() -> {
+            if (save.cancelled || save.finished || save.activeSize == null || save.activeFileName == null) {
+                return;
+            }
+            save.sizeTimerArmedAt = System.currentTimeMillis();
+            AndroidUtilities.runOnUIThread(save.sizeTimeoutRunnable, PHOTO_SIZE_LOAD_TIMEOUT_MS);
+            FileLoader.getInstance(getCurrentAccount()).loadFile(ImageLocation.getForPhoto(save.activeSize, save.photo), save.message, "jpg", FileLoader.PRIORITY_HIGH, save.message.shouldEncryptPhotoOrVideo() ? 2 : 0);
+        }, delayMillis);
+    }
+
+    private void handlePhotoSizeStall(DeletedPhotoSave save) {
+        if (save.cancelled || save.finished) {
+            return;
+        }
+        if (save.lastProgressAt > save.sizeTimerArmedAt) {
+            save.sizeTimerArmedAt = System.currentTimeMillis();
+            AndroidUtilities.runOnUIThread(save.sizeTimeoutRunnable, PHOTO_SIZE_LOAD_TIMEOUT_MS);
+            return;
+        }
+        advanceDeletedPhotoSave(save, true);
+    }
+
+    private void handlePhotoSaveProgressChanged(Object... args) {
+        if (args == null || args.length == 0 || !(args[0] instanceof String)) {
+            return;
+        }
+        String fileName = (String) args[0];
+        for (int i = activePhotoSaves.size() - 1; i >= 0; i--) {
+            DeletedPhotoSave save = activePhotoSaves.valueAt(i);
+            if (!save.finished && !save.cancelled && fileName.equals(save.activeFileName)) {
+                save.lastProgressAt = System.currentTimeMillis();
+                return;
+            }
+        }
     }
 
     private void handlePhotoSaveFileNotification(int id, Object... args) {
