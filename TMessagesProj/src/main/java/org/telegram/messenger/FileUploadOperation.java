@@ -674,6 +674,9 @@ public class FileUploadOperation {
                     startUploadRequest();
                 }
             } else {
+                if (state != 1) {
+                    return;
+                }
                 state = 4;
                 delegate.didFailedUploadingFile(FileUploadOperation.this);
                 cleanup();

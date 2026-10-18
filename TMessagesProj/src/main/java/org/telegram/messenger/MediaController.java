@@ -6611,8 +6611,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             message.videoEditedInfo.videoConvertFirstWrite = false;
         }
         AndroidUtilities.runOnUIThread(() -> {
+            boolean cancelled = message.videoEditedInfo.canceled;
             if (error || last) {
-                boolean cancelled = message.videoEditedInfo.canceled;
                 synchronized (videoConvertSync) {
                     message.videoEditedInfo.canceled = false;
                 }
@@ -6622,7 +6622,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 startVideoConvertFromQueue();
             }
             if (error) {
-                NotificationCenter.getInstance(message.currentAccount).postNotificationName(NotificationCenter.filePreparingFailed, message.messageObject, file.toString(), progress, lastFrameTimestamp);
+                if (!cancelled) {
+                    NotificationCenter.getInstance(message.currentAccount).postNotificationName(NotificationCenter.filePreparingFailed, message.messageObject, file.toString(), progress, lastFrameTimestamp);
+                }
             } else {
                 if (firstWrite) {
                     NotificationCenter.getInstance(message.currentAccount).postNotificationName(NotificationCenter.filePreparingStarted, message.messageObject, file.toString(), progress, lastFrameTimestamp);
