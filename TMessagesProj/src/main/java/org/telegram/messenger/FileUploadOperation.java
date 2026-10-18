@@ -585,6 +585,7 @@ public class FileUploadOperation {
                     return;
                 }
                 caughtPremiumFloodWait = false;
+                premiumFloodWaitChecks = 0;
                 uploadedBytesCount += currentRequestBytes;
                 long size;
                 if (estimatedSize != 0) {
@@ -697,11 +698,13 @@ public class FileUploadOperation {
     private static final long UPLOAD_STALL_DETECT_MS = 45_000L;
     private static final long UPLOAD_STALL_RESTART_DELAY_MS = 10_000L;
     private static final int UPLOAD_STALL_MAX_RESTARTS = 3;
+    private static final int UPLOAD_STALL_MAX_TOTAL_RESTARTS = 8;
     private static final long UPLOAD_STALL_RESET_AFTER_MS = 600_000L;
     private static final int UPLOAD_PREMIUM_FLOOD_WAIT_MAX_CHECKS = 12;
 
     private int uploadStallRestarts;
-    private int premiumFloodWaitChecks;
+    private int uploadStallTotalRestarts;
+    private volatile int premiumFloodWaitChecks;
     private long lastStallRestartAt;
     private final Runnable uploadStallCheck = () -> Utilities.stageQueue.postRunnable(this::checkUploadStall);
 
@@ -726,13 +729,14 @@ public class FileUploadOperation {
             stalled = currentUploadRequetsCount > 0 && now - lastProgressUpdateTime > UPLOAD_STALL_DETECT_MS;
         }
         if (stalled) {
-            if (uploadStallRestarts >= UPLOAD_STALL_MAX_RESTARTS) {
+            if (uploadStallRestarts >= UPLOAD_STALL_MAX_RESTARTS || uploadStallTotalRestarts >= UPLOAD_STALL_MAX_TOTAL_RESTARTS) {
                 state = 4;
                 delegate.didFailedUploadingFile(this);
                 cleanup();
                 return;
             }
             uploadStallRestarts++;
+            uploadStallTotalRestarts++;
             lastStallRestartAt = now;
             restartStalledUpload(UPLOAD_STALL_RESTART_DELAY_MS << (uploadStallRestarts - 1));
         }
