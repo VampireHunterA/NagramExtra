@@ -697,20 +697,33 @@ public class FileUploadOperation {
     private static final long UPLOAD_STALL_DETECT_MS = 45_000L;
     private static final long UPLOAD_STALL_RESTART_DELAY_MS = 10_000L;
     private static final int UPLOAD_STALL_MAX_RESTARTS = 3;
+    private static final long UPLOAD_STALL_RESET_AFTER_MS = 600_000L;
+    private static final int UPLOAD_PREMIUM_FLOOD_WAIT_MAX_CHECKS = 12;
 
     private int uploadStallRestarts;
+    private int premiumFloodWaitChecks;
+    private long lastStallRestartAt;
     private final Runnable uploadStallCheck = () -> Utilities.stageQueue.postRunnable(this::checkUploadStall);
 
     private void checkUploadStall() {
         if (state != 1) {
             return;
         }
+        long now = System.currentTimeMillis();
+        if (uploadStallRestarts > 0 && now - lastStallRestartAt > UPLOAD_STALL_RESET_AFTER_MS) {
+            uploadStallRestarts = 0;
+        }
         boolean stalled;
         if (caughtPremiumFloodWait) {
-            lastProgressUpdateTime = System.currentTimeMillis();
+            if (++premiumFloodWaitChecks >= UPLOAD_PREMIUM_FLOOD_WAIT_MAX_CHECKS) {
+                caughtPremiumFloodWait = false;
+                premiumFloodWaitChecks = 0;
+            } else {
+                lastProgressUpdateTime = now;
+            }
             stalled = false;
         } else {
-            stalled = currentUploadRequetsCount > 0 && System.currentTimeMillis() - lastProgressUpdateTime > UPLOAD_STALL_DETECT_MS;
+            stalled = currentUploadRequetsCount > 0 && now - lastProgressUpdateTime > UPLOAD_STALL_DETECT_MS;
         }
         if (stalled) {
             if (uploadStallRestarts >= UPLOAD_STALL_MAX_RESTARTS) {
@@ -720,6 +733,7 @@ public class FileUploadOperation {
                 return;
             }
             uploadStallRestarts++;
+            lastStallRestartAt = now;
             restartStalledUpload(UPLOAD_STALL_RESTART_DELAY_MS << (uploadStallRestarts - 1));
         }
         AndroidUtilities.runOnUIThread(uploadStallCheck, UPLOAD_STALL_DETECT_MS);

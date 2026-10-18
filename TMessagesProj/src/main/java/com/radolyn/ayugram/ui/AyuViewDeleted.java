@@ -812,8 +812,9 @@ public class AyuViewDeleted extends NekoDelegateFragment {
     }
 
     private void beginDeletedPhotoSizeLoad(DeletedPhotoSave save, long delayMillis) {
+        TLRPC.PhotoSize sizeToLoad = save.activeSize;
         AndroidUtilities.runOnUIThread(() -> {
-            if (save.cancelled || save.finished || save.activeSize == null || save.activeFileName == null) {
+            if (save.cancelled || save.finished || sizeToLoad == null || save.activeSize != sizeToLoad || save.activeFileName == null) {
                 return;
             }
             save.sizeTimerArmedAt = System.currentTimeMillis();
@@ -843,7 +844,6 @@ public class AyuViewDeleted extends NekoDelegateFragment {
             DeletedPhotoSave save = activePhotoSaves.valueAt(i);
             if (!save.finished && !save.cancelled && fileName.equals(save.activeFileName)) {
                 save.lastProgressAt = System.currentTimeMillis();
-                return;
             }
         }
     }

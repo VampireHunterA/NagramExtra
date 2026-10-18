@@ -6625,7 +6625,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 if (!cancelled) {
                     NotificationCenter.getInstance(message.currentAccount).postNotificationName(NotificationCenter.filePreparingFailed, message.messageObject, file.toString(), progress, lastFrameTimestamp);
                 }
-            } else {
+            } else if (!cancelled) {
                 if (firstWrite) {
                     NotificationCenter.getInstance(message.currentAccount).postNotificationName(NotificationCenter.filePreparingStarted, message.messageObject, file.toString(), progress, lastFrameTimestamp);
                 }
