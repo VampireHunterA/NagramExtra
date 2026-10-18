@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">Questo contatto è un contatto in comune.</string>
     <string name="DatacenterStatusAbout">Controlla lo stato dei **datacenter** di Telegram.</string>
     <string name="DatacenterStatus">Stato Datacenter</string>
-    <string name="enhancedFileLoader">Aumenta Velocità di Download</string>
     <string name="mapDriftingFixForGoogleMaps">Fixa il Drifting di Google Maps in Cina</string>
     <string name="useOSMDroidMap">Utilizza OSMDroid Map</string>
     <string name="UnknownNekoSettingsOption">Non esiste alcuna opzione N-Impostazioni di questo tipo.</string>

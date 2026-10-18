@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">این مخاطب، یک مخاطب دوطرفه است.</string>
     <string name="DatacenterStatusAbout">وضعیت **دیتاسنترهای** تلگرام را بررسی کنید.</string>
     <string name="DatacenterStatus">وضعیت دیتاسنترها</string>
-    <string name="enhancedFileLoader">افزایش سرعت دانلود</string>
     <string name="mapDriftingFixForGoogleMaps">رفع مشکل جابجایی نقشه گوگل در چین</string>
     <string name="useOSMDroidMap">استفاده از نقشه OSMDroid</string>
     <string name="UnknownNekoSettingsOption">چنین گزینه‌ای در تنظیمات وجود ندارد.</string>

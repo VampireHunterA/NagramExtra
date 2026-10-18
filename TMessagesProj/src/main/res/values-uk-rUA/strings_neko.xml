@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">Цей контакт є взаємним контактом.</string>
     <string name="DatacenterStatusAbout">Перевірте стан **дата-центрів** Telegram.</string>
     <string name="DatacenterStatus">Стан дата-центрів</string>
-    <string name="enhancedFileLoader">Збільшити швидкість завантаження</string>
     <string name="mapDriftingFixForGoogleMaps">Виправити дрейф карт Google в Китаї</string>
     <string name="useOSMDroidMap">Використовувати карти OSMDroid</string>
     <string name="UnknownNekoSettingsOption">В «N-налаштуваннях» немає такої опції.</string>

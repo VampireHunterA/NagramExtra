@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">Bu kişi ortak bir kişidir.</string>
     <string name="DatacenterStatusAbout">Telegram\'ın **veri merkezlerinin** (datacenter) durumunu kontrol edin.</string>
     <string name="DatacenterStatus">Veri Merkezi Durumu</string>
-    <string name="enhancedFileLoader">İndirme Hızlandırma</string>
     <string name="mapDriftingFixForGoogleMaps">Çin\'de Google Haritalar Kaymasını Düzelt</string>
     <string name="useOSMDroidMap">OSMDroid Haritasını Kullan</string>
     <string name="UnknownNekoSettingsOption">Böyle bir N-Ayarları seçeneği yok.</string>

@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">此聯絡人為雙向聯絡人。</string>
     <string name="DatacenterStatusAbout">檢查 Telegram **資料中心**的狀態。</string>
     <string name="DatacenterStatus">資料中心狀態</string>
-    <string name="enhancedFileLoader">下載加速</string>
     <string name="mapDriftingFixForGoogleMaps">修正在中國使用 Google 地圖時的定位飄移問題</string>
     <string name="useOSMDroidMap">使用 OSMDroid 地圖</string>
     <string name="UnknownNekoSettingsOption">找不到這個 N-設定選項。</string>

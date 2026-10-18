@@ -254,7 +254,6 @@
     <string name="disableChoosingSticker">Enviar escribiendo en lugar de elegir sticker</string>
     <string name="disableNotificationBubbles">Desactivar burbujas de notificación</string>
     <string name="disableSwipeToNextChannel">Desactivar deslizamiento al siguiente canal</string>
-    <string name="enhancedFileLoader">Aceleración de descarga</string>
     <string name="hideGroupSticker">Ocultar sticker del grupo</string>
     <string name="hideSendAsChannel">Ocultar enviar como canal</string>
     <string name="localPremium">Premium local</string>

@@ -212,7 +212,6 @@
     <string name="disableChoosingSticker">إرسال \"يكتب\" بدلاً من \"يختار ملصقاً\"</string>
     <string name="disableNotificationBubbles">تعطيل فقاعات الإشعارات</string>
     <string name="disableSwipeToNextChannel">تعطيل التمرير إلى القناة التالية</string>
-    <string name="enhancedFileLoader">زيادة سرعة التنزيل</string>
     <string name="hideGroupSticker">إخفاء ملصق المجموعة</string>
     <string name="hideSendAsChannel">إخفاء \"الإرسال كقناة\"</string>
     <string name="localPremium">Premium محلي</string>

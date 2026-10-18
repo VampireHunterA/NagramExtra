@@ -143,3 +143,4 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - Uploading videos and GIFs on mobile data no longer hangs forever when the connection silently drops: a frozen upload restarts itself, and after a few failed tries shows an error you can retry
 - Cancelling a video or GIF that is still converting or uploading no longer marks the message with a red error
 - Saving several deleted media to the gallery in a row no longer slows down with each item: when servers ask the app to slow down, a save now waits for its current download to finish instead of starting extra ones
+- Removed the "Download Speed Boost" experimental setting — it had no effect after the 13.0.2 update and only made downloads hit server rate limits sooner

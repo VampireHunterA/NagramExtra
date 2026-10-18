@@ -107,7 +107,6 @@
     <string name="MutualContactDescription">이 연락처는 상호 연락처입니다.</string>
     <string name="DatacenterStatusAbout">Telegram **데이터센터** 상태를 확인합니다.</string>
     <string name="DatacenterStatus">데이터센터 상태</string>
-    <string name="enhancedFileLoader">다운로드 속도 향상</string>
     <string name="mapDriftingFixForGoogleMaps">중국에서 Google Maps 위치 밀림 수정</string>
     <string name="useOSMDroidMap">OSMDroid 지도 사용</string>
     <string name="UnknownNekoSettingsOption">해당 N-Settings 옵션이 없습니다.</string>
