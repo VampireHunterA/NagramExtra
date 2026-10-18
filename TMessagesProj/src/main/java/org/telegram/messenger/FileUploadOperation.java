@@ -85,7 +85,7 @@ public class FileUploadOperation {
     private boolean uploadFirstPartLater;
     private SparseArray<UploadCachedResult> cachedResults = new SparseArray<>();
     private boolean[] recalculatedEstimatedSize = {false, false};
-    protected long lastProgressUpdateTime;
+    protected volatile long lastProgressUpdateTime;
 
     public volatile boolean caughtPremiumFloodWait;
 
@@ -117,6 +117,8 @@ public class FileUploadOperation {
             return;
         }
         state = 1;
+        lastProgressUpdateTime = System.currentTimeMillis();
+        AndroidUtilities.runOnUIThread(uploadStallCheck, UPLOAD_STALL_DETECT_MS);
         AutoDeleteMediaTask.lockFile(uploadingFilePath);
         Utilities.stageQueue.postRunnable(() -> {
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("uploadinfo", Activity.MODE_PRIVATE);
@@ -549,11 +551,13 @@ public class FileUploadOperation {
             connectionType = ConnectionsManager.ConnectionTypeUpload | ((requestNumFinal % 4) << 16);
         }
         long time = System.currentTimeMillis();
+        lastProgressUpdateTime = time;
         int[] requestToken = new int[1];
         requestToken[0] = ConnectionsManager.getInstance(currentAccount).sendRequest(finalRequest, (response, error) -> {
             if (currentOperationGuid != operationGuid) {
                 return;
             }
+            lastProgressUpdateTime = System.currentTimeMillis();
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("debug_uploading: " + " response reqId " + requestToken[0] + " time" + uploadingFilePath);
             }
@@ -580,6 +584,7 @@ public class FileUploadOperation {
                 if (state != 1) {
                     return;
                 }
+                caughtPremiumFloodWait = false;
                 uploadedBytesCount += currentRequestBytes;
                 long size;
                 if (estimatedSize != 0) {
@@ -674,6 +679,7 @@ public class FileUploadOperation {
                 cleanup();
             }
         }, null, () -> Utilities.stageQueue.postRunnable(() -> {
+            lastProgressUpdateTime = System.currentTimeMillis();
             if (currentUploadRequetsCount < maxRequestsCount) {
                 startUploadRequest();
             }
@@ -683,5 +689,69 @@ public class FileUploadOperation {
         }
         requestTokens.put(requestNumFinal, requestToken[0]);
         AndroidUtilities.runOnUIThread(() -> uiRequestTokens.add(requestToken[0]));
+    }
+
+    private static final long UPLOAD_STALL_DETECT_MS = 45_000L;
+    private static final long UPLOAD_STALL_RESTART_DELAY_MS = 10_000L;
+    private static final int UPLOAD_STALL_MAX_RESTARTS = 3;
+
+    private int uploadStallRestarts;
+    private final Runnable uploadStallCheck = () -> Utilities.stageQueue.postRunnable(this::checkUploadStall);
+
+    private void checkUploadStall() {
+        if (state != 1) {
+            return;
+        }
+        boolean stalled;
+        if (caughtPremiumFloodWait) {
+            lastProgressUpdateTime = System.currentTimeMillis();
+            stalled = false;
+        } else {
+            stalled = currentUploadRequetsCount > 0 && System.currentTimeMillis() - lastProgressUpdateTime > UPLOAD_STALL_DETECT_MS;
+        }
+        if (stalled) {
+            if (uploadStallRestarts >= UPLOAD_STALL_MAX_RESTARTS) {
+                state = 4;
+                delegate.didFailedUploadingFile(this);
+                cleanup();
+                return;
+            }
+            uploadStallRestarts++;
+            restartStalledUpload(UPLOAD_STALL_RESTART_DELAY_MS << (uploadStallRestarts - 1));
+        }
+        AndroidUtilities.runOnUIThread(uploadStallCheck, UPLOAD_STALL_DETECT_MS);
+    }
+
+    private void restartStalledUpload(long restartDelayMs) {
+        for (int a = 0; a < requestTokens.size(); a++) {
+            ConnectionsManager.getInstance(currentAccount).cancelRequest(requestTokens.valueAt(a), true);
+        }
+        requestTokens.clear();
+        AndroidUtilities.runOnUIThread(() -> uiRequestTokens.clear());
+        cleanup();
+        isLastPart = false;
+        nextPartFirst = false;
+        requestNum = 0;
+        currentPartNum = 0;
+        readBytesCount = 0;
+        uploadedBytesCount = 0;
+        saveInfoTimes = 0;
+        key = null;
+        iv = null;
+        ivChange = null;
+        currentUploadRequetsCount = 0;
+        lastSavedPartNum = 0;
+        uploadFirstPartLater = false;
+        cachedResults.clear();
+        operationGuid++;
+        lastProgressUpdateTime = System.currentTimeMillis();
+        Utilities.stageQueue.postRunnable(() -> {
+            if (state != 1) {
+                return;
+            }
+            for (int a = 0, count = (slowNetwork ? initialRequestsSlowNetworkCount : initialRequestsCount); a < count; a++) {
+                startUploadRequest();
+            }
+        }, restartDelayMs);
     }
 }

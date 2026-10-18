@@ -140,3 +140,4 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - Rich editor send button now follows the input bar styling
 - iOS input bar: send, voice and apply buttons now take the chat theme colors in glass form, keeping the icon visible on any theme; the long-press send preview matches the bar button
 - View-deleted: photos can be saved to the gallery again — a photo now downloads properly, and if the full size is unavailable the best available one is saved (down to the preview) instead of an error
+- Uploading videos and GIFs on mobile data no longer hangs forever when the connection silently drops: a frozen upload restarts itself, and after a few failed tries shows an error you can retry
