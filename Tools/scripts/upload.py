@@ -148,7 +148,7 @@ def get_caption(test_version):
         tail += apk_link_html(release_url_base_armv7, apk_label)
     tail += 'See commit details <a href="' + html.escape(commit_url, quote=False) + '">' + html.escape(commit_id) + "</a>"
     tail += get_ai_summary()
-    caption += build_changelog_blockquote(4096 - len(caption) - len(tail) - 64) + tail
+    caption += build_changelog_quote_body(4096 - len(caption) - len(tail) - 64) + tail
     return caption
 
 
@@ -166,14 +166,14 @@ def get_changelog():
     return text
 
 
-def build_changelog_blockquote(max_length):
+def split_changelog_text():
     text = html.escape(normalize_message(get_changelog()), quote=False)
-    has_headline = bool(os.environ.get("CHANGELOG_HEADLINE", "").strip())
     lines = [line for line in text.splitlines() if line.strip()]
     header = lines[0] if lines else ""
-    subjects = lines[1:]
-    prefix = "" if has_headline else header
-    budget = max_length - len(prefix)
+    return header, lines[1:]
+
+
+def cap_commit_lines(subjects, budget):
     kept = []
     used = 0
     for line in reversed(subjects):
@@ -185,11 +185,27 @@ def build_changelog_blockquote(max_length):
     dropped = len(subjects) - len(kept)
     if dropped > 0:
         kept.insert(0, html.escape("… and %d earlier changes" % dropped, quote=False))
+    return kept
+
+
+# The caption post renders the headline block above the quote.
+def build_changelog_quote_body(max_length):
+    header, subjects = split_changelog_text()
+    prefix = "" if os.environ.get("CHANGELOG_HEADLINE", "").strip() else header
+    kept = cap_commit_lines(subjects, max_length - len(prefix))
     if not kept:
         return prefix
-    if prefix:
-        return prefix + "\n\n" + "\n".join(kept)
-    return "\n".join(kept)
+    return (prefix + "\n\n" if prefix else "") + "\n".join(kept)
+
+
+# Standalone metadata message; the in-app update popup shows it as the changelog.
+def build_changelog_message(max_length):
+    header, subjects = split_changelog_text()
+    prefix = build_headline_block() or header
+    kept = cap_commit_lines(subjects, max_length - len(prefix))
+    if not kept:
+        return prefix
+    return (prefix + "\n\n" if prefix else "") + "\n".join(kept)
 
 
 def build_manifest(sticker_id, changelog_id):
@@ -228,7 +244,7 @@ def send_manifest(token, chat_id, manifest_tag="updateRelease"):
     if HALLOWEEN_STICKER_ID and HALLOWEEN_SEASON[0] <= (today.month, today.day) <= HALLOWEEN_SEASON[1]:
         pool.append(HALLOWEEN_STICKER_ID)
     sticker_id = int(forced_sticker) if forced_sticker else random.choice(pool)
-    changelog = send_message(token, chat_id, build_changelog_blockquote(4096 - 64))
+    changelog = send_message(token, chat_id, build_changelog_message(4096 - 64))
     changelog_id = changelog["message_id"]
     manifest = build_manifest(sticker_id, changelog_id)
     send_message(token, chat_id, "#" + manifest_tag + "\n<pre>" + html.escape(manifest, quote=False) + "</pre>")
