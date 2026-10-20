@@ -145,3 +145,4 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - Cancelling a video or GIF that is still converting or uploading no longer marks the message with a red error
 - Saving several deleted media to the gallery in a row no longer slows down with each item: a save now gives its current download time to recover instead of piling on new requests
 - Removed the "Download Speed Boost" experimental setting — it had no effect after the 13.0.2 update and only made downloads hit server rate limits sooner
+- Fixed chats with old last messages staying hidden from the chat list until you scrolled it all the way to the bottom — the list now finishes loading by itself

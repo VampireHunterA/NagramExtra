@@ -376,6 +376,7 @@ public class MessagesController extends BaseController implements NotificationCe
     private SparseBooleanArray loadingDialogs = new SparseBooleanArray();
     private SparseBooleanArray dialogsEndReached = new SparseBooleanArray();
     private SparseBooleanArray serverDialogsEndReached = new SparseBooleanArray();
+    private int hiddenDialogsCatchUpRequests;
 
     private boolean loadingUnreadDialogs;
     private boolean migratingDialogs;
@@ -12864,6 +12865,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (onEmptyCallback != null && dialogsRes.dialogs.isEmpty()) {
                         AndroidUtilities.runOnUIThread(onEmptyCallback);
                     }
+                } else {
+                    AndroidUtilities.runOnUIThread(() -> loadingDialogs.put(folderId, false));
                 }
             });
         }
@@ -22868,6 +22871,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 isLeftPromoChannel = false;
             }
         }
+        int hiddenByLoadedDate = 0;
         for (int a = 0, N = allDialogs.size(); a < N; a++) {
             TLRPC.Dialog d = allDialogs.get(a);
             if (d instanceof TLRPC.TL_dialog) {
@@ -22882,6 +22886,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     if (maxDate > Integer.MIN_VALUE) {
                         if (maxDate < dialogsLoadedTillDate) {
+                            hiddenByLoadedDate++;
                             continue;
                         }
                     }
@@ -23000,6 +23005,19 @@ public class MessagesController extends BaseController implements NotificationCe
         }
 
         hasArchivedChats = dialogsByFolder.get(1, null) != null;
+        if (hiddenByLoadedDate > 0) {
+            long[] catchUpOffset = getUserConfig().getDialogLoadOffsets(0);
+            if (catchUpOffset[UserConfig.i_dialogsLoadOffsetId] == Integer.MAX_VALUE || serverDialogsEndReached.get(0, false)) {
+                dialogsLoadedTillDate = Integer.MIN_VALUE;
+                sortDialogs(chatsDict);
+                return;
+            } else if (!loadingDialogs.get(0, false) && hiddenDialogsCatchUpRequests < 60) {
+                hiddenDialogsCatchUpRequests++;
+                loadDialogs(0, 0, 100, false);
+            }
+        } else {
+            hiddenDialogsCatchUpRequests = 0;
+        }
     }
 
     private boolean addDialogToItsCommunity(TLRPC.Dialog dialog) {
