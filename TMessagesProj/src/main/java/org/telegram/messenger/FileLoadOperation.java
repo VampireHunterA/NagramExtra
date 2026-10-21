@@ -2069,7 +2069,10 @@ public class FileLoadOperation {
                 }
             } catch (Exception e) {
                 FileLog.e(e, !AndroidUtilities.isFilNotFoundException(e) && !AndroidUtilities.isENOSPC(e));
-                if (AndroidUtilities.isENOSPC(e)) {
+                // A late reply racing a cancel must not flip the operation to failed: the temp file may already be gone and reason=0 makes listeners drop the preview for good.
+                if (state == stateCancelling || state == stateCanceled) {
+                    onFail(false, 1);
+                } else if (AndroidUtilities.isENOSPC(e)) {
                     onFail(false, -1);
                 } else if (AndroidUtilities.isEROFS(e)) {
                     SharedConfig.checkSdCard(cacheFileFinal);

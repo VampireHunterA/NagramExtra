@@ -102,6 +102,7 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 - Builds for `arm64-v8a` (64-bit) and `armeabi-v7a` (32-bit); in-app update auto-picks the matching APK by device arch
 
 ## Fixes
+- Photo thumbnails no longer stay blank forever after fast scrolling through media: a download cancelled mid-scroll is no longer mistaken for a permanent failure
 - In-app update popup: the change list starts with the "What's new" release highlights again instead of a bare list of commits
 - Messages no longer go missing from chat history after being offline: posts the app missed while closed are now fetched back from the server instead of leaving permanent gaps
 - Beta channel posts in Telegram now say "Beta version" instead of "Dev version" — one name for the same channel everywhere
