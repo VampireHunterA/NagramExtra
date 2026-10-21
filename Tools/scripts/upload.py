@@ -124,6 +124,8 @@ def get_caption(test_version):
     if version_name:
         label += " v" + version_name
     caption = html.escape(label) + "\n\n"
+    if test_version:
+        caption += html.escape("This is a test build for checking recent changes — if in doubt, feel free to wait for the stable update.") + "\n\n"
     release_url = os.environ.get("RELEASE_URL", "")
     release_url_armv7 = os.environ.get("RELEASE_URL_ARMEABI_V7A", "")
     release_url_base = os.environ.get("RELEASE_URL_BASE", "")
