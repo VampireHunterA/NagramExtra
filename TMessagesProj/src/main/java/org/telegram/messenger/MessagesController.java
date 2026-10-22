@@ -13398,6 +13398,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 long[] dialogsLoadOffset = getUserConfig().getDialogLoadOffsets(0);
                 if (totalDialogsLoadCount < 400 && dialogsLoadOffset[UserConfig.i_dialogsLoadOffsetId] != -1 && dialogsLoadOffset[UserConfig.i_dialogsLoadOffsetId] != Integer.MAX_VALUE) {
                     loadDialogs(0, 0, 100, false);
+                } else if (dialogsLoadOffset[UserConfig.i_dialogsLoadOffsetId] != -1 && dialogsLoadOffset[UserConfig.i_dialogsLoadOffsetId] != Integer.MAX_VALUE) {
+                    loadDialogs(0, 0, 100, false);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
             });
@@ -13812,7 +13814,11 @@ public class MessagesController extends BaseController implements NotificationCe
                             continue;
                         }
                     }
-                    advanceChannelPtsFromDialog(-d.id, d.pts);
+                    if (loadType == 0) {
+                        channelsPts.put(-d.id, d.pts);
+                    } else {
+                        advanceChannelPtsFromDialog(-d.id, d.pts);
+                    }
                 } else if (DialogObject.isChatDialog(d.id)) {
                     TLRPC.Chat chat = chatsDict.get(-d.id);
                     if (chat != null && (chat.migrated_to != null || ChatObject.isNotInChat(chat))) {
