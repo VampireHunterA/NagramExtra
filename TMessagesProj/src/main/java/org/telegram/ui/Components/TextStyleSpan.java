@@ -12,6 +12,7 @@ import static me.vkryl.core.BitwiseUtils.hasFlag;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
 
@@ -74,15 +75,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
                 p.setFlags(p.getFlags() &~ Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
-            boolean usingCustomBold = (flags & FLAG_STYLE_BOLD) != 0 && TypefaceHelper.hasCustomFontForCategory(TypefaceHelper.FONT_CATEGORY_BOLD);
-            if ((flags & FLAG_STYLE_BOLD) != 0 && !usingCustomBold && !TypefaceHelper.isMediumWeightSupported()) {
-                p.setStrokeWidth(0.65f);
-                p.setStyle(Paint.Style.FILL_AND_STROKE);
-            }
-            boolean usingCustomItalic = (flags & FLAG_STYLE_ITALIC) != 0 && TypefaceHelper.hasCustomFontForCategory(TypefaceHelper.FONT_CATEGORY_ITALIC);
-            if ((flags & FLAG_STYLE_ITALIC) != 0 && !usingCustomItalic && !TypefaceHelper.isItalicSupported()) {
-                p.setTextSkewX(-0.25f);
-            }
+            p.setFakeBoldText(needsSyntheticBold());
 
             if ((flags & FLAG_STYLE_SPOILER_REVEALED) != 0) {
                 p.bgColor = Theme.getColor(Theme.key_chats_archivePullDownBackground);
@@ -109,13 +102,23 @@ public class TextStyleSpan extends MetricAffectingSpan {
                 return AndroidUtilities.getTypeface("fonts/mw_bold.ttf");
             }
             if (mono) return Typeface.MONOSPACE;
-            if (bold && italic && TypefaceHelper.isMediumWeightSupported() && TypefaceHelper.isItalicSupported())
+            if (bold && italic)
                 return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM_ITALIC);
-            if (bold && TypefaceHelper.isMediumWeightSupported())
+            if (bold)
                 return AndroidUtilities.bold();
-            if (italic && TypefaceHelper.isItalicSupported())
+            if (italic)
                 return AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_RITALIC);
             return null;
+        }
+
+        private boolean needsSyntheticBold() {
+            if ((flags & FLAG_STYLE_BOLD) == 0 || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                return false;
+            }
+            Typeface customTf = TypefaceHelper.getTypefaceForStyle(true,
+                    (flags & FLAG_STYLE_ITALIC) != 0,
+                    (flags & FLAG_STYLE_MONO) != 0 || (flags & FLAG_STYLE_CODE) != 0);
+            return customTf != null && customTf.getWeight() < 600;
         }
     }
 
