@@ -170,6 +170,10 @@ public class TurboSettingsActivity extends BaseNekoXSettingsActivity implements 
     private final AbstractConfigCell photoViewerHdrRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.photoViewerHdr));
     private final AbstractConfigCell dividerMedia = cellGroup.appendCell(new ConfigCellDivider());
 
+    private final AbstractConfigCell headerDownloading = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.DownloadingSettings)));
+    private final AbstractConfigCell downloadSpeedBoostRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getDownloadSpeedBoost(), getString(R.string.DownloadSpeedBoostAbout)));
+    private final AbstractConfigCell dividerDownloading = cellGroup.appendCell(new ConfigCellDivider());
+
     private final AbstractConfigCell headerForwarding = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellHeader(getString(R.string.ForwardingSettings)));
     private final AbstractConfigCell forwardProtectedModeRow = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellSelectBox(null, NaConfig.INSTANCE.getForwardProtectedMode(), new String[]{
             getString(R.string.ForwardProtectedModeAsk),

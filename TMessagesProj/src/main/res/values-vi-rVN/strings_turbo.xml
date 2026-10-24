@@ -143,4 +143,7 @@
     <string name="HideCallEncryptionEmoji">Ẩn emoji mã hóa trong cuộc gọi</string>
     <string name="HideCallEncryptionEmojiAbout">Hàng emoji trong cuộc gọi trông giống như chỉ báo mã hóa.</string>
     <string name="AutoMuteOnJoin">Tắt tiếng kênh và nhóm khi tham gia</string>
+    <string name="DownloadSpeedBoost">Tăng tốc tải xuống</string>
+    <string name="DownloadSpeedBoostAbout">Thử nghiệm: nâng giới hạn tải xuống lên cấp Premium. Giới hạn máy chủ đôi khi có thể làm chậm lại việc tải xuống.</string>
+    <string name="DownloadingSettings">Tải xuống</string>
 </resources>

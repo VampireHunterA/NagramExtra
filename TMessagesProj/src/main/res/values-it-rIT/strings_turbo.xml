@@ -143,4 +143,7 @@
     <string name="HideCallEncryptionEmoji">Nascondi le emoji di crittografia nelle chiamate</string>
     <string name="HideCallEncryptionEmojiAbout">La riga di emoji nelle chiamate che sembra un indicatore di crittografia.</string>
     <string name="AutoMuteOnJoin">Silenzia canali e gruppi all\'iscrizione</string>
+    <string name="DownloadSpeedBoost">Accelerazione dei download</string>
+    <string name="DownloadSpeedBoostAbout">Sperimentale: porta i limiti di download al livello Premium. I limiti del server possono talvolta rallentare di nuovo i download.</string>
+    <string name="DownloadingSettings">Download</string>
 </resources>

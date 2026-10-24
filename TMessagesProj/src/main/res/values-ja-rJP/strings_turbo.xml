@@ -143,4 +143,7 @@
     <string name="HideCallEncryptionEmoji">通話で暗号化の絵文字を非表示</string>
     <string name="HideCallEncryptionEmojiAbout">暗号化ステータスのように見える通話中の絵文字の列。</string>
     <string name="AutoMuteOnJoin">参加時にチャンネルとグループをミュート</string>
+    <string name="DownloadSpeedBoost">ダウンロード速度ブースト</string>
+    <string name="DownloadSpeedBoostAbout">実験的機能：ダウンロード制限をPremiumレベルに引き上げます。サーバーの制限により、ダウンロードが再び遅くなることがあります。</string>
+    <string name="DownloadingSettings">ダウンロード</string>
 </resources>

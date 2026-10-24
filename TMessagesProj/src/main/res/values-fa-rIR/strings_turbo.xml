@@ -143,4 +143,7 @@
     <string name="HideCallEncryptionEmoji">پنهان‌کردن ایموجی‌های رمزنگاری در تماس‌ها</string>
     <string name="HideCallEncryptionEmojiAbout">ردیف ایموجی در تماس‌ها که شبیه نشانگر رمزنگاری است.</string>
     <string name="AutoMuteOnJoin">بی‌صدا کردن کانال‌ها و گروه‌ها هنگام عضویت</string>
+    <string name="DownloadSpeedBoost">افزایش سرعت دانلود</string>
+    <string name="DownloadSpeedBoostAbout">آزمایشی: محدودیت‌های دانلود را به سطح Premium می‌رساند. محدودیت‌های سرور گاهی ممکن است دانلود را دوباره کند کند.</string>
+    <string name="DownloadingSettings">دانلود</string>
 </resources>

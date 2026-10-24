@@ -143,4 +143,7 @@
     <string name="HideCallEncryptionEmoji">통화에서 암호화 이모지 숨기기</string>
     <string name="HideCallEncryptionEmojiAbout">암호화 상태 표시처럼 보이는 통화 중 이모티콘 행.</string>
     <string name="AutoMuteOnJoin">참가 시 채널 및 그룹 음소거</string>
+    <string name="DownloadSpeedBoost">다운로드 속도 부스트</string>
+    <string name="DownloadSpeedBoostAbout">실험적 기능: 다운로드 제한을 Premium 수준으로 높입니다. 서버 제한으로 인해 다운로드가 다시 느려질 수 있습니다.</string>
+    <string name="DownloadingSettings">다운로드</string>
 </resources>

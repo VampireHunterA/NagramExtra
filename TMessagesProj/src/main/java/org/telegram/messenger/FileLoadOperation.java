@@ -300,7 +300,8 @@ public class FileLoadOperation {
     }
 
     private void updateParams() {
-        if ((preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams) && !forceSmallChunk) {
+        // downloadSpeedBoost keeps 8x512KB on non-budget paths (stories/audio/encrypted); dropping it re-caps those paths
+        if ((preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams || xyz.nextalone.nagram.NaConfig.INSTANCE.getDownloadSpeedBoost().Bool()) && !forceSmallChunk) {
             downloadChunkSizeBig = 1024 * 512;
             maxDownloadRequests = 8;
             maxDownloadRequestsBig = 8;
@@ -869,8 +870,10 @@ public class FileLoadOperation {
                         !isPreloadVideoOperation && !supportsPreloading && preloadPrefixSize == 0;
                 if (useDownloadByteBudget) {
                     boolean premium = UserConfig.getInstance(currentAccount).isPremium();
-                    downloadConnectionsCount = premium ? ConnectionsManager.DownloadConnectionsCount : 2;
-                    int byteBudget = (premium ? 16 : 2) * 1024 * 1024;
+                    // downloadSpeedBoost lifts the non-premium byte budget and connection count to premium level; dropping it re-caps downloads at 2MB
+                    boolean isBoosted = !premium && xyz.nextalone.nagram.NaConfig.INSTANCE.getDownloadSpeedBoost().Bool();
+                    downloadConnectionsCount = premium || isBoosted ? ConnectionsManager.DownloadConnectionsCount : 2;
+                    int byteBudget = (premium || isBoosted ? 16 : 2) * 1024 * 1024;
                     currentMaxDownloadRequests = byteBudget / currentDownloadChunkSize;
                 }
             }

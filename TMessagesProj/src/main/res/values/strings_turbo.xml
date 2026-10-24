@@ -119,6 +119,9 @@
     <string name="ScrollToCurrentPhotoAbout">If you swipe to another photo and close the viewer, scroll the chat to it.</string>
     <string name="SwipeAllMedia">Swipe GIFs with photos and videos</string>
     <string name="SwipeAllMediaAbout">The position counter shows only loaded items, not the total.</string>
+    <string name="DownloadingSettings">Downloading</string>
+    <string name="DownloadSpeedBoost">Download Speed Boost</string>
+    <string name="DownloadSpeedBoostAbout">Experimental: raises download limits to Premium level. Server limits may sometimes slow downloads back down.</string>
     <string name="ShowDateInBubble">Show Date in Messages</string>
     <string name="AppIconRestartMessage">Restart the app so the new icon appears everywhere?</string>
     <string name="Later">Later</string>

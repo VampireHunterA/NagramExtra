@@ -1635,6 +1635,12 @@ object NaConfig {
             ConfigItem.configTypeBool,
             false
         )
+    val downloadSpeedBoost =
+        addConfig(
+            "DownloadSpeedBoost",
+            ConfigItem.configTypeBool,
+            false
+        )
     val deepLTranslateKey =
         addConfig(
             "DeepLTranslateKey",
@@ -1777,6 +1783,13 @@ object NaConfig {
                 backAnimationStyle.setConfigInt(1) // SPRING
             }
             getPreferences().edit { remove("SpringAnimation") }
+        }
+        if (getPreferences().contains("enhancedFileLoader")) {
+            val legacyDownloadBoost = getPreferences().getBoolean("enhancedFileLoader", false)
+            if (legacyDownloadBoost) {
+                downloadSpeedBoost.setConfigBool(true)
+            }
+            getPreferences().edit { remove("enhancedFileLoader") }
         }
         if (!getPreferences().contains(strokeOnViews.key)) {
             strokeOnViews.changed(SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW)

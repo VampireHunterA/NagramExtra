@@ -145,4 +145,7 @@
     <string name="HideCallEncryptionEmoji">Приховувати емодзі шифрування у дзвінках</string>
     <string name="HideCallEncryptionEmojiAbout">Рядок емодзі у дзвінках, що виглядає як індикатор шифрування.</string>
     <string name="AutoMuteOnJoin">Вимикати звук у каналах і групах при приєднанні</string>
+    <string name="DownloadSpeedBoost">Прискорення завантаження</string>
+    <string name="DownloadSpeedBoostAbout">Експериментально: підвищує ліміти завантаження до рівня Premium. Серверні обмеження можуть іноді знову сповільнювати завантаження.</string>
+    <string name="DownloadingSettings">Завантаження</string>
 </resources>

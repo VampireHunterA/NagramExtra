@@ -15,6 +15,7 @@ Synced with Telegram 13.0.2. User-visible from upstream since 12.10.6:
 ## Features
 
 ### Settings
+- Download speed boost (Turbo → Downloading, off by default): lifts download limits to Premium level, so big files download faster without a Premium subscription; stories, audio and secret-chat files download faster too. Experimental: server limits may sometimes slow downloads back down
 - One place for all Turbo settings: a dedicated Turbo section in the Nagram X settings — app icon picker, input bar (iOS), action button style, media viewer, forwarding, deleted messages and fonts now live together
 - Search fields follow the input field text size setting — chats list, in-chat search, settings, shared media, emoji and stickers; changes apply live
 - Deleted messages settings redesign: chat-type categories (private chats, channels, groups) as a two-column Text/Media checkbox list right in the settings instead of hidden popups; all categories are on by default when the feature is first enabled
