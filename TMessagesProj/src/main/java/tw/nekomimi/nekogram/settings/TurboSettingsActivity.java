@@ -172,6 +172,7 @@ public class TurboSettingsActivity extends BaseNekoXSettingsActivity implements 
 
     private final AbstractConfigCell headerDownloading = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.DownloadingSettings)));
     private final AbstractConfigCell downloadSpeedBoostRow = cellGroup.appendCell(new ConfigCellTextCheck(NaConfig.INSTANCE.getDownloadSpeedBoost(), getString(R.string.DownloadSpeedBoostAbout)));
+    private final AbstractConfigCell uploadSpeedBoostRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.uploadBoost));
     private final AbstractConfigCell dividerDownloading = cellGroup.appendCell(new ConfigCellDivider());
 
     private final AbstractConfigCell headerForwarding = BuildVars.TURBO_BASE ? null : cellGroup.appendCell(new ConfigCellHeader(getString(R.string.ForwardingSettings)));

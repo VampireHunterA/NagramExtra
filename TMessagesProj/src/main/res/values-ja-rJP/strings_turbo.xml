@@ -145,5 +145,5 @@
     <string name="AutoMuteOnJoin">参加時にチャンネルとグループをミュート</string>
     <string name="DownloadSpeedBoost">ダウンロード速度ブースト</string>
     <string name="DownloadSpeedBoostAbout">実験的機能：ダウンロード制限をPremiumレベルに引き上げます。サーバーの制限により、ダウンロードが再び遅くなることがあります。</string>
-    <string name="DownloadingSettings">ダウンロード</string>
+    <string name="DownloadingSettings">ネットワーク</string>
 </resources>

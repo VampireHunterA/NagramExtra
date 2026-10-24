@@ -145,5 +145,5 @@
     <string name="AutoMuteOnJoin">Bisukan saluran dan grup saat bergabung</string>
     <string name="DownloadSpeedBoost">Percepatan Unduhan</string>
     <string name="DownloadSpeedBoostAbout">Eksperimental: menaikkan batas unduhan ke level Premium. Batas server kadang dapat memperlambat unduhan kembali.</string>
-    <string name="DownloadingSettings">Unduhan</string>
+    <string name="DownloadingSettings">Jaringan</string>
 </resources>

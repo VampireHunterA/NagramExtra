@@ -147,5 +147,5 @@
     <string name="AutoMuteOnJoin">Вимикати звук у каналах і групах при приєднанні</string>
     <string name="DownloadSpeedBoost">Прискорення завантаження</string>
     <string name="DownloadSpeedBoostAbout">Експериментально: підвищує ліміти завантаження до рівня Premium. Серверні обмеження можуть іноді знову сповільнювати завантаження.</string>
-    <string name="DownloadingSettings">Завантаження</string>
+    <string name="DownloadingSettings">Мережа</string>
 </resources>

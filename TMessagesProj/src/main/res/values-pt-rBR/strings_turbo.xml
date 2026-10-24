@@ -145,5 +145,5 @@
     <string name="AutoMuteOnJoin">Silenciar canais e grupos ao entrar</string>
     <string name="DownloadSpeedBoost">Aceleração de download</string>
     <string name="DownloadSpeedBoostAbout">Experimental: eleva os limites de download ao nível Premium. Os limites do servidor às vezes podem desacelerar os downloads novamente.</string>
-    <string name="DownloadingSettings">Downloads</string>
+    <string name="DownloadingSettings">Rede</string>
 </resources>

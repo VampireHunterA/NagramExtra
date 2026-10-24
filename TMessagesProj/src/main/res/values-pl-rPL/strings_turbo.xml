@@ -147,5 +147,5 @@
     <string name="AutoMuteOnJoin">Wyciszaj kanały i grupy po dołączeniu</string>
     <string name="DownloadSpeedBoost">Przyspieszanie pobierania</string>
     <string name="DownloadSpeedBoostAbout">Eksperymentalne: podnosi limity pobierania do poziomu Premium. Limity serwera mogą czasami ponownie spowalniać pobieranie.</string>
-    <string name="DownloadingSettings">Pobieranie</string>
+    <string name="DownloadingSettings">Sieć</string>
 </resources>

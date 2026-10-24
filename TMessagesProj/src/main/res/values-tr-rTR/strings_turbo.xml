@@ -145,5 +145,5 @@
     <string name="AutoMuteOnJoin">Katılırken kanalları ve grupları sessize al</string>
     <string name="DownloadSpeedBoost">İndirme Hızlandırma</string>
     <string name="DownloadSpeedBoostAbout">Deneysel: indirme limitlerini Premium seviyesine yükseltir. Sunucu sınırları indirmeleri zaman zaman yeniden yavaşlatabilir.</string>
-    <string name="DownloadingSettings">İndirme</string>
+    <string name="DownloadingSettings">Ağ</string>
 </resources>

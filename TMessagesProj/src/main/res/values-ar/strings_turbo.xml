@@ -149,5 +149,5 @@
     <string name="AutoMuteOnJoin">كتم صوت القنوات والمجموعات عند الانضمام</string>
     <string name="DownloadSpeedBoost">تسريع التنزيل</string>
     <string name="DownloadSpeedBoostAbout">تجريبي: يرفع حدود التنزيل إلى مستوى Premium. قد تُبطئ حدود الخادم التنزيل مرة أخرى أحيانًا.</string>
-    <string name="DownloadingSettings">التنزيل</string>
+    <string name="DownloadingSettings">الشبكة</string>
 </resources>
