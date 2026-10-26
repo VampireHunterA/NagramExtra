@@ -49,6 +49,7 @@ Synced with Telegram 13.0.3. User-visible from upstream since 13.0.2:
 
 ### Custom fonts
 - Pick a font by category: Regular / Bold / Italic / Mono
+- "Thicken bold text" toggle (Turbo → Fonts): when your bold font has no real bold weight, turn thickening off to render bold text with the font's own weight — for thin font pairs like Light + Regular
 - Import your own `.ttf`/`.otf` straight from chat (tap — preview, long-press — apply)
 - Text size in every input field + cursor scaling
 

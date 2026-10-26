@@ -1641,6 +1641,12 @@ object NaConfig {
             ConfigItem.configTypeBool,
             false
         )
+    val fontBoldSyntheticThickening =
+        addConfig(
+            "FontBoldSyntheticThickening",
+            ConfigItem.configTypeBool,
+            true
+        )
     val deepLTranslateKey =
         addConfig(
             "DeepLTranslateKey",
