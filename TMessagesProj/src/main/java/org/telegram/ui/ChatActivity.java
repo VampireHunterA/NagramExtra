@@ -24347,11 +24347,19 @@ public class ChatActivity extends BaseFragment implements
         } else if (id == NotificationCenter.fileNewChunkAvailable) {
             MessageObject messageObject = (MessageObject) args[0];
             long finalSize = (Long) args[3];
-            if (finalSize != 0 && dialog_id == messageObject.getDialogId()) {
+            if (dialog_id == messageObject.getDialogId()) {
                 MessageObject currentObject = messagesDict[0].get(messageObject.getId());
-                if (currentObject != null && currentObject.messageOwner.media.document != null) {
+                if (finalSize != 0 && currentObject != null && currentObject.messageOwner.media.document != null) {
                     currentObject.messageOwner.media.document.size = (int) finalSize;
                     updateVisibleRows();
+                } else if (currentObject != null && currentObject.messageOwner.params != null && currentObject.messageOwner.params.containsKey("ve")) {
+                    int count = chatListView.getChildCount();
+                    for (int a = 0; a < count; a++) {
+                        View child = chatListView.getChildAt(a);
+                        if (child instanceof ChatMessageCell && ((ChatMessageCell) child).getMessageObject() != null && ((ChatMessageCell) child).getMessageObject().getId() == messageObject.getId()) {
+                            ((ChatMessageCell) child).updateProcessingProgress();
+                        }
+                    }
                 }
             }
         } else if (id == NotificationCenter.didCreatedNewDeleteTask) {

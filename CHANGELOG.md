@@ -149,6 +149,8 @@ Synced with Telegram 13.0.3. User-visible from upstream since 13.0.2:
 - View-deleted: photos can be saved to the gallery again — a photo now downloads properly, and if the full size is unavailable the best available one is saved (down to the preview) instead of an error
 - Uploading videos and GIFs on mobile data no longer hangs forever when the connection silently drops: a frozen upload restarts itself, and after a few failed tries shows an error you can retry
 - Cancelling a video or GIF that is still converting or uploading no longer marks the message with a red error
+- Sending a video shows its processing progress — "Processing video… 74%" in the chat and in the upload notification — instead of a size counter that looks stuck
+- A video upload no longer hangs forever when the video itself stops converting: after 90 seconds without progress the message shows an honest error you can retry, and the stuck conversion is cancelled
 - Saving several deleted media to the gallery in a row no longer slows down with each item: a save now gives its current download time to recover instead of piling on new requests
 - Removed the "Download Speed Boost" experimental setting — it had no effect after the 13.0.2 update and only made downloads hit server rate limits sooner
 - Fixed chats with old last messages staying hidden from the chat list until you scrolled it all the way to the bottom — the list now finishes loading by itself

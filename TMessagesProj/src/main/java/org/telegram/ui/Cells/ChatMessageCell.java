@@ -1328,6 +1328,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private CountdownTimer pollCountDownTimer;
     private StaticLayout loadingProgressLayout;
     private long loadingProgressLayoutHash;
+    private StaticLayout processingProgressLayout;
+    private long processingProgressLayoutHash;
     private int infoX;
     private int infoWidth;
 
@@ -4359,7 +4361,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 miniButtonPressed = 1;
                 invalidate();
                 result = true;
-            } else if (buttonState != -1 && radialProgress.getIcon() != MediaActionDrawable.ICON_NONE && x >= buttonX && x <= buttonX + side && y >= buttonY && y <= buttonY + side && allowClickButtons) {
+            } else if (buttonState != -1 && radialProgress.getIcon() != MediaActionDrawable.ICON_NONE && allowClickButtons && (x >= buttonX && x <= buttonX + side && y >= buttonY && y <= buttonY + side || currentMessageObject != null && currentMessageObject.isSending() && buttonState == 1 && Math.abs(x - buttonX - side / 2f) <= side && Math.abs(y - buttonY - side / 2f) <= side)) {
                 buttonPressed = 1;
                 invalidate();
                 result = true;
@@ -11355,6 +11357,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             currentWebFile = null;
             lastWebFile = null;
             loadingProgressLayout = null;
+            processingProgressLayout = null;
             animatingLoadingProgressProgress = 0;
             lastLoadingSizeTotal = 0;
             selectedBackgroundProgress = 0f;
@@ -17792,11 +17795,21 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     if (needProgress) {
                         long[] progress = ImageLoader.getInstance().getFileProgressSizes(currentMessageObject.messageOwner.attachPath);
                         float loadingProgress = 0;
+                        processingProgressLayout = null;
+                        HashMap<String, String> sendingParams = currentMessageObject.messageOwner.params;
+                        String processingPercent = sendingParams == null ? null : sendingParams.get("vp");
                         if (progress == null && sending) {
                             loadingProgress = 1.0f;
+                            if (isVideoConversionProcessing()) {
+                                createProcessingProgressLayout(processingPercent == null ? 0 : Integer.parseInt(processingPercent));
+                            }
                         } else if (progress != null) {
                             loadingProgress = DownloadController.getProgress(progress);
-                            createLoadingProgressLayout(progress[0], progress[1]);
+                            if (isVideoConversionProcessing()) {
+                                createProcessingProgressLayout(processingPercent == null ? 0 : Integer.parseInt(processingPercent));
+                            } else {
+                                createLoadingProgressLayout(progress[0], progress[1]);
+                            }
                         }
                         radialProgress.setProgress(loadingProgress, false);
                     } else {
@@ -18484,8 +18497,29 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (lastLoadingSizeTotal > 0 && Math.abs(lastLoadingSizeTotal - totalSize) > UPLOADING_ALLOWABLE_ERROR) {
             lastLoadingSizeTotal = totalSize;
         }
-        createLoadingProgressLayout(uploadedSize, totalSize);
+        HashMap<String, String> uploadParams = currentMessageObject.messageOwner.params;
+        if (isVideoConversionProcessing()) {
+            String processingPercent = uploadParams == null ? null : uploadParams.get("vp");
+            createProcessingProgressLayout(processingPercent == null ? 0 : Integer.parseInt(processingPercent));
+        } else {
+            processingProgressLayout = null;
+            createLoadingProgressLayout(uploadedSize, totalSize);
+        }
         if (currentFocusedVirtualView == -1 && hasFocus()) announceForAccessibility((progress * 100) + "%");
+    }
+
+    private boolean isVideoConversionProcessing() {
+        HashMap<String, String> uploadParams = currentMessageObject.messageOwner.params;
+        return documentAttachType == DOCUMENT_ATTACH_TYPE_VIDEO && uploadParams != null && uploadParams.containsKey("ve");
+    }
+
+    public void updateProcessingProgress() {
+        if (isVideoConversionProcessing()) {
+            HashMap<String, String> uploadParams = currentMessageObject.messageOwner.params;
+            String processingPercent = uploadParams.get("vp");
+            createProcessingProgressLayout(processingPercent == null ? 0 : Integer.parseInt(processingPercent));
+            invalidate();
+        }
     }
 
     private void createLoadingProgressLayout(TLRPC.Document document) {
@@ -18560,6 +18594,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             w = (int) Math.ceil(Theme.chat_infoPaint.measureText(str));
         }
         loadingProgressLayout = new StaticLayout(str, Theme.chat_infoPaint, w, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+    }
+
+    private void createProcessingProgressLayout(int percent) {
+        if (documentAttach == null || documentAttachType != DOCUMENT_ATTACH_TYPE_VIDEO) {
+            processingProgressLayout = null;
+            return;
+        }
+        if (processingProgressLayout != null && processingProgressLayoutHash == percent) {
+            return;
+        }
+        processingProgressLayoutHash = percent;
+        String str = LocaleController.formatString(R.string.ProcessingVideo, percent);
+        int w = (int) Math.ceil(Theme.chat_infoPaint.measureText(str));
+        processingProgressLayout = new StaticLayout(str, Theme.chat_infoPaint, w, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
     }
 
 
@@ -25453,7 +25501,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         updatePlayingMessageProgress();
                     }
 
-                    if ((infoLayout != null || loadingProgressLayout != null) && (!forceNotDrawTime || autoPlayingMedia || drawVideoImageButton || animatingLoadingProgressProgress != 0 || (fullWidth && docTitleLayout != null) || (loadingProgressLayout != null && currentPosition != null && (buttonState == 1 || (buttonState == 3 && miniButtonState == 1)))) && (currentMessageObject != null && !currentMessageObject.sendPreview)) {
+                    if ((infoLayout != null || loadingProgressLayout != null || processingProgressLayout != null) && (!forceNotDrawTime || autoPlayingMedia || drawVideoImageButton || animatingLoadingProgressProgress != 0 || (fullWidth && docTitleLayout != null) || (loadingProgressLayout != null && currentPosition != null && (buttonState == 1 || (buttonState == 3 && miniButtonState == 1)))) && (currentMessageObject != null && !currentMessageObject.sendPreview)) {
                         boolean drawLoadingProgress;
                         float alpha = 0;
                         boolean drawDocTitleLayout;
@@ -25495,9 +25543,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             } else {
                                 imageW = 0;
                             }
-                            if (drawLoadingProgress && loadingProgressLayout != null) {
+                            if (drawLoadingProgress && (processingProgressLayout != null || loadingProgressLayout != null)) {
                                 imageW = 0;
-                                infoW = (int) loadingProgressLayout.getLineWidth(0);
+                                infoW = (int) (processingProgressLayout != null ? processingProgressLayout : loadingProgressLayout).getLineWidth(0);
 //                            infoW = loadingProgressLayout.getCurrentWidth();
                             } else {
                                 infoW = infoWidth;
@@ -25526,7 +25574,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 photoImage.setAlpha(wasAlpha);
                                 canvas.restore();
                                 canvas.drawRoundRect(rect, r, r, getThemedPaint(Theme.key_paint_chatTimeBackground));
-                            } else if (drawDocTitleLayout || (drawLoadingProgress && loadingProgressLayout != null) || (!drawLoadingProgress && infoLayout != null)) {
+                            } else if (drawDocTitleLayout || (drawLoadingProgress && (processingProgressLayout != null || loadingProgressLayout != null)) || (!drawLoadingProgress && infoLayout != null)) {
                                 canvas.scale(loadingProgressAlpha, loadingProgressAlpha, x1, y1);
                                 canvas.drawRoundRect(rect, r, r, getThemedPaint(Theme.key_paint_chatTimeBackground));
                             } else {
@@ -25552,14 +25600,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 noSoundCenterX += offset + size / 2;
                                 canvas.restore();
                             }
-                            if (drawLoadingProgress && loadingProgressLayout != null) {
+                            if (drawLoadingProgress && (processingProgressLayout != null || loadingProgressLayout != null)) {
                                 canvas.save();
                                 if (drawDocTitleLayout) {
                                     Theme.chat_infoPaint.setAlpha((int) (255 * controlsAlpha * alpha));
                                     canvas.translate(0, dp(14.3f * alpha));
                                 }
+                                if (processingProgressLayout != null) {
+                                    processingProgressLayout.draw(canvas);
+                                } else {
 //                            loadingProgressLayout.copyStylesFrom(Theme.chat_infoPaint);
-                                loadingProgressLayout.draw(canvas);
+                                    loadingProgressLayout.draw(canvas);
+                                }
                                 canvas.restore();
                             } else if (drawDocTitleLayout) {
                                 Theme.chat_infoPaint.setAlpha((int) (255 * controlsAlpha * alpha));
@@ -25603,7 +25655,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     invalidate();
                 }
 
-                float animatingToLoadingProgress = (buttonState == 1 || miniButtonState == 1) && loadingProgressLayout != null ? 1f : 0f;
+                float animatingToLoadingProgress = (buttonState == 1 || miniButtonState == 1) && (loadingProgressLayout != null || processingProgressLayout != null) ? 1f : 0f;
                 if (animatingToLoadingProgress == 0f && infoLayout != null && fullWidth) {
                     animatingLoadingProgressProgress = 0f;
                 }

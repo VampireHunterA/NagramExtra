@@ -1247,6 +1247,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 importingStickers.onFileFailedToUpload(location);
             }
 
+            MediaController.getInstance().cancelVideoConvertByPath(location);
+
             ArrayList<DelayedMessage> arr = delayedMessages.get(location);
             if (arr != null) {
                 for (int a = 0; a < arr.size(); a++) {
@@ -1303,6 +1305,15 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             long finalSize = (Long) args[3];
             Float progress = (Float) args[4];
             boolean isEncrypted = DialogObject.isEncryptedDialog(messageObject.getDialogId());
+            HashMap<String, String> uploadParams = messageObject.messageOwner.params;
+            if (uploadParams != null) {
+                if (finalSize != 0) {
+                    uploadParams.remove("ve");
+                    uploadParams.remove("vp");
+                } else {
+                    uploadParams.put("vp", String.valueOf((int) (progress == null ? 0f : progress * 100)));
+                }
+            }
             getFileLoader().checkUploadNewDataAvailable(finalPath, isEncrypted, availableSize, finalSize, progress);
             if (finalSize != 0) {
                 ArrayList<DelayedMessage> arr = delayedMessages.get(messageObject.messageOwner.attachPath);
@@ -1369,6 +1380,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 return;
             }
             String finalPath = (String) args[1];
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("debug_uploading: preparing failed " + finalPath);
+            }
 
             ArrayList<DelayedMessage> arr = delayedMessages.get(finalPath);
             if (arr != null) {

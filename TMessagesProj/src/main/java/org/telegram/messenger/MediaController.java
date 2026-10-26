@@ -6888,6 +6888,27 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
+    public void cancelVideoConvertByPath(String path) {
+        if (path == null || videoConvertQueue.isEmpty()) {
+            return;
+        }
+        for (int a = 0; a < videoConvertQueue.size(); a++) {
+            VideoConvertMessage videoConvertMessage = videoConvertQueue.get(a);
+            if (path.equals(videoConvertMessage.messageObject.messageOwner.attachPath)) {
+                if (a == 0) {
+                    synchronized (videoConvertSync) {
+                        videoConvertMessage.videoEditedInfo.canceled = true;
+                    }
+                } else {
+                    videoConvertQueue.remove(a);
+                    foregroundConvertingMessages.remove(videoConvertMessage);
+                    checkForegroundConvertMessage(true);
+                }
+                break;
+            }
+        }
+    }
+
     private void checkForegroundConvertMessage(boolean cancelled) {
         if (!foregroundConvertingMessages.isEmpty()) {
             currentForegroundConvertingVideo = foregroundConvertingMessages.get(0);
@@ -6903,6 +6924,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (!videoConvertQueue.isEmpty()) {
             VideoConvertMessage videoConvertMessage = videoConvertQueue.get(0);
             VideoEditedInfo videoEditedInfo = videoConvertMessage.videoEditedInfo;
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("debug_uploading: conversion start " + (videoConvertMessage.messageObject != null ? videoConvertMessage.messageObject.messageOwner.attachPath : null));
+            }
             synchronized (videoConvertSync) {
                 if (videoEditedInfo != null) {
                     videoEditedInfo.canceled = false;
