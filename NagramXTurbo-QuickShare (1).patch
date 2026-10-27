@@ -1,0 +1,253 @@
+From c647eac54241adb025db8b26af6b1cafdff2fa0e Mon Sep 17 00:00:00 2001
+From: Nagram X Turbo QuickShare <quickshare@localhost>
+Date: Tue, 6 Oct 2026 09:29:56 +0300
+Subject: [PATCH] Add custom Quick Share recipients and send modes
+
+---
+ .../java/org/telegram/ui/ChatActivity.java    |  5 +-
+ .../QuickShareSelectorOverlayLayout.java      | 26 +++++++-
+ .../java/org/telegram/ui/DialogsActivity.java | 19 ++++++
+ .../settings/NekoChatSettingsActivity.java    | 59 +++++++++++++++++++
+ .../kotlin/xyz/nextalone/nagram/NaConfig.kt   |  6 ++
+ 5 files changed, 113 insertions(+), 2 deletions(-)
+
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+index a138c18e1..a87a381c7 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/ChatActivity.java
+@@ -41634,8 +41634,11 @@ public class ChatActivity extends BaseFragment implements
+ 
+             final boolean isSavedMessages = did == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId;
+             final ArrayList<MessageObject> finalArrayList = arrayList;
++            final int quickShareSendMode = NaConfig.getPreferences().getInt("QuickShareSendMode", 0);
++            final boolean quickShareHideSender = quickShareSendMode == 1 || quickShareSendMode == 2;
++            final boolean quickShareHideCaption = quickShareSendMode == 2;
+             Runnable delayedRunnalble = () -> {
+-                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(finalArrayList, did, false, false, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, null, -1, 0, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
++                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(finalArrayList, did, quickShareHideSender, quickShareHideCaption, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, null, -1, 0, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
+                 AlertsCreator.showSendMediaAlert(result, ChatActivity.this, null);
+             };
+ 
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/Components/quickforward/QuickShareSelectorOverlayLayout.java b/TMessagesProj/src/main/java/org/telegram/ui/Components/quickforward/QuickShareSelectorOverlayLayout.java
+index e7c1ec02a..c75a9f3d4 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/Components/quickforward/QuickShareSelectorOverlayLayout.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/Components/quickforward/QuickShareSelectorOverlayLayout.java
+@@ -14,6 +14,7 @@ import org.telegram.messenger.MediaDataController;
+ import org.telegram.messenger.MessageObject;
+ import org.telegram.messenger.MessagesController;
+ import org.telegram.messenger.UserConfig;
++import xyz.nextalone.nagram.NaConfig;
+ import org.telegram.messenger.UserObject;
+ import org.telegram.tgnet.TLRPC;
+ import org.telegram.ui.Cells.ChatMessageCell;
+@@ -40,7 +41,7 @@ public class QuickShareSelectorOverlayLayout extends View {
+             return;
+         }
+ 
+-        final QuickShareSelectorDrawable drawable = new QuickShareSelectorDrawable(this, cell, removeDuplicates(dialogs), key, () -> {
++        final QuickShareSelectorDrawable drawable = new QuickShareSelectorDrawable(this, cell, customDialogs ? new ArrayList<>(dialogs) : removeDuplicates(dialogs), key, () -> {
+             drawablesForRemove.add(key);
+             invalidate();
+         });
+@@ -141,9 +142,32 @@ public class QuickShareSelectorOverlayLayout extends View {
+ 
+     private final ArrayList<Long> dialogs = new ArrayList<>();
+     private final int currentAccount = UserConfig.selectedAccount;
++    private boolean customDialogs;
+ 
+     private void fetchDialogs() {
+         dialogs.clear();
++        customDialogs = false;
++
++        String savedDialogs = NaConfig.getPreferences()
++                .getString("QuickShareDialogs_" + currentAccount, "");
++
++        if (savedDialogs != null && !savedDialogs.isEmpty()) {
++            String[] ids = savedDialogs.split(",");
++            for (String id : ids) {
++                try {
++                    long dialogId = Long.parseLong(id.trim());
++                    if (dialogId != 0 && !dialogs.contains(dialogId)) {
++                        dialogs.add(dialogId);
++                    }
++                } catch (NumberFormatException ignored) {
++                }
++            }
++
++            if (!dialogs.isEmpty()) {
++                customDialogs = true;
++                return;
++            }
++        }
+ 
+         final UserConfig config = UserConfig.getInstance(currentAccount);
+         long selfUserId = config.clientUserId;
+diff --git a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+index d7f2a93fa..d0f0d7fe4 100644
+--- a/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
++++ b/TMessagesProj/src/main/java/org/telegram/ui/DialogsActivity.java
+@@ -666,6 +666,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+     private boolean searching;
+     private boolean searchWas;
+     private boolean onlySelect;
++    private int maxSelectedDialogs;
+     private boolean canSelectTopics;
+     private String searchString;
+     private String initialSearchString;
+@@ -2887,6 +2888,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+ 
+         if (arguments != null) {
+             onlySelect = arguments.getBoolean("onlySelect", false);
++            maxSelectedDialogs = arguments.getInt("maxSelectedDialogs", 0);
+             canSelectTopics = arguments.getBoolean("canSelectTopics", false);
+             cantSendToChannels = arguments.getBoolean("cantSendToChannels", false);
+             initialDialogsType = arguments.getInt("dialogsType", DIALOGS_TYPE_DEFAULT);
+@@ -3299,6 +3301,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+         filterTabsView = null;
+         selectedDialogs.clear();
+ 
++        if (arguments != null && arguments.getBoolean("quickSharePicker", false)) {
++            String savedDialogs = NaConfig.getPreferences()
++                    .getString("QuickShareDialogs_" + currentAccount, "");
++
++            if (savedDialogs != null && !savedDialogs.isEmpty()) {
++                for (String id : savedDialogs.split(",")) {
++                    try {
++                        selectedDialogs.add(Long.parseLong(id.trim()));
++                    } catch (NumberFormatException ignored) {
++                    }
++                }
++            }
++        }
++
+         additionNavigationBarHeight = hasMainTabs && !NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? dp(MainTabsHelper.getMainTabsHeightWithMargins()) : 0;
+         additionFloatingButtonOffset = hasMainTabs && !NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? dp(MainTabsHelper.getMainTabsHeight() + MainTabsHelper.getMainTabsMargin()) : 0;
+ 
+@@ -7641,6 +7657,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
+             }
+             return false;
+         } else {
++            if (maxSelectedDialogs > 0 && selectedDialogs.size() >= maxSelectedDialogs) {
++                return false;
++            }
+             selectedDialogs.add(did);
+             if (cell instanceof DialogCell) {
+                 ((DialogCell) cell).setChecked(true, true);
+diff --git a/TMessagesProj/src/main/java/tw/nekomimi/nekogram/settings/NekoChatSettingsActivity.java b/TMessagesProj/src/main/java/tw/nekomimi/nekogram/settings/NekoChatSettingsActivity.java
+index 347e2a2fa..b420acaf0 100644
+--- a/TMessagesProj/src/main/java/tw/nekomimi/nekogram/settings/NekoChatSettingsActivity.java
++++ b/TMessagesProj/src/main/java/tw/nekomimi/nekogram/settings/NekoChatSettingsActivity.java
+@@ -7,6 +7,7 @@ import android.content.Context;
+ import android.graphics.Canvas;
+ import android.graphics.Paint;
+ import android.graphics.Typeface;
++import android.os.Bundle;
+ import android.text.SpannableStringBuilder;
+ import android.text.Spanned;
+ import android.text.TextPaint;
+@@ -31,6 +32,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
+ import org.telegram.ui.ActionBar.AlertDialog;
+ import org.telegram.ui.ActionBar.Theme;
+ import org.telegram.ui.ActionBar.ThemeDescription;
++import org.telegram.ui.DialogsActivity;
+ import org.telegram.ui.Cells.CheckBoxCell;
+ import org.telegram.ui.Cells.TextCheckCell;
+ import org.telegram.ui.Cells.TextCheckCell2;
+@@ -139,6 +141,12 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
+     private final AbstractConfigCell doubleTapActionOutRow = cellGroup.appendCell(new ConfigCellCustom("DoubleTapOutgoing", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
+     private final AbstractConfigCell dividerDoubleTap = cellGroup.appendCell(new ConfigCellDivider());
+ 
++    // Quick Share
++    private final AbstractConfigCell headerQuickShare = cellGroup.appendCell(new ConfigCellHeader("Настройки Quick Share"));
++    private final AbstractConfigCell quickShareFavoritesRow = cellGroup.appendCell(new ConfigCellCustom("Выбрать избранные чаты", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
++    private final AbstractConfigCell quickShareSendModeRow = cellGroup.appendCell(new ConfigCellCustom("Режим отправки", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
++    private final AbstractConfigCell dividerQuickShare = cellGroup.appendCell(new ConfigCellDivider());
++
+     // Camera
+     private final AbstractConfigCell headerCamera = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.CameraSettings)));
+     private final AbstractConfigCell disableInstantCameraRow = cellGroup.appendCell(new ConfigCellTextCheck(NekoConfig.disableInstantCamera));
+@@ -594,6 +602,50 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
+                 return Unit.INSTANCE;
+             });
+             builder.show();
++        } else if (position == cellGroup.rows.indexOf(quickShareFavoritesRow)) {
++            Bundle args = new Bundle();
++            args.putBoolean("onlySelect", true);
++            args.putBoolean("allowGlobalSearch", false);
++            args.putBoolean("checkCanWrite", true);
++            args.putInt("maxSelectedDialogs", 5);
++            args.putBoolean("quickSharePicker", true);
++
++            DialogsActivity dialogsActivity = new DialogsActivity(args);
++            dialogsActivity.setDelegate((fragment, dids, message, param, notify, scheduleDate, scheduleRepeatPeriod, topicsFragment) -> {
++                if (dids != null && !dids.isEmpty()) {
++                    StringBuilder selected = new StringBuilder();
++                    for (int i = 0; i < dids.size(); i++) {
++                        if (i > 0) {
++                            selected.append(",");
++                        }
++                        selected.append(dids.get(i).dialogId);
++                    }
++
++                    int account = getUserConfig().selectedAccount;
++                    NaConfig.getPreferences()
++                            .edit()
++                            .putString("QuickShareDialogs_" + account, selected.toString())
++                            .apply();
++
++                    listAdapter.notifyItemChanged(cellGroup.rows.indexOf(quickShareFavoritesRow));
++                    removeFragmentFromStack(fragment, true);
++                }
++                return true;
++            });
++            presentFragment(dialogsActivity);
++        } else if (position == cellGroup.rows.indexOf(quickShareSendModeRow)) {
++            ArrayList<String> modes = new ArrayList<>();
++            modes.add("Стандарт");
++            modes.add("Без автора");
++            modes.add("Без подписи");
++
++            PopupBuilder builder = new PopupBuilder(view);
++            builder.setItems(modes, (i, str) -> {
++                NaConfig.INSTANCE.getQuickShareSendMode().setConfigInt(i);
++                listAdapter.notifyItemChanged(position);
++                return Unit.INSTANCE;
++            });
++            builder.show();
+         } else if (position == cellGroup.rows.indexOf(doubleTapActionRow) || position == cellGroup.rows.indexOf(doubleTapActionOutRow)) {
+             ArrayList<String> arrayList = new ArrayList<>();
+             ArrayList<Integer> types = new ArrayList<>();
+@@ -775,6 +827,13 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
+                     textCell.setTextAndValue(getString(R.string.DoubleTapIncoming), DoubleTap.doubleTapActionMap.get(NaConfig.INSTANCE.getDoubleTapAction().Int()), true);
+                 } else if (position == cellGroup.rows.indexOf(doubleTapActionOutRow)) {
+                     textCell.setTextAndValue(getString(R.string.DoubleTapOutgoing), DoubleTap.doubleTapActionMap.get(NaConfig.INSTANCE.getDoubleTapActionOut().Int()), true);
++                } else if (position == cellGroup.rows.indexOf(quickShareSendModeRow)) {
++                    String[] quickShareModes = {"Стандарт", "Без автора", "Без подписи"};
++                    int mode = NaConfig.INSTANCE.getQuickShareSendMode().Int();
++                    if (mode < 0 || mode >= quickShareModes.length) {
++                        mode = 0;
++                    }
++                    textCell.setTextAndValue("Режим отправки", quickShareModes[mode], true);
+                 } else if (position == cellGroup.rows.indexOf(transcribeProviderCfCredentialsRow)) {
+                     textCell.setTextAndValue(getString(R.string.CloudflareCredentials), "", true);
+                 } else if (position == cellGroup.rows.indexOf(transcribeProviderGeminiApiKeyRow)) {
+diff --git a/TMessagesProj/src/main/kotlin/xyz/nextalone/nagram/NaConfig.kt b/TMessagesProj/src/main/kotlin/xyz/nextalone/nagram/NaConfig.kt
+index b3a68ae51..110c284c8 100644
+--- a/TMessagesProj/src/main/kotlin/xyz/nextalone/nagram/NaConfig.kt
++++ b/TMessagesProj/src/main/kotlin/xyz/nextalone/nagram/NaConfig.kt
+@@ -176,6 +176,12 @@ object NaConfig {
+             ConfigItem.configTypeInt,
+             8
+         )
++    val quickShareSendMode =
++        addConfig(
++            "QuickShareSendMode",
++            ConfigItem.configTypeInt,
++            0
++        )
+     val showCopyPhoto =
+         addConfig(
+             "CopyPhoto",
+-- 
+2.54.0
+
