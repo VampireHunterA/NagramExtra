@@ -1,0 +1,6 @@
+with open('key.b64') as f: s=f.read()
+print('len=', len(s))
+print('underscore=', '_' in s)
+print('newline=', '\n' in s or '\r' in s)
+print('start=', s[:10])
+print('end=', s[-10:])
