@@ -176,6 +176,12 @@ object NaConfig {
             ConfigItem.configTypeInt,
             8
         )
+    val quickShareSendMode =
+        addConfig(
+            "QuickShareSendMode",
+            ConfigItem.configTypeInt,
+            0
+        )
     val showCopyPhoto =
         addConfig(
             "CopyPhoto",

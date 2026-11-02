@@ -667,6 +667,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean searching;
     private boolean searchWas;
     private boolean onlySelect;
+    private int maxSelectedDialogs;
     private boolean canSelectTopics;
     private String searchString;
     private String initialSearchString;
@@ -2890,6 +2891,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         if (arguments != null) {
             onlySelect = arguments.getBoolean("onlySelect", false);
+            maxSelectedDialogs = arguments.getInt("maxSelectedDialogs", 0);
             canSelectTopics = arguments.getBoolean("canSelectTopics", false);
             cantSendToChannels = arguments.getBoolean("cantSendToChannels", false);
             initialDialogsType = arguments.getInt("dialogsType", DIALOGS_TYPE_DEFAULT);
@@ -3305,6 +3307,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         pacmanAnimation = null;
         filterTabsView = null;
         selectedDialogs.clear();
+
+        if (arguments != null && arguments.getBoolean("quickSharePicker", false)) {
+            String savedDialogs = NaConfig.getPreferences()
+                    .getString("QuickShareDialogs_" + currentAccount, "");
+
+            if (savedDialogs != null && !savedDialogs.isEmpty()) {
+                for (String id : savedDialogs.split(",")) {
+                    try {
+                        selectedDialogs.add(Long.parseLong(id.trim()));
+                    } catch (NumberFormatException ignored) {
+                    }
+                }
+            }
+        }
 
         additionNavigationBarHeight = hasMainTabs && !NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? dp(MainTabsHelper.getMainTabsHeightWithMargins()) : 0;
         additionFloatingButtonOffset = hasMainTabs && !NaConfig.INSTANCE.getHideBottomNavigationBar().Bool() ? dp(MainTabsHelper.getMainTabsHeight() + MainTabsHelper.getMainTabsMargin()) : 0;
@@ -7658,6 +7674,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             return false;
         } else {
+            if (maxSelectedDialogs > 0 && selectedDialogs.size() >= maxSelectedDialogs) {
+                return false;
+            }
             selectedDialogs.add(did);
             if (cell instanceof DialogCell) {
                 ((DialogCell) cell).setChecked(true, true);

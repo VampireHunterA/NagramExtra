@@ -41857,8 +41857,11 @@ public class ChatActivity extends BaseFragment implements
 
             final boolean isSavedMessages = did == UserConfig.getInstance(UserConfig.selectedAccount).clientUserId;
             final ArrayList<MessageObject> finalArrayList = arrayList;
+            final int quickShareSendMode = NaConfig.getPreferences().getInt("QuickShareSendMode", 0);
+            final boolean quickShareHideSender = quickShareSendMode == 1 || quickShareSendMode == 2;
+            final boolean quickShareHideCaption = quickShareSendMode == 2;
             Runnable delayedRunnalble = () -> {
-                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(finalArrayList, did, false, false, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, null, -1, 0, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
+                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(finalArrayList, did, quickShareHideSender, quickShareHideCaption, !NaConfig.INSTANCE.getSilentMessageByDefault().Bool(), 0, 0, null, -1, 0, getSendMonoForumPeerId(), getSendMessageSuggestionParams());
                 AlertsCreator.showSendMediaAlert(result, ChatActivity.this, null);
             };
 

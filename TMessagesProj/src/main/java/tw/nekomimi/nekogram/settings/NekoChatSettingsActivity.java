@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -31,6 +32,7 @@ import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
+import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckCell2;
@@ -138,6 +140,12 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
     private final AbstractConfigCell doubleTapActionRow = cellGroup.appendCell(new ConfigCellCustom("DoubleTapIncoming", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
     private final AbstractConfigCell doubleTapActionOutRow = cellGroup.appendCell(new ConfigCellCustom("DoubleTapOutgoing", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
     private final AbstractConfigCell dividerDoubleTap = cellGroup.appendCell(new ConfigCellDivider());
+
+    // Quick Share
+    private final AbstractConfigCell headerQuickShare = cellGroup.appendCell(new ConfigCellHeader("Настройки Quick Share"));
+    private final AbstractConfigCell quickShareFavoritesRow = cellGroup.appendCell(new ConfigCellCustom("Выбрать избранные чаты", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
+    private final AbstractConfigCell quickShareSendModeRow = cellGroup.appendCell(new ConfigCellCustom("Режим отправки", CellGroup.ITEM_TYPE_TEXT_SETTINGS_CELL, true));
+    private final AbstractConfigCell dividerQuickShare = cellGroup.appendCell(new ConfigCellDivider());
 
     // Camera
     private final AbstractConfigCell headerCamera = cellGroup.appendCell(new ConfigCellHeader(getString(R.string.CameraSettings)));
@@ -594,6 +602,50 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
                 return Unit.INSTANCE;
             });
             builder.show();
+        } else if (position == cellGroup.rows.indexOf(quickShareFavoritesRow)) {
+            Bundle args = new Bundle();
+            args.putBoolean("onlySelect", true);
+            args.putBoolean("allowGlobalSearch", false);
+            args.putBoolean("checkCanWrite", true);
+            args.putInt("maxSelectedDialogs", 5);
+            args.putBoolean("quickSharePicker", true);
+
+            DialogsActivity dialogsActivity = new DialogsActivity(args);
+            dialogsActivity.setDelegate((fragment, dids, message, param, notify, scheduleDate, scheduleRepeatPeriod, topicsFragment) -> {
+                if (dids != null && !dids.isEmpty()) {
+                    StringBuilder selected = new StringBuilder();
+                    for (int i = 0; i < dids.size(); i++) {
+                        if (i > 0) {
+                            selected.append(",");
+                        }
+                        selected.append(dids.get(i).dialogId);
+                    }
+
+                    int account = getUserConfig().selectedAccount;
+                    NaConfig.getPreferences()
+                            .edit()
+                            .putString("QuickShareDialogs_" + account, selected.toString())
+                            .apply();
+
+                    listAdapter.notifyItemChanged(cellGroup.rows.indexOf(quickShareFavoritesRow));
+                    removeFragmentFromStack(fragment, true);
+                }
+                return true;
+            });
+            presentFragment(dialogsActivity);
+        } else if (position == cellGroup.rows.indexOf(quickShareSendModeRow)) {
+            ArrayList<String> modes = new ArrayList<>();
+            modes.add("Стандарт");
+            modes.add("Без автора");
+            modes.add("Без подписи");
+
+            PopupBuilder builder = new PopupBuilder(view);
+            builder.setItems(modes, (i, str) -> {
+                NaConfig.INSTANCE.getQuickShareSendMode().setConfigInt(i);
+                listAdapter.notifyItemChanged(position);
+                return Unit.INSTANCE;
+            });
+            builder.show();
         } else if (position == cellGroup.rows.indexOf(doubleTapActionRow) || position == cellGroup.rows.indexOf(doubleTapActionOutRow)) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
@@ -775,6 +827,13 @@ public class NekoChatSettingsActivity extends BaseNekoXSettingsActivity implemen
                     textCell.setTextAndValue(getString(R.string.DoubleTapIncoming), DoubleTap.doubleTapActionMap.get(NaConfig.INSTANCE.getDoubleTapAction().Int()), true);
                 } else if (position == cellGroup.rows.indexOf(doubleTapActionOutRow)) {
                     textCell.setTextAndValue(getString(R.string.DoubleTapOutgoing), DoubleTap.doubleTapActionMap.get(NaConfig.INSTANCE.getDoubleTapActionOut().Int()), true);
+                } else if (position == cellGroup.rows.indexOf(quickShareSendModeRow)) {
+                    String[] quickShareModes = {"Стандарт", "Без автора", "Без подписи"};
+                    int mode = NaConfig.INSTANCE.getQuickShareSendMode().Int();
+                    if (mode < 0 || mode >= quickShareModes.length) {
+                        mode = 0;
+                    }
+                    textCell.setTextAndValue("Режим отправки", quickShareModes[mode], true);
                 } else if (position == cellGroup.rows.indexOf(transcribeProviderCfCredentialsRow)) {
                     textCell.setTextAndValue(getString(R.string.CloudflareCredentials), "", true);
                 } else if (position == cellGroup.rows.indexOf(transcribeProviderGeminiApiKeyRow)) {

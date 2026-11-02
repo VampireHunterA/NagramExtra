@@ -14,6 +14,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.UserConfig;
+import xyz.nextalone.nagram.NaConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ChatMessageCell;
@@ -40,7 +41,7 @@ public class QuickShareSelectorOverlayLayout extends View {
             return;
         }
 
-        final QuickShareSelectorDrawable drawable = new QuickShareSelectorDrawable(this, cell, removeDuplicates(dialogs), key, () -> {
+        final QuickShareSelectorDrawable drawable = new QuickShareSelectorDrawable(this, cell, customDialogs ? new ArrayList<>(dialogs) : removeDuplicates(dialogs), key, () -> {
             drawablesForRemove.add(key);
             invalidate();
         });
@@ -141,9 +142,32 @@ public class QuickShareSelectorOverlayLayout extends View {
 
     private final ArrayList<Long> dialogs = new ArrayList<>();
     private final int currentAccount = UserConfig.selectedAccount;
+    private boolean customDialogs;
 
     private void fetchDialogs() {
         dialogs.clear();
+        customDialogs = false;
+
+        String savedDialogs = NaConfig.getPreferences()
+                .getString("QuickShareDialogs_" + currentAccount, "");
+
+        if (savedDialogs != null && !savedDialogs.isEmpty()) {
+            String[] ids = savedDialogs.split(",");
+            for (String id : ids) {
+                try {
+                    long dialogId = Long.parseLong(id.trim());
+                    if (dialogId != 0 && !dialogs.contains(dialogId)) {
+                        dialogs.add(dialogId);
+                    }
+                } catch (NumberFormatException ignored) {
+                }
+            }
+
+            if (!dialogs.isEmpty()) {
+                customDialogs = true;
+                return;
+            }
+        }
 
         final UserConfig config = UserConfig.getInstance(currentAccount);
         long selfUserId = config.clientUserId;
