@@ -53,7 +53,7 @@ jobs:
       - name: Decode keystore
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
-        run: echo "$KEYSTORE" | base64 -d > TMessagesProj/nagramxturbo.jks
+        run: printf '%s' "$KEYSTORE" | base64 -d > TMessagesProj/nagramxturbo.jks
       - name: Restore google-services.json
         env:
           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
