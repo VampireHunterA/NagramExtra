@@ -50,10 +50,10 @@ jobs:
       - name: Configure Android SDK Path
         run: |
           echo "sdk.dir=${ANDROID_HOME}" >> local.properties
-      - name: Decode keystore
+# SKIPPED: Decode keystore (embedded temp_keystore.jks in repo)
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
-        run: printf '%s' "$KEYSTORE" | base64 -d > TMessagesProj/nagramxturbo.jks
+# SKIPPED: KEYSTORE decode (embedded key in repo)
       - name: Restore google-services.json
         env:
           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
