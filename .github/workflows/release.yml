@@ -50,10 +50,14 @@ jobs:
       - name: Configure Android SDK Path
         run: |
           echo "sdk.dir=${ANDROID_HOME}" >> local.properties
-# SKIPPED: Decode keystore (embedded temp_keystore.jks in repo)
+          echo "TELEGRAM_APP_ID=37896091" >> local.properties
+          echo "TELEGRAM_APP_HASH=d641418709d08b3d8046828d85730251" >> local.properties
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
-# SKIPPED: KEYSTORE decode (embedded key in repo)
+      - name: Decode keystore
+        run: printf '%s' "$KEYSTORE" | base64 -d > TMessagesProj/nagramxturbo.jks
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
       - name: Restore google-services.json
         env:
           GOOGLE_SERVICES: ${{ secrets.GOOGLE_SERVICES }}
